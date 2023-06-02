@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 struct SelectionButton: View {
-    @Binding var selected: Bool
+    @Binding var completed: Bool
     var body: some View {
         Button {
-            selected.toggle()
+            completed.toggle()
         } label: {
-            Label("Toggle Selected", systemImage: selected ?  "circle.fill" : "circle")
+            Label("Toggle Selected", systemImage: completed ?  "circle.fill" : "circle")
                 .labelStyle(.iconOnly)
         }
     }
