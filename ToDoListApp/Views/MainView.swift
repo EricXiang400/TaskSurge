@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var selectedDate: Date = Date()
     var body: some View {
         VStack {
-            CalenderView(selectedDate: $selectedDate)
+            CalenderView()
             TodoListView()
+            Spacer()
         }
     }
 }

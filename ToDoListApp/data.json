@@ -2,6 +2,31 @@
     {
         "id" : 1,
         "content" : "content1",
+        "completed" : false,
+    },
+    {
+        "id" : 2,
+        "content" : "content2",
+        "completed" : true,
+    },
+    {
+        "id" : 3,
+        "content" : "content3",
+        "completed" : true,
+    },
+    {
+        "id" : 4,
+        "content" : "content4",
+        "completed" : true,
+    },
+    {
+        "id" : 5,
+        "content" : "content5",
+        "completed" : true,
+    },
+    {
+        "id" : 6,
+        "content" : "content6",
         "completed" : true,
     },
 ]

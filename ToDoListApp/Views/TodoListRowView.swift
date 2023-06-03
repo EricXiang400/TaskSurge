@@ -10,16 +10,11 @@ import SwiftUI
 
 struct TodoListRowView: View {
     var todo: TodoContent
-    @EnvironmentObject var modelData: ModelData
-    var todoIndex: Int {
-        $modelData.todos.firstIndex(where: {$0.id == todo.id})!
+    
+    func loadTodoData() -> TodoContent {
+        
     }
     var body: some View {
-        HStack(spacing: 20) {
-            SelectionButton(completed: $modelData.todos[todoIndex].completed)
-                .padding(5)
-            Text("\(todo.content)")
-            Spacer()
-        }
+        
     }
 }

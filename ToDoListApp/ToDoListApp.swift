@@ -7,13 +7,16 @@
 
 import SwiftUI
 
+
 @main
 struct ToDoListApp: App {
-    @StateObject private var modelData = ModelData()
+//    @StateObject private var modelData = ModelData()
+    @StateObject private var selectedDate = SelectedDate()
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environmentObject(modelData)
+//                .environmentObject(modelData)
+                .environmentObject(selectedDate)
         }
     }
 }

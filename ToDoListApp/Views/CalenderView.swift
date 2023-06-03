@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 struct CalenderView : View {
-    @Binding var selectedDate: Date
+    @EnvironmentObject var selectedDate: SelectedDate
     var body: some View {
         DatePicker(
             "Date",
-            selection: $selectedDate,
+            selection: $selectedDate.selectedDate,
             displayedComponents: [.date]
         )
         .datePickerStyle(.graphical)
