@@ -45,10 +45,8 @@ struct TodoListView: View {
     static func removeDataFromDocumentDirectory(fileName: String) {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            
             let fileURL = documentDirectory.appendingPathComponent(fileName)
             try FileManager.default.removeItem(at: fileURL)
-            
             print("File removed successfully: \(fileName)")
         } catch {
             print("Error removing file: \(error)")
@@ -59,13 +57,24 @@ struct TodoListView: View {
         return res == .orderedSame
     }
     
+    
     var body: some View {
-        VStack {
+        HStack {
+            Spacer()
+            Button {
+                todos.append(TodoContent(content: "", completed: false, date: selectedDate.selectedDate))
+                saveData()
+            } label: {
+                Text("Add Task")
+            }
+            .padding(10)
+        }
+        ScrollView {
             ForEach(todos) { todo in
                 var todoIndex: Int {
                     $todos.firstIndex(where: {$0.id == todo.id})!
                 }
-                if sameDate(date1: selectedDate.selectedDate, date2: todo.date) {
+                if !sameDate(date1: selectedDate.selectedDate, date2: todo.date) {
                     HStack {}
                 } else {
                     HStack(spacing: 20) {
@@ -73,9 +82,16 @@ struct TodoListView: View {
                             .padding(5)
                         TextField("contefasnt", text: $todos[todoIndex].content, onCommit: saveData)
                         Spacer()
+                        Button {
+                            todos.remove(at: todoIndex)
+                            saveData()
+                        } label: {
+                            Text("Finish")
+                                .padding(10)
+                        }
+                        
                     }
                 }
-                
             }
         }
     }

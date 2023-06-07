@@ -8,6 +8,7 @@
 import Foundation
 
 struct TodoContent: Hashable, Codable, Identifiable {
+    static var lastAssignedID: Int = 0
     var id: Int
     var content: String
     var completed: Bool
@@ -28,8 +29,16 @@ struct TodoContent: Hashable, Codable, Identifiable {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         if let date = dateFormatter.date(from: dateString) {
             self.date = date
+            TodoContent.lastAssignedID = id
         } else {
             throw fatalError("Invalid Date Format")
         }
+    }
+    init(content: String, completed: Bool, date: Date) {
+        TodoContent.lastAssignedID += 1
+        id = TodoContent.lastAssignedID
+        self.content = content
+        self.completed = completed
+        self.date = date
     }
 }
