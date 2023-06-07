@@ -80,7 +80,7 @@ struct TodoListView: View {
                     HStack(spacing: 20) {
                         SelectionButton(completed: $todos[todoIndex].completed)
                             .padding(5)
-                        TextField("contefasnt", text: $todos[todoIndex].content, onCommit: saveData)
+                        TextField("Empty Task", text: $todos[todoIndex].content, onCommit: saveData)
                         Spacer()
                         Button {
                             todos.remove(at: todoIndex)
