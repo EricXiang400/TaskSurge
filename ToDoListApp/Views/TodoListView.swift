@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct TodoListView: View {
+    //This line is used to reset the document directory data
 //    private var t = removeDataFromDocumentDirectory(fileName: "data.json")
     @State private var todos: [TodoContent] = loadData(fileName: "data.json")
     @EnvironmentObject private var selectedDate: SelectedDate
@@ -17,9 +18,11 @@ struct TodoListView: View {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             let fileURL = documentDirectory.appendingPathComponent("data.json")
-            let encodedData = try JSONEncoder().encode(todos)
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let encodedData = try encoder.encode(todos)
             try encodedData.write(to: fileURL)
-            print("HERE")
+            print("Data saved successful")
         } catch {
             fatalError("Error encoding or writing")
         }
@@ -29,15 +32,16 @@ struct TodoListView: View {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-//            let fileURL = documentDirectory.appendingPathComponent("data.json")
-            let fileURL = Bundle.main.url(forResource: fileName, withExtension: nil)!
+            let fileURL = documentDirectory.appendingPathComponent("data.json")
             data = try Data(contentsOf: fileURL)
             let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
             return try decoder.decode([TodoContent].self, from: data)
         } catch {
             fatalError("Error encoding or writing")
         }
     }
+    
     static func removeDataFromDocumentDirectory(fileName: String) {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
