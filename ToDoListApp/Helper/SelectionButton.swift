@@ -10,10 +10,7 @@ import SwiftUI
 struct SelectionButton: View {
     @Binding var completed: Bool
     @EnvironmentObject var envSelectedDate: SelectedDate
-    
-
-//    @Binding var se: Date = envSelectedDate.selectedDate
-    var body: some View {
+        var body: some View {
         Button {
             completed.toggle()
             

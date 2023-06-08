@@ -38,7 +38,7 @@ struct TodoListView: View {
             decoder.dateDecodingStrategy = .iso8601
             return try decoder.decode([TodoContent].self, from: data)
         } catch {
-            fatalError("Error encoding or writing")
+            return []
         }
     }
     
