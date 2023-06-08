@@ -10,6 +10,8 @@ import Firebase
 import SwiftUI
 
 struct LogInView: View {
+    @Binding var showLoginView: Bool
+    @Binding var curUser: User?
     @State var showSignupView = false
     @State var email: String = ""
     @State var password: String = ""
@@ -44,7 +46,9 @@ struct LogInView: View {
             if let error = error {
                 print("\(error.localizedDescription)")
             } else {
-                print("Sign-up success")
+                print("Sign-in success")
+                showLoginView = false
+                curUser = Auth.auth().currentUser
             }
         }
     }
