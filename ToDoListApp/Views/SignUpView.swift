@@ -15,7 +15,7 @@ struct SignUpView: View {
     @State var confirmPassword: String = ""
     var body: some View {
         VStack {
-            TextField("Email", text:$email)
+            TextField("Email", text: $email)
             SecureField("Password", text: $password)
             SecureField("Confirm Password", text: $confirmPassword)
             Button(action: {signUp()}) {

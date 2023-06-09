@@ -20,11 +20,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct ToDoListApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var selectedDate = SelectedDate()
-    
+    @StateObject private var todos: TodoList = TodoList()
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environmentObject(selectedDate)
+                .environmentObject(todos)
         }
     }
 }
