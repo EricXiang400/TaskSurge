@@ -10,14 +10,16 @@ import FirebaseAuth
 
 struct MainView: View {
     @State var showLoginView = false
-    @State var curUser: User?
+    @EnvironmentObject private var curUserContainer: AppUser
+    @EnvironmentObject private var todoListContainer: TodoList
     var body: some View {
         VStack {
-            if curUser != nil {
-                Text("Hi, \(curUser!.displayName ?? "Unknown")")
+            if curUserContainer.curUser != nil {
+                Text("Hi, \(curUserContainer.curUser!.displayName ?? "Unknown")")
                 Button("Sign out") {
                     if signOut() {
-                        curUser = nil
+                        curUserContainer.curUser = nil
+                        todoListContainer.todoList = []
                     }
                 }
             } else {
@@ -25,7 +27,7 @@ struct MainView: View {
                     showLoginView = true
                 }
                 .sheet(isPresented: $showLoginView) {
-                    LogInView(showLoginView: $showLoginView, curUser: $curUser)
+                    LogInView(showLoginView: $showLoginView)
                 }
             }
             CalenderView()

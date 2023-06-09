@@ -21,11 +21,13 @@ struct ToDoListApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var selectedDate = SelectedDate()
     @StateObject private var todos: TodoList = TodoList()
+    @StateObject private var curUser: AppUser = AppUser()
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environmentObject(selectedDate)
                 .environmentObject(todos)
+                .environmentObject(curUser)
         }
     }
 }

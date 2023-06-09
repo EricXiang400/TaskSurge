@@ -6,8 +6,8 @@
 //
 
 import Foundation
+import Firebase
 
-struct AppUser: Hashable, Codable, Identifiable {
-    var id: Int
-    var name: String
+final class AppUser: ObservableObject {
+    @Published var curUser: User? = Auth.auth().currentUser
 }

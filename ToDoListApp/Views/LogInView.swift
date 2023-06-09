@@ -10,8 +10,9 @@ import Firebase
 import SwiftUI
 
 struct LogInView: View {
+    @EnvironmentObject var curUserContainer: AppUser
+    @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showLoginView: Bool
-    @Binding var curUser: User?
     @State var showSignupView = false
     @State var email: String = ""
     @State var password: String = ""
@@ -48,7 +49,8 @@ struct LogInView: View {
             } else {
                 print("Sign-in success")
                 showLoginView = false
-                curUser = Auth.auth().currentUser
+                curUserContainer.curUser = Auth.auth().currentUser
+                todoListContainer.todoList = TodoList.loadData(user: curUserContainer.curUser!)
             }
         }
     }
