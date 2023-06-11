@@ -10,7 +10,7 @@ import Firebase
 final class TodoList: ObservableObject {
     @Published var todoList: [TodoContent] = []
 
-    static func loadData(user: User?) -> [TodoContent] {
+    static func loadLocalData(user: User?) -> [TodoContent] {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -29,7 +29,7 @@ final class TodoList: ObservableObject {
         }
     }
     
-    func saveData() {
+    func saveLocalData() {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             if let curUser = Auth.auth().currentUser {

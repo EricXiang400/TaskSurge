@@ -13,6 +13,7 @@ struct SignUpView: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var confirmPassword: String = ""
+    @Binding var showLoginView: Bool
     var body: some View {
         VStack {
             TextField("Email", text: $email)
@@ -35,6 +36,7 @@ struct SignUpView: View {
                 print("Sign-up Error")
             } else {
                 print("Sign-up success")
+                showLoginView = false
             }
         }
     }

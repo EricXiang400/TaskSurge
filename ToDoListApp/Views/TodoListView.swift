@@ -15,53 +15,7 @@ struct TodoListView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
-//    func saveData() {
-//        do {
-//            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-//            if let curUser = curUserContainer.curUser {
-//                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-data.json")
-//                let encoder = JSONEncoder()
-//                encoder.dateEncodingStrategy = .iso8601
-//                let encodedData = try encoder.encode(todoListContainer.todoList)
-//                try encodedData.write(to: fileURL)
-//                print("Data saved successful")
-//            } else {
-//                print("Need to log in")
-//            }
-//        } catch {
-//            fatalError("Error encoding or writing")
-//        }
-//    }
-//
-//    func loadData() -> [TodoContent] {
-//        let data: Data
-//        do {
-//            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-//            if let curUser = curUserContainer.curUser {
-//                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-data.json")
-//                data = try Data(contentsOf: fileURL)
-//                let decoder = JSONDecoder()
-//                decoder.dateDecodingStrategy = .iso8601
-//                return try decoder.decode([TodoContent].self, from: data)
-//            } else {
-//                print("Need to be logged in")
-//                return []
-//            }
-//        } catch {
-//            return []
-//        }
-//    }
     
-//    func removeDataFromDocumentDirectory(fileName: String) {
-//        do {
-//            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-//            let fileURL = documentDirectory.appendingPathComponent(fileName)
-//            try FileManager.default.removeItem(at: fileURL)
-//            print("File removed successfully: \(fileName)")
-//        } catch {
-//            print("Error removing file: \(error)")
-//        }
-//    }
     func sameDate(date1: Date, date2: Date) -> Bool {
         let res = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return res == .orderedSame
@@ -85,11 +39,11 @@ struct TodoListView: View {
                     HStack(spacing: 20) {
                         SelectionButton(completed: $todoListContainer.todoList[todoIndex].completed)
                             .padding(5)
-                        TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: todoListContainer.saveData)
+                        TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: todoListContainer.saveLocalData)
                         Spacer()
                         Button {
                             todoListContainer.todoList.remove(at: todoIndex)
-                            todoListContainer.saveData()
+                            todoListContainer.saveLocalData()
                         } label: {
                             Text("Finish")
                                 .padding(10)

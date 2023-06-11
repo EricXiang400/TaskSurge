@@ -35,7 +35,7 @@ struct LogInView: View {
                 showSignupView = true
             }
             .sheet(isPresented: $showSignupView) {
-                SignUpView()
+                SignUpView(showLoginView: $showLoginView)
             }
             
         }
@@ -50,7 +50,8 @@ struct LogInView: View {
                 print("Sign-in success")
                 showLoginView = false
                 curUserContainer.curUser = Auth.auth().currentUser
-                todoListContainer.todoList = TodoList.loadData(user: curUserContainer.curUser!)
+                todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
+//                FireStoreManager.uploadData(uid: curUserContainer.curUser!.uid, todoList: todoListContainer.todoList)
             }
         }
     }
