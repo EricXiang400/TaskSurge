@@ -20,6 +20,12 @@ struct TodoListView: View {
         let res = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return res == .orderedSame
     }
+    
+    func saveDataOnCommit() {
+        todoListContainer.saveLocalData()
+        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+    }
+    
     var body: some View {
         HStack {
             Spacer()
@@ -39,7 +45,7 @@ struct TodoListView: View {
                     HStack(spacing: 20) {
                         SelectionButton(completed: $todoListContainer.todoList[todoIndex].completed)
                             .padding(5)
-                        TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: todoListContainer.saveLocalData)
+                        TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         Spacer()
                         Button {
                             todoListContainer.todoList.remove(at: todoIndex)

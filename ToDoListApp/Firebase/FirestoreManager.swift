@@ -20,8 +20,6 @@ class FireStoreManager: ObservableObject {
         let fileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
         do {
             let encodedData = try Data(contentsOf: fileURL)
-//            let decoder = JSONDecoder()
-//            let decodedData = try decoder.decode([TodoContent].self, from: data)
             let userDocumentRef = db.collection("uid").document(uid)
             userDocumentRef.setData(["data": encodedData], merge: true) { error in
                 if error != nil {
@@ -35,7 +33,34 @@ class FireStoreManager: ObservableObject {
         }
     }
     static func firestoreToLocal(uid: String) {
-        
+        let collectionReference = Firestore.firestore().collection("uid")
+        let documentRef = collectionReference.document("\(uid)")
+        documentRef.getDocument { document, error in
+            if error != nil {
+                print("Error listening for doc changes")
+            }
+            guard let document = document else {
+                print("Doc does not exist")
+                return
+            }
+            if let encodedData = document.data() {
+                do {
+                    let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                    let fileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
+                    if let jsonData = encodedData["data"] {
+                        try (jsonData as! Data).write(to: fileURL)
+                        print("Data download success")
+                    } else {
+                        print("Data field is empty")
+                    }
+                    
+                } catch {
+                    print("Error when working with encoded data from cloud")
+                }
+            }
+            
+            
+        }
     }
     
 }

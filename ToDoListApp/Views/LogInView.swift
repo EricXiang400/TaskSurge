@@ -48,7 +48,7 @@ struct LogInView: View {
                 print("Sign-in success")
                 showLoginView = false
                 curUserContainer.curUser = Auth.auth().currentUser
-//                FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid)
+                FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid)
                 todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
                 
             }
