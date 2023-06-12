@@ -44,6 +44,7 @@ struct TodoListView: View {
                         Button {
                             todoListContainer.todoList.remove(at: todoIndex)
                             todoListContainer.saveLocalData()
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         } label: {
                             Text("Finish")
                                 .padding(10)

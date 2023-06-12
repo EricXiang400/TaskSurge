@@ -27,7 +27,6 @@ struct LogInView: View {
                 Text("Password")
                 SecureField("Password", text: $password)
             }
-            
             Button(action: {login()}) {
                 Text("Sign in")
             }
@@ -37,7 +36,6 @@ struct LogInView: View {
             .sheet(isPresented: $showSignupView) {
                 SignUpView(showLoginView: $showLoginView)
             }
-            
         }
         .padding(5)
     }
@@ -50,8 +48,9 @@ struct LogInView: View {
                 print("Sign-in success")
                 showLoginView = false
                 curUserContainer.curUser = Auth.auth().currentUser
+//                FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid)
                 todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
-//                FireStoreManager.uploadData(uid: curUserContainer.curUser!.uid, todoList: todoListContainer.todoList)
+                
             }
         }
     }
