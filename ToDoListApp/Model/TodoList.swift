@@ -46,4 +46,22 @@ final class TodoList: ObservableObject {
             fatalError("Error encoding or writing")
         }
     }
+    
+    static func loadLocalUser(user: User?) -> UserWrapper? {
+        let data: Data
+        do {
+            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            if let curUser = user {
+                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-user.json")
+                data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                return try decoder.decode(UserWrapper.self, from: data)
+            } else {
+                print("Need to be logged in")
+                return nil
+            }
+        } catch {
+            return nil
+        }
+    }
 }

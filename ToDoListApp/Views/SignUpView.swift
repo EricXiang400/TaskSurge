@@ -10,15 +10,30 @@ import Firebase
 import SwiftUI
 
 struct SignUpView: View {
+    @EnvironmentObject var curUserContainer: AppUser
     @State var email: String = ""
     @State var password: String = ""
     @State var confirmPassword: String = ""
     @Binding var showLoginView: Bool
+    @State var username: String = ""
     var body: some View {
         VStack {
-            TextField("Email", text: $email)
-            SecureField("Password", text: $password)
-            SecureField("Confirm Password", text: $confirmPassword)
+            HStack {
+                Text("Username")
+                TextField("Enter Username Here", text: $username)
+            }
+            HStack {
+                Text("Email")
+                TextField("Enter Email Here", text: $email)
+            }
+            HStack {
+                Text("Password")
+                SecureField("Enter Password Here", text: $password)
+            }
+            HStack {
+                Text("Confirm Password")
+                SecureField("Enter Password Here", text: $confirmPassword)
+            }
             Button(action: {signUp()}) {
                 Text("Sign Up")
             }
@@ -34,10 +49,26 @@ struct SignUpView: View {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
                 print("Sign-up Error")
-            } else {
-                print("Sign-up success")
-                showLoginView = false
+                return
             }
+            guard let user = result?.user else {
+                print("Sign-up Error2")
+                return
+            }
+            showLoginView = false
+            let db = Firestore.firestore()
+            let userDocumentRef = db.collection("uid").document(user.uid)
+            let jsonEncoder = JSONEncoder()
+            do {
+                let encodedData = try jsonEncoder.encode([] as! [TodoContent])
+                let user = UserWrapper(uid: result!.user.uid, userName: username)
+                let encodedUser = try jsonEncoder.encode(user)
+                userDocumentRef.setData(["user": encodedUser,"data": encodedData])
+                print("Sign-up success")
+            } catch {
+                print("Encode empty array into json error")
+            }
+            
         }
     }
 }

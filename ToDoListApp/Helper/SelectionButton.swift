@@ -13,7 +13,6 @@ struct SelectionButton: View {
         var body: some View {
         Button {
             completed.toggle()
-            
         } label: {
             Label("Toggle Selected", systemImage: completed ?  "circle.fill" : "circle")
                 .labelStyle(.iconOnly)

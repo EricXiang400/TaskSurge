@@ -15,7 +15,7 @@ struct MainView: View {
     var body: some View {
         VStack {
             if curUserContainer.curUser != nil {
-                Text("Hi, \(curUserContainer.curUser!.displayName ?? "Unknown")")
+                Text("Hi, \(TodoList.loadLocalUser(user: curUserContainer.curUser)?.userName ?? "Unknown")")
                 Button("Sign out") {
                     if signOut() {
                         curUserContainer.curUser = nil

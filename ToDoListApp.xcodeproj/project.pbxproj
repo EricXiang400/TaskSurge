@@ -46,6 +46,7 @@
 		76A8F9642A337D0100A3AA38 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9632A337D0100A3AA38 /* FirestoreManager.swift */; };
 		76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9652A3381BD00A3AA38 /* AppUser.swift */; };
 		76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9672A33904900A3AA38 /* TodoList.swift */; };
+		76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */; };
 		76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC752A265E7B00A86343 /* ToDoListApp.swift */; };
 		76FBAC782A265E7B00A86343 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC772A265E7B00A86343 /* MainView.swift */; };
 		76FBAC7A2A265E7B00A86343 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76FBAC792A265E7B00A86343 /* Assets.xcassets */; };
@@ -85,6 +86,7 @@
 		76A8F9632A337D0100A3AA38 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		76A8F9652A3381BD00A3AA38 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		76A8F9672A33904900A3AA38 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
+		76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWrapper.swift; sourceTree = "<group>"; };
 		76FBAC722A265E7B00A86343 /* ToDoListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FBAC752A265E7B00A86343 /* ToDoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListApp.swift; sourceTree = "<group>"; };
 		76FBAC772A265E7B00A86343 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				76499E9B2A291A75000354F9 /* TodoContent.swift */,
 				76A8F9652A3381BD00A3AA38 /* AppUser.swift */,
+				76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */,
 				76499E9D2A291AD1000354F9 /* SelectedDate.swift */,
 				76A8F9672A33904900A3AA38 /* TodoList.swift */,
 			);
@@ -427,6 +430,7 @@
 				76499EA72A2979B6000354F9 /* SelectionButton.swift in Sources */,
 				76FBACA42A26649000A86343 /* CalenderView.swift in Sources */,
 				76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */,
+				76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */,
 				76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */,
 				76A8F95A2A31227C00A3AA38 /* LogInView.swift in Sources */,
 				76A8F95C2A3128E300A3AA38 /* SignUpView.swift in Sources */,

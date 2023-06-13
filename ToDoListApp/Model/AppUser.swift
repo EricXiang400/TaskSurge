@@ -10,5 +10,4 @@ import Firebase
 
 final class AppUser: ObservableObject {
     @Published var curUser: User? = Auth.auth().currentUser
-//    var userName: String = ""
 }
