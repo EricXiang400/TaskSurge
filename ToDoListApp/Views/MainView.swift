@@ -14,20 +14,24 @@ struct MainView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     var body: some View {
         VStack {
-            if curUserContainer.curUser != nil {
-                Text("Hi, \(TodoList.loadLocalUser(user: curUserContainer.curUser)?.userName ?? "Unknown")")
-                Button("Sign out") {
-                    if signOut() {
-                        curUserContainer.curUser = nil
-                        todoListContainer.todoList = []
+            HStack {
+                Image(systemName: "person.circle")
+                    .font(.system(size: 28))
+                if curUserContainer.curUser != nil {
+                    Text("Hi, \(TodoList.loadLocalUser(user: curUserContainer.curUser)?.userName ?? "Unknown")")
+                    Button("Sign out") {
+                        if signOut() {
+                            curUserContainer.curUser = nil
+                            todoListContainer.todoList = []
+                        }
                     }
-                }
-            } else {
-                Button("Log in") {
-                    showLoginView = true
-                }
-                .sheet(isPresented: $showLoginView) {
-                    LogInView(showLoginView: $showLoginView)
+                } else {
+                    Button("Log in") {
+                        showLoginView = true
+                    }
+                    .sheet(isPresented: $showLoginView) {
+                        LogInView(showLoginView: $showLoginView)
+                    }
                 }
             }
             CalenderView()

@@ -17,6 +17,7 @@ struct SelectionButton: View {
             Label("Toggle Selected", systemImage: completed ?  "circle.fill" : "circle")
                 .labelStyle(.iconOnly)
         }
+        .contentShape(Circle())
     }
 }
 

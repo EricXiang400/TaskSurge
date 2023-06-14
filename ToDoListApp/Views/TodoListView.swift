@@ -23,8 +23,11 @@ struct TodoListView: View {
     
     func saveDataOnCommit() {
         todoListContainer.saveLocalData()
-        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        if curUserContainer.curUser != nil {
+            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        }
     }
+    
     
     var body: some View {
         HStack {
@@ -36,30 +39,40 @@ struct TodoListView: View {
             }
             .padding(10)
         }
-        ScrollView {
+        List {
             ForEach(todoListContainer.todoList) { todo in
                 var todoIndex: Int {
                     todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                 }
                 if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
                     HStack(spacing: 20) {
-                        SelectionButton(completed: $todoListContainer.todoList[todoIndex].completed)
-                            .padding(5)
+                        Button {
+                            todoListContainer.todoList[todoIndex].completed.toggle()
+                        } label: {
+                            Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "circle.fill" : "circle")
+                                .labelStyle(.iconOnly)
+                        }
+                        .contentShape(Circle())
+                        .padding(5)
                         TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         Spacer()
-                        Button {
+                        
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button(action: {
                             todoListContainer.todoList.remove(at: todoIndex)
                             todoListContainer.saveLocalData()
                             if curUserContainer.curUser != nil {
                                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                             }
-                        } label: {
-                            Text("Finish")
-                                .padding(10)
+                        }) {
+                            Label("Delete", systemImage: "trash")
                         }
+                        .tint(.red)
                     }
                 }
             }
         }
+        .listStyle(.plain)
     }
 }
