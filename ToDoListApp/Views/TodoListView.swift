@@ -28,7 +28,6 @@ struct TodoListView: View {
         }
     }
     
-    
     var body: some View {
         HStack {
             Spacer()
@@ -56,7 +55,6 @@ struct TodoListView: View {
                         .padding(5)
                         TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         Spacer()
-                        
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(action: {
@@ -74,5 +72,8 @@ struct TodoListView: View {
             }
         }
         .listStyle(.plain)
+        .onAppear {
+            todoListContainer.todoList = TodoList.loadLocalData(user: nil)
+        }
     }
 }

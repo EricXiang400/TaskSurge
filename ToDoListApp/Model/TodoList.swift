@@ -21,12 +21,16 @@ final class TodoList: ObservableObject {
                 decoder.dateDecodingStrategy = .iso8601
                 return try decoder.decode([TodoContent].self, from: data)
             } else {
-                print("Need to be logged in")
-                return []
+                let fileURL = documentDirectory.appendingPathComponent("data.json")
+                data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                return try decoder.decode([TodoContent].self, from: data)
             }
         } catch {
             return []
         }
+        
     }
     
     func saveLocalData() {
@@ -40,7 +44,11 @@ final class TodoList: ObservableObject {
                 try encodedData.write(to: fileURL)
                 print("Data saved successful")
             } else {
-                print("Need to log in")
+                let fileURL = documentDirectory.appendingPathComponent("data.json")
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                let encodedData = try encoder.encode(todoList)
+                try encodedData.write(to: fileURL)
             }
         } catch {
             fatalError("Error encoding or writing")
