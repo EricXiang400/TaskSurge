@@ -50,7 +50,6 @@ struct LogInView: View {
                 curUserContainer.curUser = Auth.auth().currentUser
                 FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid)
                 todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
-                
             }
         }
     }

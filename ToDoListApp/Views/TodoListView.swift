@@ -53,7 +53,13 @@ struct TodoListView: View {
                         }
                         .contentShape(Circle())
                         .padding(5)
-                        TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                        if todoListContainer.todoList[todoIndex].completed {
+                            TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                                .strikethrough(true)
+                        } else {
+                            TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                        }
+                        
                         Spacer()
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
