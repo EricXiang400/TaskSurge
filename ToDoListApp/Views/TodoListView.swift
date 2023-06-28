@@ -11,7 +11,7 @@ import Firebase
 
 struct TodoListView: View {
     //This line is used to reset the document directory data. just uncomment this one line
-//    private var t = removeDataFromDocumentDirectory(fileName: "data.json")
+    
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
@@ -19,6 +19,25 @@ struct TodoListView: View {
     func sameDate(date1: Date, date2: Date) -> Bool {
         let res = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return res == .orderedSame
+    }
+    
+    func clearDocumentDirectory() -> Bool {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        do {
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil, options: [])
+            
+            for fileURL in fileURLs {
+                try fileManager.removeItem(at: fileURL)
+                print("Removed file: \(fileURL.lastPathComponent)")
+            }
+            
+            print("All files removed successfully.")
+        } catch {
+            print("Error while clearing document directory: \(error.localizedDescription)")
+        }
+        return true
     }
     
     func saveDataOnCommit() {
