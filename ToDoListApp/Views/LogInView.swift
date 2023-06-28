@@ -21,7 +21,7 @@ struct LogInView: View {
         VStack {
             HStack {
                 Text("Email:")
-                TextField("Email", text:$email)
+                TextField("Email", text: $email)
             }
             HStack {
                 Text("Password")
