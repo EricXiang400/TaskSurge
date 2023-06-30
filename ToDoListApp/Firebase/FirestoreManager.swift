@@ -34,7 +34,7 @@ class FireStoreManager: ObservableObject {
             print("Error reading data from document directory")
         }
     }
-    static func firestoreToLocal(uid: String) {
+    static func firestoreToLocal(uid: String, completion: @escaping () -> Void) {
         let collectionReference = Firestore.firestore().collection("uid")
         let documentRef = collectionReference.document("\(uid)")
         documentRef.getDocument { document, error in
@@ -50,22 +50,24 @@ class FireStoreManager: ObservableObject {
                     let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
                     let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
                     let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
-                    if let dataJsonData = encodedData["data"] {
-                        try (dataJsonData as! Data).write(to: dataFileURL)
-                        print("Data download success")
-                    } else {
-                        print("Data field is empty")
-                    }
+                    print(userFileURL)
                     if let userJsonData = encodedData["user"] {
                         try (userJsonData as! Data).write(to: userFileURL)
+                        print("user data download success")
                     } else {
                         print("User information field is empty")
+                    }
+                    if let dataJsonData = encodedData["data"] {
+                        try (dataJsonData as! Data).write(to: dataFileURL)
+                        print("Content data download success")
+                    } else {
+                        print("Data field is empty")
                     }
                 } catch {
                     print("Error when working with encoded data from cloud")
                 }
             }
+            completion()
         }
     }
-    
 }

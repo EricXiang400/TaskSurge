@@ -10,7 +10,6 @@ import SwiftUI
 import Firebase
 
 struct TodoListView: View {
-    //This line is used to reset the document directory data. just uncomment this one line
     
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
@@ -99,7 +98,7 @@ struct TodoListView: View {
         }
         .listStyle(.plain)
         .onAppear {
-            todoListContainer.todoList = TodoList.loadLocalData(user: nil)
+            todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
         }
     }
 }

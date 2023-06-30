@@ -27,7 +27,12 @@ struct LogInView: View {
                 Text("Password")
                 SecureField("Password", text: $password)
             }
-            Button(action: {login()}) {
+            Button(action: {
+                login(completion: {
+                    todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
+                    showLoginView = false
+                })
+            }) {
                 Text("Sign in")
             }
             Button("Sign Up") {
@@ -40,16 +45,18 @@ struct LogInView: View {
         .padding(5)
     }
     
-    func login() {
+    func login(completion: @escaping () -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("\(error.localizedDescription)")
             } else {
                 print("Sign-in success")
-                showLoginView = false
-                curUserContainer.curUser = Auth.auth().currentUser
-                FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid)
-                todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
+                curUserContainer.curUser = Auth.auth().currentUser!
+                FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
+                    completion()
+                    print("ALL OPERATION FINISHED")
+                }
+                
             }
         }
     }

@@ -30,7 +30,6 @@ final class TodoList: ObservableObject {
         } catch {
             return []
         }
-        
     }
     
     func saveLocalData() {
@@ -55,20 +54,25 @@ final class TodoList: ObservableObject {
         }
     }
     
-    static func loadLocalUser(user: User?) -> UserWrapper? {
+    static func loadLocalUser() -> UserWrapper? {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            if let curUser = user {
+            print("GOT HERE")
+            if let curUser = Auth.auth().currentUser {
+                print("GOT HERE2")
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-user.json")
+                print(fileURL)
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
+                print("GOT HERE3")
                 return try decoder.decode(UserWrapper.self, from: data)
             } else {
                 print("Need to be logged in")
                 return nil
             }
         } catch {
+            print("user is nil")
             return nil
         }
     }

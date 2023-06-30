@@ -21,6 +21,7 @@ struct UserWrapper: Codable, Hashable {
         self.uid = try container.decode(String.self, forKey: .uid)
         self.userName = try container.decode(String.self, forKey: .userName)
     }
+    
     init(uid: String, userName: String) {
         self.uid = uid
         self.userName = userName
