@@ -65,7 +65,9 @@ struct TodoListView: View {
                 if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
                     HStack(spacing: 20) {
                         Button {
-                            todoListContainer.todoList[todoIndex].completed.toggle()
+                            if todoListContainer.todoList[todoIndex].content != "" {
+                                todoListContainer.todoList[todoIndex].completed.toggle()
+                            }
                         } label: {
                             Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "circle.fill" : "circle")
                                 .labelStyle(.iconOnly)
@@ -78,7 +80,6 @@ struct TodoListView: View {
                         } else {
                             TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         }
-                        
                         Spacer()
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
