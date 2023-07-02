@@ -14,7 +14,7 @@ struct TodoListView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
-    
+    @State private var totalProgress: Float = 100.0
     func sameDate(date1: Date, date2: Date) -> Bool {
         let res = Calendar.current.compare(date1, to: date2, toGranularity: .day)
         return res == .orderedSame
@@ -80,6 +80,9 @@ struct TodoListView: View {
                             TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         }
                         Spacer()
+                        if todoListContainer.todoList[todoIndex].content != "" {
+                            ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
+                        }
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(action: {
