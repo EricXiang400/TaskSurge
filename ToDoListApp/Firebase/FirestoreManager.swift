@@ -50,7 +50,6 @@ class FireStoreManager: ObservableObject {
                     let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
                     let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
                     let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
-                    print(userFileURL)
                     if let userJsonData = encodedData["user"] {
                         try (userJsonData as! Data).write(to: userFileURL)
                         print("user data download success")

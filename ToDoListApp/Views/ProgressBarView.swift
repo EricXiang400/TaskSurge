@@ -20,12 +20,15 @@ struct ProgressBarView: View {
 }
 
 struct CustomProgressViewStyle: ProgressViewStyle {
+    @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject private var selectedDateContainer: SelectedDate
+    @EnvironmentObject private var curUserContainer: AppUser
     @Binding var presentPopOver: Bool
     @Binding var todoContent: TodoContent
+    
     func makeBody(configuration: Configuration) -> some View {
         let greenColor = Color(red: 0, green: 0.7, blue: 0)
         let redColor = Color(red: 0.7, green: 0, blue: 0)
-    
         return GeometryReader { geometry in
             VStack {
                 Spacer()
@@ -33,7 +36,6 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                     Rectangle()
                         .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.1)
                         .foregroundColor(redColor)
-
                     Rectangle()
                         .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width * 0.8, height: geometry.size.height * 0.1)
                         .foregroundColor(greenColor)
@@ -52,6 +54,9 @@ struct CustomProgressViewStyle: ProgressViewStyle {
 
 struct PopOverContent: View {
     @Binding var todoContent: TodoContent
+    @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject private var selectedDateContainer: SelectedDate
+    @EnvironmentObject private var curUserContainer: AppUser
     var body: some View {
         Button("Increase 15") {
             if (todoContent.progress + 15 <= 100) {
@@ -59,7 +64,10 @@ struct PopOverContent: View {
             } else {
                 todoContent.progress = 100.0
             }
-            
+            todoListContainer.saveLocalData()
+            if curUserContainer.curUser != nil {
+                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+            }
         }
         .padding()
     }

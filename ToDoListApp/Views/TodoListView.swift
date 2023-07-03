@@ -56,6 +56,7 @@ struct TodoListView: View {
             }
             .padding(10)
         }
+        
         List {
             ForEach(todoListContainer.todoList) { todo in
                 var todoIndex: Int {

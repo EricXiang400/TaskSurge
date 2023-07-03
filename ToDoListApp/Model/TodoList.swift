@@ -40,11 +40,13 @@ final class TodoList: ObservableObject {
                 let encoder = JSONEncoder()
                 encoder.dateEncodingStrategy = .iso8601
                 let encodedData = try encoder.encode(todoList)
+                
                 try encodedData.write(to: fileURL)
                 print("Data saved successful")
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 let encoder = JSONEncoder()
+                print(todoList[0].progress)
                 encoder.dateEncodingStrategy = .iso8601
                 let encodedData = try encoder.encode(todoList)
                 try encodedData.write(to: fileURL)
@@ -58,14 +60,10 @@ final class TodoList: ObservableObject {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            print("GOT HERE")
             if let curUser = Auth.auth().currentUser {
-                print("GOT HERE2")
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-user.json")
-                print(fileURL)
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
-                print("GOT HERE3")
                 return try decoder.decode(UserWrapper.self, from: data)
             } else {
                 print("Need to be logged in")
