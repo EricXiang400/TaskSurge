@@ -10,15 +10,18 @@ import SwiftUI
 
 
 struct ProgressBarView: View {
-    @State private var totalProgress: Float = 100
+    @State private var totalProgress: Float = 100.0
+    @State var presentPopOver: Bool = false
     @Binding var todoContent: TodoContent
     var body: some View {
-        ProgressView(value: 10.0, total: totalProgress)
-            .progressViewStyle(CustomProgressViewStyle())
+        ProgressView(value: todoContent.progress, total: totalProgress)
+            .progressViewStyle(CustomProgressViewStyle(presentPopOver: $presentPopOver, todoContent: $todoContent))
     }
 }
 
 struct CustomProgressViewStyle: ProgressViewStyle {
+    @Binding var presentPopOver: Bool
+    @Binding var todoContent: TodoContent
     func makeBody(configuration: Configuration) -> some View {
         let greenColor = Color(red: 0, green: 0.7, blue: 0)
         let redColor = Color(red: 0.7, green: 0, blue: 0)
@@ -37,7 +40,27 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                 }
                 Spacer()
             }
+            .onTapGesture {
+                presentPopOver = true
+            }
+            .popover(isPresented: $presentPopOver) {
+                PopOverContent(todoContent: $todoContent)
+            }
+        }
+    }
+}
+
+struct PopOverContent: View {
+    @Binding var todoContent: TodoContent
+    var body: some View {
+        Button("Increase 15") {
+            if (todoContent.progress + 15 <= 100) {
+                todoContent.progress += 15.0
+            } else {
+                todoContent.progress = 100.0
+            }
             
         }
+        .padding()
     }
 }
