@@ -30,7 +30,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
         let greenColor = Color(red: 0, green: 0.7, blue: 0)
         let redColor = Color(red: 0.7, green: 0, blue: 0)
         return GeometryReader { geometry in
-            VStack {
+            VStack(spacing: 1) {
                 Spacer()
                 ZStack(alignment: .leading) {
                     Rectangle()
@@ -40,7 +40,8 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                         .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width * 0.8, height: geometry.size.height * 0.1)
                         .foregroundColor(greenColor)
                 }
-                Spacer()
+                Text("\(Int(todoContent.progress))% ")
+                    .font(.system(size: 13))
             }
             .onTapGesture {
                 presentPopOver = true
