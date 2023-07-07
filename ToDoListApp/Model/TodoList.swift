@@ -48,6 +48,7 @@ final class TodoList: ObservableObject {
                 encoder.dateEncodingStrategy = .iso8601
                 let encodedData = try encoder.encode(todoList)
                 try encodedData.write(to: fileURL)
+                print("Data saved successful")
             }
         } catch {
             fatalError("Error encoding or writing")
