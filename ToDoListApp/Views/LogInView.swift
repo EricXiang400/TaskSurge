@@ -56,7 +56,6 @@ struct LogInView: View {
                     completion()
                     print("ALL OPERATION FINISHED")
                 }
-                
             }
         }
     }

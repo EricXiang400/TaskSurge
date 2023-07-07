@@ -19,6 +19,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct ToDoListApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var selectedDate = SelectedDate()
     @StateObject private var todos: TodoList = TodoList()
     @StateObject private var curUser: AppUser = AppUser()
@@ -28,6 +29,7 @@ struct ToDoListApp: App {
                 .environmentObject(selectedDate)
                 .environmentObject(todos)
                 .environmentObject(curUser)
+                .preferredColorScheme(colorScheme)
         }
     }
 }
