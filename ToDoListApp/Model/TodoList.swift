@@ -46,8 +46,14 @@ final class TodoList: ObservableObject {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 let encoder = JSONEncoder()
                 encoder.dateEncodingStrategy = .iso8601
+                print("HERE")
+                print(todoList.count)
+                print("HERE")
                 let encodedData = try encoder.encode(todoList)
                 try encodedData.write(to: fileURL)
+                print("HERE")
+                print(todoList.count)
+                print("HERE")
                 print("Data saved successful")
             }
         } catch {

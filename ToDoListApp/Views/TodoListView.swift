@@ -16,8 +16,7 @@ struct TodoListView: View {
     @State private var totalProgress: Float = 100.0
     
     func sameDate(date1: Date, date2: Date) -> Bool {
-        let res = Calendar.current.compare(date1, to: date2, toGranularity: .day)
-        return res == .orderedSame
+        return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
     
     func clearDocumentDirectory() -> Bool {
@@ -31,7 +30,6 @@ struct TodoListView: View {
                 try fileManager.removeItem(at: fileURL)
                 print("Removed file: \(fileURL.lastPathComponent)")
             }
-            
             print("All files removed successfully.")
         } catch {
             print("Error while clearing document directory: \(error.localizedDescription)")
@@ -49,25 +47,33 @@ struct TodoListView: View {
     var body: some View {
         HStack {
             Spacer()
-            Button {
+            Button(action:{
                 todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate))
-            } label: {
-                Text("Add Task")
+            }) {
+                Circle()
+                    .foregroundColor(.blue)
+                    .frame(width: 30, height: 30)
+                    .overlay(
+                        Image(systemName: "plus")
+                            .font(.system(size: 25))
+                            .foregroundColor(.white)
+                    )
             }
             .padding(10)
         }
         
         List {
             ForEach(todoListContainer.todoList) { todo in
-                var todoIndex: Int {
-                    todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
-                }
                 if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
+                    var todoIndex: Int {
+                        todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
+                    }
                     HStack(spacing: 20) {
                         Button {
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 todoListContainer.todoList[todoIndex].completed.toggle()
                             }
+                            todoListContainer.saveLocalData()
                         } label: {
                             Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "circle.fill" : "circle")
                                 .labelStyle(.iconOnly)
@@ -85,7 +91,7 @@ struct TodoListView: View {
                             ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
                         }
                     }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button(action: {
                             todoListContainer.todoList.remove(at: todoIndex)
                             todoListContainer.saveLocalData()

@@ -162,8 +162,8 @@
 				76A8F9592A31227C00A3AA38 /* LogInView.swift */,
 				76A8F95B2A3128E300A3AA38 /* SignUpView.swift */,
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
-				766B3F752A5160A4005CA1FE /* ProgressBarView.swift */,
 				76FBACA32A26649000A86343 /* CalenderView.swift */,
+				766B3F752A5160A4005CA1FE /* ProgressBarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

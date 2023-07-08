@@ -32,7 +32,8 @@ struct TodoContent: Hashable, Codable, Identifiable {
         progress = try container.decode(Float.self, forKey: .progress)
         let dateString = try container.decode(String.self, forKey: .date)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+
         if let date = dateFormatter.date(from: dateString) {
             self.date = date
             TodoContent.lastAssignedID = id
