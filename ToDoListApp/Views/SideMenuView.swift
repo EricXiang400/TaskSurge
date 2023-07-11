@@ -23,11 +23,9 @@ struct SideMenuView: View {
             .background(Color.white)
             .opacity (showSideMenu ? 1 : 0)
             .animation(Animation.easeIn.delay (0.25))
-            .onTapGesture {
-                showSideMenu.toggle()
-            }
             HStack {
                 MenuContentView(showLoginView: $showLoginView)
+                Spacer()
             }
         }
     }

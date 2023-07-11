@@ -13,28 +13,39 @@ struct MenuContentView: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showLoginView: Bool
+    var menuItems: [MenuItem] = [MenuItem(itemName: "Subscriptions"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About us")]
     var body: some View {
         VStack {
-            Image(systemName: "person.circle")
-                .font(.system(size: 28))
-            if curUserContainer.curUser != nil {
-                Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
-                Button("Sign out") {
-                    if signOut() {
-                        curUserContainer.curUser = nil
-                        todoListContainer.todoList = []
+            HStack {
+                Image(systemName: "person.circle")
+                    .font(.system(size: 28))
+                if curUserContainer.curUser != nil {
+                    Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
+                    Button("Sign out") {
+                        if signOut() {
+                            curUserContainer.curUser = nil
+                            todoListContainer.todoList = []
+                        }
+                    }
+                } else {
+                    Button("Log in") {
+                        showLoginView = true
+                    }
+                    .sheet(isPresented: $showLoginView) {
+                        LogInView(showLoginView: $showLoginView)
                     }
                 }
-            } else {
-                Button("Log in") {
-                    showLoginView = true
+            }
+            ForEach(menuItems) { item in
+                NavigationLink(item.itemName) {
+                    EmptyView()
                 }
-                .sheet(isPresented: $showLoginView) {
-                    LogInView(showLoginView: $showLoginView)
-                }
+                .frame(width: 200, height: 25)
+
             }
         }
     }
+    
     func signOut() -> Bool {
         do {
             try Auth.auth().signOut()
@@ -43,5 +54,17 @@ struct MenuContentView: View {
             print("Error signing out")
             return false
         }
+    }
+}
+
+struct MenuItem: Identifiable, Hashable {
+    static var lastAssignedID: Int = 0
+    var itemName: String
+    var id: Int
+    
+    init(itemName: String) {
+        self.itemName = itemName
+        MenuItem.lastAssignedID += 1
+        self.id = MenuItem.lastAssignedID
     }
 }

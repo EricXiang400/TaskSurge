@@ -11,6 +11,7 @@ import FirebaseAuth
 struct MainView: View {
     @State var showLoginView = false
     @State var showSideMenu = false
+    @GestureState private var dragOffset: CGFloat = 0
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     var body: some View {
@@ -22,19 +23,28 @@ struct MainView: View {
             if showSideMenu {
                 SideMenuView(showSideMenu: $showSideMenu)
                     .frame(width: 300)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        showSideMenu = false
-                    }
+//                    .edgesIgnoringSafeArea(.all)
+                    .offset(x: showSideMenu ? 0 : -300 + dragOffset)
+                    .animation(.easeOut(duration: 0.3), value: showSideMenu)
             }
-            
         }
-        .gesture(DragGesture().onEnded({ value in
-            if value.translation.width > 100 {
-                showSideMenu = true
+        .onTapGesture {
+            if showSideMenu {
+                showSideMenu = false
             }
-        })
+        }
+        .gesture(DragGesture()
+            .updating($dragOffset) { value, state, _ in
+                state = value.translation.width
+            }
+            .onEnded { value in
+                if value.translation.width > 25 {
+                    showSideMenu = true
+                } else {
+                    showSideMenu = false
+                }
+            }
         )
-        .ignoresSafeArea(.all)
+//        .ignoresSafeArea(.all)
     }
 }
