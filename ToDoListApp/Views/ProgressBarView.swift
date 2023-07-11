@@ -14,7 +14,6 @@ struct ProgressBarView: View {
     @State var presentPopOver: Bool = false
     @Binding var todoContent: TodoContent
     var body: some View {
-        
         ProgressView(value: todoContent.progress, total: totalProgress)
             .progressViewStyle(CustomProgressViewStyle(presentPopOver: $presentPopOver, todoContent: $todoContent))
     }
