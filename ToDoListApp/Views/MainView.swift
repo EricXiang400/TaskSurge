@@ -28,11 +28,7 @@ struct MainView: View {
                     .animation(.easeOut(duration: 0.3), value: showSideMenu)
             }
         }
-        .onTapGesture {
-            if showSideMenu {
-                showSideMenu = false
-            }
-        }
+        
         .gesture(DragGesture()
             .updating($dragOffset) { value, state, _ in
                 state = value.translation.width

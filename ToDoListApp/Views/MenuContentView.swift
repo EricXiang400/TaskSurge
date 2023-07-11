@@ -15,7 +15,7 @@ struct MenuContentView: View {
     @Binding var showLoginView: Bool
     var menuItems: [MenuItem] = [MenuItem(itemName: "Subscriptions"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About us")]
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Image(systemName: "person.circle")
                     .font(.system(size: 28))
@@ -36,14 +36,17 @@ struct MenuContentView: View {
                     }
                 }
             }
-            ForEach(menuItems) { item in
-                NavigationLink(item.itemName) {
-                    EmptyView()
+            List {
+                ForEach(menuItems) { item in
+                    NavigationLink(item.itemName) {
+                        EmptyView()
+                    }
+                    .frame(width: 200, height: 25)
                 }
-                .frame(width: 200, height: 25)
-
             }
+            .listStyle(.plain)
         }
+
     }
     
     func signOut() -> Bool {
