@@ -46,7 +46,6 @@ struct MenuContentView: View {
             }
             .listStyle(.plain)
         }
-
     }
     
     func signOut() -> Bool {

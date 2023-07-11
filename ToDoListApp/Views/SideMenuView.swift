@@ -16,18 +16,15 @@ struct SideMenuView: View {
     @Binding var showSideMenu: Bool
     var body: some View {
         ZStack {
-            // Dimmed background view
             GeometryReader { _ in
                 EmptyView()
             }
             .background(Color.white)
             .opacity (showSideMenu ? 1 : 0)
-            .animation(Animation.easeIn.delay (0.25))
-            HStack {
-                MenuContentView(showLoginView: $showLoginView)
-                Spacer()
-            }
+            MenuContentView(showLoginView: $showLoginView)
+                .animation(.default)
         }
+
     }
     
     

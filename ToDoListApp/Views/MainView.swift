@@ -21,11 +21,14 @@ struct MainView: View {
                 TodoListView()
             }
             if showSideMenu {
-                SideMenuView(showSideMenu: $showSideMenu)
-                    .frame(width: 300)
-//                    .edgesIgnoringSafeArea(.all)
-                    .offset(x: showSideMenu ? 0 : -300 + dragOffset)
-                    .animation(.easeOut(duration: 0.3), value: showSideMenu)
+                HStack {
+                    SideMenuView(showSideMenu: $showSideMenu)
+                        .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
+                        .offset(x: showSideMenu ? 0 : -300 + dragOffset)
+                        .animation(.easeOut(duration: 0.3), value: showSideMenu)
+                    Spacer()
+                }
+                
             }
         }
         
