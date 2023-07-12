@@ -79,6 +79,9 @@ struct TodoListView: View {
                                 }
                             }
                             todoListContainer.saveLocalData()
+                            if curUserContainer.curUser != nil {
+                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                            }
                         } label: {
                             Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
                                 .labelStyle(.iconOnly)
