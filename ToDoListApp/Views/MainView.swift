@@ -31,7 +31,6 @@ struct MainView: View {
                 
             }
         }
-        
         .gesture(DragGesture()
             .updating($dragOffset) { value, state, _ in
                 state = value.translation.width
@@ -44,6 +43,5 @@ struct MainView: View {
                 }
             }
         )
-//        .ignoresSafeArea(.all)
     }
 }

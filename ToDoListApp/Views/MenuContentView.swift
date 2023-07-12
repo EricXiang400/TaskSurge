@@ -19,6 +19,7 @@ struct MenuContentView: View {
             HStack {
                 Image(systemName: "person.circle")
                     .font(.system(size: 28))
+                    .padding(.leading, 18)
                 if curUserContainer.curUser != nil {
                     Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
                     Button("Sign out") {

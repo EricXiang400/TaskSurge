@@ -13,8 +13,8 @@ struct TodoListView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
-    @State private var totalProgress: Float = 100.0
-    
+    @State var showConfirmationSheet: Bool = false
+    @State var objectIndex: Int? = nil
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -71,7 +71,12 @@ struct TodoListView: View {
                     HStack(spacing: 20) {
                         Button {
                             if todoListContainer.todoList[todoIndex].content != "" {
-                                todoListContainer.todoList[todoIndex].completed.toggle()
+                                if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+                                    showConfirmationSheet = true
+                                    objectIndex = todoIndex
+                                } else {
+                                    todoListContainer.todoList[todoIndex].completed.toggle()
+                                }
                             }
                             todoListContainer.saveLocalData()
                         } label: {
@@ -90,6 +95,9 @@ struct TodoListView: View {
                         if todoListContainer.todoList[todoIndex].content != "" {
                             ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
                         }
+                    }
+                    .sheet(isPresented: $showConfirmationSheet) {
+                        ConfirmationSheetView(showConfirmationSheet: $showConfirmationSheet, listIndex: $objectIndex)
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button(action: {
