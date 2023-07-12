@@ -20,8 +20,14 @@ struct MainView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button("Toggle calendar") {
+                    Button(action: {
                         showCalendar.toggle()
+                    }) {
+                        if showCalendar {
+                            Image(systemName: "calendar")
+                        } else {
+                            Image(systemName: "calendar.badge.plus")
+                        }
                     }
                     .padding()
                 }
