@@ -80,8 +80,9 @@ struct TodoListView: View {
                             }
                             todoListContainer.saveLocalData()
                         } label: {
-                            Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "circle.fill" : "circle")
+                            Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
                                 .labelStyle(.iconOnly)
+                                .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                         }
                         .contentShape(Circle())
                         .padding(5)
