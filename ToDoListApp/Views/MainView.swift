@@ -14,10 +14,20 @@ struct MainView: View {
     @GestureState private var dragOffset: CGFloat = 0
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
+    @State var showCalendar: Bool = false
     var body: some View {
         ZStack {
             VStack {
-                CalenderView()
+                HStack {
+                    Spacer()
+                    Button("Toggle calendar") {
+                        showCalendar.toggle()
+                    }
+                    .padding()
+                }
+                if showCalendar {
+                    CalenderView()
+                }
                 TodoListView()
             }
             if showSideMenu {
@@ -28,7 +38,6 @@ struct MainView: View {
                         .animation(.easeOut(duration: 0.3), value: showSideMenu)
                     Spacer()
                 }
-                
             }
         }
         .gesture(DragGesture()

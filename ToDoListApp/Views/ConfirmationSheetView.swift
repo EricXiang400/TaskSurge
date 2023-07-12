@@ -29,7 +29,6 @@ struct ConfirmationSheetView: View {
                 }
                 Button("Cancel") {
                     showConfirmationSheet = false
-                    
                 }
             }
             
