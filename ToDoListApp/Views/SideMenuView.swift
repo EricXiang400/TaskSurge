@@ -22,7 +22,7 @@ struct SideMenuView: View {
             .background(Color.white)
             .opacity (showSideMenu ? 1 : 0)
             MenuContentView(showLoginView: $showLoginView, showSideMenu: $showSideMenu)
-                .animation(.default)
+//                .animation(.default)
         }
 
     }
