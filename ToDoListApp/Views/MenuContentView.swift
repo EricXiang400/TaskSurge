@@ -13,9 +13,21 @@ struct MenuContentView: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showLoginView: Bool
+    @Binding var showSideMenu: Bool
     var menuItems: [MenuItem] = [MenuItem(itemName: "Subscriptions"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About us")]
     var body: some View {
         VStack(alignment: .leading) {
+            HStack {
+                Button (action: {
+                    showSideMenu = false
+                }) {
+                    Image(systemName: "chevron.left")
+                        .imageScale(.large)
+                }
+                .padding(.leading, 6.5)
+                Spacer()
+            }
+            .padding()
             HStack {
                 Image(systemName: "person.circle")
                     .font(.system(size: 28))

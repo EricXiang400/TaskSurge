@@ -15,6 +15,8 @@ struct TodoListView: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @State var showConfirmationSheet: Bool = false
     @State var objectIndex: Int? = nil
+    @Binding var showCalendar: Bool
+    @Binding var showSideMenu: Bool
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -46,16 +48,23 @@ struct TodoListView: View {
     
     var body: some View {
         HStack {
+            Button(action: {
+                showSideMenu = true
+            }) {
+                Image(systemName: "line.horizontal.3")
+                        .imageScale(.large)
+            }
+            .padding(.leading)
             Spacer()
             Button(action:{
                 todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate))
             }) {
                 Circle()
                     .foregroundColor(.blue)
-                    .frame(width: 30, height: 30)
+                    .frame(width: 25, height: 25)
                     .overlay(
                         Image(systemName: "plus")
-                            .font(.system(size: 25))
+                            .font(.system(size: 20))
                             .foregroundColor(.white)
                     )
             }
