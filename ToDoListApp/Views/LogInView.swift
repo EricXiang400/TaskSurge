@@ -20,13 +20,22 @@ struct LogInView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Email:")
+                Text("Log In")
+                    .font(.title)
+                    .bold()
+            }
+            VStack {
+                Text("Log in to share your data across your devices")
+                    .font(.custom("", size: 13))
                 TextField("Email", text: $email)
-            }
-            HStack {
-                Text("Password")
+                    .textFieldStyle(CustomTextFieldStyle())
+                    .frame(width: UIScreen.main.bounds.width * 0.85)
                 SecureField("Password", text: $password)
+                    .textFieldStyle(CustomTextFieldStyle())
+                    .frame(width: UIScreen.main.bounds.width * 0.85)
             }
+            
+            
             Button(action: {
                 login(completion: {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
@@ -34,13 +43,26 @@ struct LogInView: View {
                 })
             }) {
                 Text("Sign in")
+                    .foregroundColor(.white)
+                    .font(.headline)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(8)
             }
-            Button("Sign Up") {
-                showSignupView = true
+            .frame(minWidth: 0, maxWidth: .infinity)
+            HStack {
+                Text("New User?")
+                    .padding(.leading)
+                Button("Sign Up") {
+                    showSignupView = true
+                }
+                .sheet(isPresented: $showSignupView) {
+                    SignUpView(showLoginView: $showLoginView)
+                }
+                
+                Spacer()
             }
-            .sheet(isPresented: $showSignupView) {
-                SignUpView(showLoginView: $showLoginView)
-            }
+            
         }
         .padding(5)
     }
@@ -62,3 +84,14 @@ struct LogInView: View {
     }
 }
 
+struct CustomTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(10)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.gray.opacity(0.1))
+            )
+            .foregroundColor(.primary)
+    }
+}
