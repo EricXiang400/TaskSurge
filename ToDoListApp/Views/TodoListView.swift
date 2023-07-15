@@ -17,6 +17,7 @@ struct TodoListView: View {
     @State var objectIndex: Int? = nil
     @Binding var showCalendar: Bool
     @Binding var showSideMenu: Bool
+    @State private var isEditing: Bool = false
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -44,6 +45,7 @@ struct TodoListView: View {
         if curUserContainer.curUser != nil {
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
+        isEditing = false
     }
     
     var body: some View {
@@ -77,7 +79,7 @@ struct TodoListView: View {
                     var todoIndex: Int {
                         todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                     }
-                    HStack(spacing: 20) {
+                    HStack {
                         Button {
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
@@ -104,7 +106,6 @@ struct TodoListView: View {
                         } else {
                             TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         }
-                        Spacer()
                         if todoListContainer.todoList[todoIndex].content != "" {
                             ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
                         }

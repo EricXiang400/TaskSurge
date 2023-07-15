@@ -45,7 +45,7 @@ struct MenuContentView: View {
                         showLoginView = true
                     }
                     .sheet(isPresented: $showLoginView) {
-                        LogInView(showLoginView: $showLoginView)
+                        LogInView(showLoginView: $showLoginView, showSideWindow: $showSideMenu)
                     }
                 }
             }
@@ -64,6 +64,7 @@ struct MenuContentView: View {
     func signOut() -> Bool {
         do {
             try Auth.auth().signOut()
+            showSideMenu = false
             return true
         } catch let signOutError_ as NSError {
             print("Error signing out")

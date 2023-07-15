@@ -29,16 +29,16 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     func makeBody(configuration: Configuration) -> some View {
         let greenColor = Color(red: 0, green: 0.7, blue: 0)
         let redColor = Color(red: 0.7, green: 0, blue: 0)
-        return GeometryReader { geometry in
-            ZStack {
+        return ZStack {
+            GeometryReader { geometry in
                 VStack(spacing: 1) {
                     Spacer()
                     ZStack(alignment: .leading) {
                         Rectangle()
-                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.1)
+                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.1)
                             .foregroundColor(redColor)
                         Rectangle()
-                            .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width * 0.8, height: geometry.size.height * 0.1)
+                            .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width * 0.6, height: geometry.size.height * 0.1)
                             .foregroundColor(greenColor)
                     }
                     Text("\(Int(todoContent.progress))% ")
@@ -51,7 +51,9 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                     PopOverContent(todoContent: $todoContent)
                 }
             }
+            .frame(width: 125)
         }
+        .offset(x: 45)
     }
 }
 

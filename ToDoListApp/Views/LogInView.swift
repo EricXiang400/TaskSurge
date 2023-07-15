@@ -16,7 +16,7 @@ struct LogInView: View {
     @State var showSignupView = false
     @State var email: String = ""
     @State var password: String = ""
-    
+    @Binding var showSideWindow: Bool
     var body: some View {
         VStack {
             HStack {
@@ -51,6 +51,7 @@ struct LogInView: View {
                 print("\(error.localizedDescription)")
             } else {
                 print("Sign-in success")
+                showSideWindow = false
                 curUserContainer.curUser = Auth.auth().currentUser!
                 FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
                     completion()

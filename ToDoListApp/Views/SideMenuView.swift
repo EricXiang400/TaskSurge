@@ -14,19 +14,22 @@ struct SideMenuView: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showSideMenu: Bool
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         ZStack {
             GeometryReader { _ in
                 EmptyView()
             }
-            .background(Color.white)
+            .background(Color.primaryColor(for: colorScheme))
             .opacity (showSideMenu ? 1 : 0)
             MenuContentView(showLoginView: $showLoginView, showSideMenu: $showSideMenu)
-//                .animation(.default)
         }
 
     }
-    
-    
 }
 
+extension Color {
+    static func primaryColor(for colorScheme: ColorScheme) -> Color {
+        return colorScheme == .light ? Color.white : Color.black
+    }
+}
