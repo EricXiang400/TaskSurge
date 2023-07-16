@@ -51,12 +51,22 @@ struct SignUpView: View {
             Button(action: {
                 signUp()
             }) {
-                Text("Sign Up")
-                    .foregroundColor(.white)
-                    .font(.headline)
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(8)
+                if email == "" || password == "" || confirmPassword == "" || username == "" || !isChecked {
+                    Text("Sign Up")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue.opacity(0.5))
+                        .cornerRadius(8)
+                } else {
+                    Text("Sign Up")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                }
+                
             }
         }
         .padding(5)

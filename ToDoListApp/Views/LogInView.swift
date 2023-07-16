@@ -33,21 +33,30 @@ struct LogInView: View {
                     .textFieldStyle(CustomTextFieldStyle())
                     .frame(width: UIScreen.main.bounds.width * 0.85)
             }
-            
-            
             Button(action: {
                 login(completion: {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
                     showLoginView = false
                 })
             }) {
-                Text("Sign in")
-                    .foregroundColor(.white)
-                    .font(.headline)
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(8)
+                if email == "" || password == "" {
+                    Text("Sign in")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue.opacity(0.5))
+                        .cornerRadius(8)
+                } else {
+                    Text("Sign in")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                }
+                
             }
+            .disabled(email == "" || password == "")
             .frame(minWidth: 0, maxWidth: .infinity)
             
             VStack {
