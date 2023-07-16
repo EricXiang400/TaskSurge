@@ -17,13 +17,12 @@ struct LogInView: View {
     @State var email: String = ""
     @State var password: String = ""
     @Binding var showSideWindow: Bool
+    @State private var error: Error? = nil
     var body: some View {
         VStack {
-            HStack {
-                Text("Log In")
-                    .font(.title)
-                    .bold()
-            }
+            Text("Log In")
+                .font(.title)
+                .bold()
             VStack {
                 Text("Log in to share your data across your devices")
                     .font(.custom("", size: 13))
@@ -50,18 +49,28 @@ struct LogInView: View {
                     .cornerRadius(8)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
-            HStack {
-                Text("New User?")
+            
+            VStack {
+                HStack {
+                    Text("New User?")
+                        .padding(.leading)
+                    Button("Sign Up") {
+                        showSignupView = true
+                    }
+                    .sheet(isPresented: $showSignupView) {
+                        SignUpView(showLoginView: $showLoginView)
+                    }
+                    Spacer()
+                }
+                HStack {
+                    Button("Forgot Password?") {
+                    }
                     .padding(.leading)
-                Button("Sign Up") {
-                    showSignupView = true
+                    Spacer()
                 }
-                .sheet(isPresented: $showSignupView) {
-                    SignUpView(showLoginView: $showLoginView)
-                }
-                
-                Spacer()
             }
+            .padding()
+            
             
         }
         .padding(5)
@@ -71,6 +80,7 @@ struct LogInView: View {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("\(error.localizedDescription)")
+                self.error = error
             } else {
                 print("Sign-in success")
                 showSideWindow = false

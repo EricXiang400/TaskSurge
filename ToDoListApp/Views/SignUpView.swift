@@ -16,26 +16,46 @@ struct SignUpView: View {
     @State var confirmPassword: String = ""
     @Binding var showLoginView: Bool
     @State var username: String = ""
+    @State private var isChecked: Bool = false
     var body: some View {
         VStack {
+            Text("Sign Up")
+                .font(.title)
+                .bold()
+            TextField("Enter Username Here", text: $username)
+                .textFieldStyle(CustomTextFieldStyle())
+                .frame(width: UIScreen.main.bounds.width * 0.85)
+            TextField("Enter Email Here", text: $email)
+                .textFieldStyle(CustomTextFieldStyle())
+                .frame(width: UIScreen.main.bounds.width * 0.85)
+            SecureField("Enter Password Here", text: $password)
+                .textFieldStyle(CustomTextFieldStyle())
+                .frame(width: UIScreen.main.bounds.width * 0.85)
+            SecureField("Enter Password Here", text: $confirmPassword)
+                .textFieldStyle(CustomTextFieldStyle())
+                .frame(width: UIScreen.main.bounds.width * 0.85)
             HStack {
-                Text("Username")
-                TextField("Enter Username Here", text: $username)
+                Button (action: {
+                    isChecked.toggle()
+                }) {
+                    Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(isChecked ? .blue : .gray)
+                }
+                .padding(.leading)
+                Text("By clicking this checkmark, you agree to our terms and conditions")
+                    .font(.custom("", size: 13))
             }
-            HStack {
-                Text("Email")
-                TextField("Enter Email Here", text: $email)
-            }
-            HStack {
-                Text("Password")
-                SecureField("Enter Password Here", text: $password)
-            }
-            HStack {
-                Text("Confirm Password")
-                SecureField("Enter Password Here", text: $confirmPassword)
-            }
-            Button(action: {signUp()}) {
+            Button(action: {
+                signUp()
+            }) {
                 Text("Sign Up")
+                    .foregroundColor(.white)
+                    .font(.headline)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(8)
             }
         }
         .padding(5)
@@ -72,3 +92,4 @@ struct SignUpView: View {
         }
     }
 }
+
