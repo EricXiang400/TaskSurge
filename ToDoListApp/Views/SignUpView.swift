@@ -46,6 +46,7 @@ struct SignUpView: View {
                 .padding(.leading)
                 Text("By clicking this checkmark, you agree to our terms and conditions")
                     .font(.custom("", size: 13))
+                    .padding()
             }
             Button(action: {
                 signUp()

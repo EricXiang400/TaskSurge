@@ -70,8 +70,6 @@ struct LogInView: View {
                 }
             }
             .padding()
-            
-            
         }
         .padding(5)
     }
