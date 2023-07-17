@@ -18,6 +18,8 @@ struct TodoListView: View {
     @Binding var showCalendar: Bool
     @Binding var showSideMenu: Bool
     @State private var isEditing: Bool = false
+    @State var taskDescription: String = ""
+    @State private var selectedFont: UIFont = UIFont.systemFont(ofSize: 14)
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -73,12 +75,12 @@ struct TodoListView: View {
             .padding(10)
         }
         
-        List {
-            ForEach(todoListContainer.todoList) { todo in
-                if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
-                    var todoIndex: Int {
-                        todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
-                    }
+        List(todoListContainer.todoList) { todo in
+            if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
+                var todoIndex: Int {
+                    todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
+                }
+                VStack {
                     HStack {
                         Button {
                             if todoListContainer.todoList[todoIndex].content != "" {
@@ -88,6 +90,8 @@ struct TodoListView: View {
                                 } else {
                                     todoListContainer.todoList[todoIndex].completed.toggle()
                                 }
+                            } else if todoListContainer.todoList[todoIndex].completed {
+                                todoListContainer.todoList[todoIndex].completed.toggle()
                             }
                             todoListContainer.saveLocalData()
                             if curUserContainer.curUser != nil {
@@ -101,10 +105,10 @@ struct TodoListView: View {
                         .contentShape(Circle())
                         .padding(5)
                         if todoListContainer.todoList[todoIndex].completed {
-                            TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                            TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                 .strikethrough(true)
                         } else {
-                            TextField("Empty Task", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                            TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                         }
                         if todoListContainer.todoList[todoIndex].content != "" {
                             ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
@@ -125,6 +129,9 @@ struct TodoListView: View {
                         }
                         .tint(.red)
                     }
+                    TextEditor(text: $taskDescription)
+                        .frame(height: 10)
+//                        .font(selectedFont)
                 }
             }
         }

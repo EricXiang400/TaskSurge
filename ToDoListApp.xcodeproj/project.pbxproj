@@ -14,6 +14,7 @@
 		766C75992A5CE92D007F1A2E /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C75982A5CE92D007F1A2E /* SideMenuView.swift */; };
 		766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */; };
 		766C759D2A5E41A4007F1A2E /* ConfirmationSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C759C2A5E41A4007F1A2E /* ConfirmationSheetView.swift */; };
+		76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */; };
 		76A8F9212A3121CA00A3AA38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */; };
 		76A8F9242A31225200A3AA38 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 76A8F9232A31225200A3AA38 /* FirebaseAnalytics */; };
 		76A8F9262A31225200A3AA38 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 76A8F9252A31225200A3AA38 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -86,6 +87,7 @@
 		766C75982A5CE92D007F1A2E /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
 		766C759C2A5E41A4007F1A2E /* ConfirmationSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationSheetView.swift; sourceTree = "<group>"; };
+		76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		76A8F9592A31227C00A3AA38 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		76A8F95B2A3128E300A3AA38 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				76A8F9592A31227C00A3AA38 /* LogInView.swift */,
 				76A8F95B2A3128E300A3AA38 /* SignUpView.swift */,
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
+				76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */,
 				766C759C2A5E41A4007F1A2E /* ConfirmationSheetView.swift */,
 				766C75982A5CE92D007F1A2E /* SideMenuView.swift */,
 				766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */,
@@ -427,6 +430,7 @@
 				76FBAC782A265E7B00A86343 /* MainView.swift in Sources */,
 				76A8F9642A337D0100A3AA38 /* FirestoreManager.swift in Sources */,
 				76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */,
+				76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */,
 				76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */,
 				766C759D2A5E41A4007F1A2E /* ConfirmationSheetView.swift in Sources */,
 				76FBACA42A26649000A86343 /* CalenderView.swift in Sources */,

@@ -18,6 +18,8 @@ struct LogInView: View {
     @State var password: String = ""
     @Binding var showSideWindow: Bool
     @State private var error: Error? = nil
+    @State var showForgotPasswordView: Bool = false
+
     var body: some View {
         VStack {
             Text("Log In")
@@ -32,6 +34,16 @@ struct LogInView: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(CustomTextFieldStyle())
                     .frame(width: UIScreen.main.bounds.width * 0.85)
+
+                HStack {
+                    if let loginError = error {
+                        Text(loginError.localizedDescription)
+                            .foregroundColor(.red)
+                            .padding(.leading, UIScreen.main.bounds.width * 0.075)
+                            .font(.system(size: 13))
+                    }
+                    Spacer()
+                }
             }
             Button(action: {
                 login(completion: {
@@ -54,7 +66,6 @@ struct LogInView: View {
                         .background(Color.blue)
                         .cornerRadius(8)
                 }
-                
             }
             .disabled(email == "" || password == "")
             .frame(minWidth: 0, maxWidth: .infinity)
@@ -73,8 +84,12 @@ struct LogInView: View {
                 }
                 HStack {
                     Button("Forgot Password?") {
+                        showForgotPasswordView = true
                     }
                     .padding(.leading)
+                    .sheet(isPresented: $showForgotPasswordView) {
+                        ForgotPasswordView(showForgotPasswordView: $showForgotPasswordView)
+                    }
                     Spacer()
                 }
             }

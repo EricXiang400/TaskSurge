@@ -31,7 +31,6 @@ struct ConfirmationSheetView: View {
                     showConfirmationSheet = false
                 }
             }
-            
         }
         .frame(width: 300, height: 200)
         .background(Color.white)

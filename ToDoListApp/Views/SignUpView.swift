@@ -17,6 +17,7 @@ struct SignUpView: View {
     @Binding var showLoginView: Bool
     @State var username: String = ""
     @State private var isChecked: Bool = false
+    @State private var error: Error?
     var body: some View {
         VStack {
             Text("Sign Up")
@@ -34,6 +35,15 @@ struct SignUpView: View {
             SecureField("Enter Password Here", text: $confirmPassword)
                 .textFieldStyle(CustomTextFieldStyle())
                 .frame(width: UIScreen.main.bounds.width * 0.85)
+            HStack {
+                if let loginError = error {
+                    Text(loginError.localizedDescription)
+                        .foregroundColor(.red)
+                        .padding(.leading, UIScreen.main.bounds.width * 0.075)
+                        .font(.system(size: 13))
+                }
+                Spacer()
+            }
             HStack {
                 Button (action: {
                     isChecked.toggle()
@@ -79,7 +89,8 @@ struct SignUpView: View {
         }
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
-                print("Sign-up Error")
+//                print("sign up error")
+                self.error = error
                 return
             }
             guard let user = result?.user else {
