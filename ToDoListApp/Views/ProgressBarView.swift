@@ -35,10 +35,10 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                     Spacer()
                     ZStack(alignment: .leading) {
                         Rectangle()
-                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.1)
+                            .frame(width: 75, height: 3.6)
                             .foregroundColor(redColor)
                         Rectangle()
-                            .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * geometry.size.width * 0.6, height: geometry.size.height * 0.1)
+                            .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * 75, height: 3.6)
                             .foregroundColor(greenColor)
                     }
                     Text("\(Int(todoContent.progress))% ")

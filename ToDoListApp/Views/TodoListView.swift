@@ -80,58 +80,53 @@ struct TodoListView: View {
                 var todoIndex: Int {
                     todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                 }
-                VStack {
-                    HStack {
-                        Button {
-                            if todoListContainer.todoList[todoIndex].content != "" {
-                                if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                    showConfirmationSheet = true
-                                    objectIndex = todoIndex
-                                } else {
-                                    todoListContainer.todoList[todoIndex].completed.toggle()
-                                }
-                            } else if todoListContainer.todoList[todoIndex].completed {
+                HStack {
+                    Button {
+                        if todoListContainer.todoList[todoIndex].content != "" {
+                            if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+                                showConfirmationSheet = true
+                                objectIndex = todoIndex
+                            } else {
                                 todoListContainer.todoList[todoIndex].completed.toggle()
                             }
-                            todoListContainer.saveLocalData()
-                            if curUserContainer.curUser != nil {
-                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                            }
-                        } label: {
-                            Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-                                .labelStyle(.iconOnly)
-                                .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
+                        } else if todoListContainer.todoList[todoIndex].completed {
+                            todoListContainer.todoList[todoIndex].completed.toggle()
                         }
-                        .contentShape(Circle())
-                        .padding(5)
-                        if todoListContainer.todoList[todoIndex].completed {
-                            TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-                                .strikethrough(true)
-                        } else {
-                            TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                        todoListContainer.saveLocalData()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
-                        if todoListContainer.todoList[todoIndex].content != "" {
-                            ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
-                        }
+                    } label: {
+                        Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+                            .labelStyle(.iconOnly)
+                            .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                     }
-                    .sheet(isPresented: $showConfirmationSheet) {
-                        ConfirmationSheetView(showConfirmationSheet: $showConfirmationSheet, listIndex: $objectIndex)
+                    .contentShape(Circle())
+                    .padding(5)
+                    if todoListContainer.todoList[todoIndex].completed {
+                        TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                            .strikethrough(true)
+                    } else {
+                        TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                     }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(action: {
-                            todoListContainer.todoList.remove(at: todoIndex)
-                            todoListContainer.saveLocalData()
-                            if curUserContainer.curUser != nil {
-                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                            }
-                        }) {
-                            Label("Delete", systemImage: "trash")
+                    if todoListContainer.todoList[todoIndex].content != "" {
+                        ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
+                    }
+                }
+                .sheet(isPresented: $showConfirmationSheet) {
+                    ConfirmationSheetView(showConfirmationSheet: $showConfirmationSheet, listIndex: $objectIndex)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(action: {
+                        todoListContainer.todoList.remove(at: todoIndex)
+                        todoListContainer.saveLocalData()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
-                        .tint(.red)
+                    }) {
+                        Label("Delete", systemImage: "trash")
                     }
-                    TextEditor(text: $taskDescription)
-                        .frame(height: 10)
-//                        .font(selectedFont)
+                    .tint(.red)
                 }
             }
         }
