@@ -21,8 +21,8 @@ struct ForgotPasswordView: View {
             TextField("Email", text: $email)
                 .textFieldStyle(CustomTextFieldStyle())
                 .frame(width: UIScreen.main.bounds.width * 0.85)
-
-            Button("Reset Password") {
+            
+            Button (action: {
                 Auth.auth().sendPasswordReset(withEmail: email) { error in
                     if let error = error {
                         alertMessage = error.localizedDescription
@@ -32,12 +32,27 @@ struct ForgotPasswordView: View {
                     }
                     showAlert = true
                 }
+            }) {
+                if email == "" {
+                    Text("Reset Password")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue.opacity(0.5))
+                        .cornerRadius(8)
+                } else {
+                    Text("Reset Password")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                }
+
             }
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Reset Password"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-            }
+            .disabled(email == "")
             .padding()
         }
-        .padding()
+//        .padding()
     }
 }

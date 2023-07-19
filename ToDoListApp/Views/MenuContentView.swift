@@ -14,7 +14,7 @@ struct MenuContentView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
-    var menuItems: [MenuItem] = [MenuItem(itemName: "Subscriptions"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About us")]
+    var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
     var body: some View {
         VStack(alignment: .leading) {
             HStack {

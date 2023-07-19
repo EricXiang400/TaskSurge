@@ -68,7 +68,7 @@ struct LogInView: View {
                 }
             }
             .disabled(email == "" || password == "")
-            .frame(minWidth: 0, maxWidth: .infinity)
+//            .frame(minWidth: 0, maxWidth: .infinity)
             
             VStack {
                 HStack {
