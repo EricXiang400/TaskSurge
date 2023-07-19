@@ -60,6 +60,12 @@ struct TodoListView: View {
             }
             .padding(.leading)
             Spacer()
+            Button (action: {
+                
+            }) {
+                Image(systemName: "line.horizontal.3.decrease.circle")
+                    .font(.system(size: 25))
+            }
             Button(action:{
                 todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate))
             }) {
@@ -84,7 +90,6 @@ struct TodoListView: View {
                     Button {
                         if todoListContainer.todoList[todoIndex].content != "" {
                             if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                showConfirmationSheet = true
                                 objectIndex = todoIndex
                             } else {
                                 todoListContainer.todoList[todoIndex].completed.toggle()
@@ -119,9 +124,8 @@ struct TodoListView: View {
                         message: Text("Are you sure you want to complete this task?"),
                         primaryButton: .default(Text("Complete")) {
                             // Handle OK button action
-                            showConfirmationSheet = false
-                            todoListContainer.todoList[todoIndex].progress = 100.0
-                            todoListContainer.todoList[todoIndex].completed = true
+                            todoListContainer.todoList[objectIndex!].progress = 100.0
+                            todoListContainer.todoList[objectIndex!].completed = true
                             todoListContainer.saveLocalData()
                             if curUserContainer.curUser != nil {
                                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
