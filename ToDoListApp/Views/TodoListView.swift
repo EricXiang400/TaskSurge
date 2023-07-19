@@ -113,8 +113,22 @@ struct TodoListView: View {
                         ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
                     }
                 }
-                .sheet(isPresented: $showConfirmationSheet) {
-                    ConfirmationSheetView(showConfirmationSheet: $showConfirmationSheet, listIndex: $objectIndex)
+                .alert(isPresented: $showConfirmationSheet) {
+                    Alert(
+                        title: Text("Task Completion"),
+                        message: Text("Are you sure you want to complete this task?"),
+                        primaryButton: .default(Text("Complete")) {
+                            // Handle OK button action
+                            showConfirmationSheet = false
+                            todoListContainer.todoList[todoIndex].progress = 100.0
+                            todoListContainer.todoList[todoIndex].completed = true
+                            todoListContainer.saveLocalData()
+                            if curUserContainer.curUser != nil {
+                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(action: {

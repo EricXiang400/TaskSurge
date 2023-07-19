@@ -53,6 +53,5 @@ struct ForgotPasswordView: View {
             .disabled(email == "")
             .padding()
         }
-//        .padding()
     }
 }
