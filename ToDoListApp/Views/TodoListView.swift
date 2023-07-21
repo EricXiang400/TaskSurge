@@ -90,68 +90,70 @@ struct TodoListView: View {
         }
         
         List(dateFilteredTodos) { todo in
-            var todoIndex: Int {
-                todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
-            }
-            HStack {
-                Button {
-                    if todoListContainer.todoList[todoIndex].content != "" {
-                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                            objectIndex = todoIndex
-                        } else {
+            if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
+                var todoIndex: Int {
+                    todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
+                }
+                HStack {
+                    Button {
+                        if todoListContainer.todoList[todoIndex].content != "" {
+                            if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+                                objectIndex = todoIndex
+                            } else {
+                                todoListContainer.todoList[todoIndex].completed.toggle()
+                            }
+                        } else if todoListContainer.todoList[todoIndex].completed {
                             todoListContainer.todoList[todoIndex].completed.toggle()
                         }
-                    } else if todoListContainer.todoList[todoIndex].completed {
-                        todoListContainer.todoList[todoIndex].completed.toggle()
-                    }
-                    todoListContainer.saveLocalData()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                    }
-                } label: {
-                    Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-                        .labelStyle(.iconOnly)
-                        .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
-                }
-                .contentShape(Circle())
-                .padding(5)
-                if todoListContainer.todoList[todoIndex].completed {
-                    TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-                        .strikethrough(true)
-                } else {
-                    TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-                }
-                if todoListContainer.todoList[todoIndex].content != "" {
-                    ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
-                }
-            }
-            .alert(isPresented: $showConfirmationSheet) {
-                Alert(
-                    title: Text("Task Completion"),
-                    message: Text("Are you sure you want to complete this task?"),
-                    primaryButton: .default(Text("Complete")) {
-                        // Handle OK button action
-                        todoListContainer.todoList[objectIndex!].progress = 100.0
-                        todoListContainer.todoList[objectIndex!].completed = true
                         todoListContainer.saveLocalData()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
-                    },
-                    secondaryButton: .cancel()
-                )
-            }
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(action: {
-                    todoListContainer.todoList.remove(at: todoIndex)
-                    todoListContainer.saveLocalData()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    } label: {
+                        Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+                            .labelStyle(.iconOnly)
+                            .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                     }
-                }) {
-                    Label("Delete", systemImage: "trash")
+                    .contentShape(Circle())
+                    .padding(5)
+                    if todoListContainer.todoList[todoIndex].completed {
+                        TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                            .strikethrough(true)
+                    } else {
+                        TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                    }
+                    if todoListContainer.todoList[todoIndex].content != "" {
+                        ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
+                    }
                 }
-                .tint(.red)
+                .alert(isPresented: $showConfirmationSheet) {
+                    Alert(
+                        title: Text("Task Completion"),
+                        message: Text("Are you sure you want to complete this task?"),
+                        primaryButton: .default(Text("Complete")) {
+                            // Handle OK button action
+                            todoListContainer.todoList[objectIndex!].progress = 100.0
+                            todoListContainer.todoList[objectIndex!].completed = true
+                            todoListContainer.saveLocalData()
+                            if curUserContainer.curUser != nil {
+                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(action: {
+                        todoListContainer.todoList.remove(at: todoIndex)
+                        todoListContainer.saveLocalData()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }) {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                }
             }
         }
         .listStyle(.plain)
