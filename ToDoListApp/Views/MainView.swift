@@ -17,12 +17,7 @@ struct MainView: View {
     @State var showCalendar: Bool = true
     var body: some View {
         ZStack {
-            VStack {
-                if showCalendar {
-                    CalenderView()
-                }
-                TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu)
-            }
+            TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu)
             if showSideMenu {
                 Color.black.opacity(0.5)
                     .ignoresSafeArea(.all)
