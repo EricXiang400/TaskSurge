@@ -93,7 +93,7 @@ struct TodoListView: View {
                     .padding(10)
                 }
                 
-                List(dateFilteredTodos) { todo in
+                List(todoListContainer.todoList) { todo in
                     if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
                         var todoIndex: Int {
                             todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
