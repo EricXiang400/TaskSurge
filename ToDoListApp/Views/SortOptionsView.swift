@@ -19,7 +19,7 @@ struct SortOptionsView: View {
                 .padding(.horizontal)
             Button(action: {
                 showSortingOptions = false
-                todoListContainer.todoList.sort(by: {$0.date < $1.date})
+                todoListContainer.todoList.sort(by: {$1.date < $0.date})
                 todoListContainer.saveLocalData()
                 if curUserContainer.curUser != nil {
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
