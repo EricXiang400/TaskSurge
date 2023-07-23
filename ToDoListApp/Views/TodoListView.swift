@@ -21,7 +21,6 @@ struct TodoListView: View {
     @State var taskDescription: String = ""
     @State private var selectedFont: UIFont = UIFont.systemFont(ofSize: 14)
     @State var showSortingOptions: Bool = false
-    @State var selectedSortOption: Int = 1
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -51,9 +50,9 @@ struct TodoListView: View {
         }
         isEditing = false
     }
-    var dateFilteredTodos: [TodoContent] {
-        return todoListContainer.todoList.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDateContainer.selectedDate) }
-    }
+//    var dateFilteredTodos: [TodoContent] {
+//        return todoListContainer.todoList.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDateContainer.selectedDate) }
+//    }
     
 //    var progressFilteredTodos: [TodoContent] {
 //
@@ -173,7 +172,7 @@ struct TodoListView: View {
                 .ignoresSafeArea(.all)
             VStack {
                 Spacer()
-                SortOptionsView(selectedSortOption: $selectedSortOption, showSortingOptions: $showSortingOptions)
+                SortOptionsView(showSortingOptions: $showSortingOptions)
                     .frame(width: UIScreen.main.bounds.width - 40, height: 150)
                     .offset(x: 100, y: -UIScreen.main.bounds.width / 1.5)
                     .animation(.spring())

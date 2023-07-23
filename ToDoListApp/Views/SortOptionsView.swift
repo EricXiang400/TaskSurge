@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 struct SortOptionsView: View {
-    @Binding var selectedSortOption: Int
+    @EnvironmentObject var curUserContainer: AppUser
+    @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showSortingOptions: Bool
     var body: some View {
         VStack(alignment: .leading) {
@@ -17,22 +18,23 @@ struct SortOptionsView: View {
                 .font(.headline)
                 .padding(.horizontal)
             Button(action: {
-                selectedSortOption = 1
                 showSortingOptions = false
-            }) {
-                Text("Name")
-            }
-            .padding(.horizontal)
-            Button(action: {
-                selectedSortOption = 2
-                showSortingOptions = false
+                todoListContainer.todoList.sort(by: {$0.date < $1.date})
+                todoListContainer.saveLocalData()
+                if curUserContainer.curUser != nil {
+                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                }
             }) {
                 Text("Date")
             }
             .padding(.horizontal)
             Button(action: {
-                selectedSortOption = 3
                 showSortingOptions = false
+                todoListContainer.todoList.sort(by: {$0.progress < $1.progress})
+                todoListContainer.saveLocalData()
+                if curUserContainer.curUser != nil {
+                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                }
             }) {
                 Text("Progress")
             }
