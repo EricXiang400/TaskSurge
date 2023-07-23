@@ -21,6 +21,7 @@ struct TodoListView: View {
     @State var taskDescription: String = ""
     @State private var selectedFont: UIFont = UIFont.systemFont(ofSize: 14)
     @State var showSortingOptions: Bool = false
+    
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -102,6 +103,7 @@ struct TodoListView: View {
                                 if todoListContainer.todoList[todoIndex].content != "" {
                                     if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
                                         objectIndex = todoIndex
+                                        showConfirmationSheet = true
                                     } else {
                                         todoListContainer.todoList[todoIndex].completed.toggle()
                                     }
@@ -164,6 +166,7 @@ struct TodoListView: View {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
                 }
             }
+            
         if showSortingOptions {
             Color.white.opacity(0.1)
                 .onTapGesture {

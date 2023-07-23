@@ -23,6 +23,7 @@ struct TodoContent: Hashable, Codable, Identifiable {
         case priority
         case progress
     }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
@@ -40,6 +41,7 @@ struct TodoContent: Hashable, Codable, Identifiable {
             throw fatalError("Invalid Date Format")
         }
     }
+    
     init(content: String, completed: Bool, date: Date) {
         TodoContent.lastAssignedID += 1
         id = TodoContent.lastAssignedID

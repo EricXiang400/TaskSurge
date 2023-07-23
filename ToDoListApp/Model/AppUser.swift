@@ -10,4 +10,5 @@ import Firebase
 
 final class AppUser: ObservableObject {
     @Published var curUser: User? = Auth.auth().currentUser
+    @Published var sortOption: Int? = 0
 }
