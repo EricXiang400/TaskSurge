@@ -36,7 +36,6 @@ struct TodoContent: Hashable, Codable, Identifiable {
 
         if let date = dateFormatter.date(from: dateString) {
             self.date = date
-            TodoContent.lastAssignedID = id
         } else {
             throw fatalError("Invalid Date Format")
         }
