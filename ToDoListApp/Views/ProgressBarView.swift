@@ -48,7 +48,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                     presentPopOver = true
                 }
                 .popover(isPresented: $presentPopOver) {
-                    PopOverContent(todoContent: $todoContent)
+                    PopOverContent(todoContent: $todoContent, presentPopOver: $presentPopOver)
                 }
             }
             .frame(width: 125)
@@ -62,9 +62,12 @@ struct PopOverContent: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
+    @Binding var presentPopOver: Bool
     var body: some View {
         Button(action: {
             updateProgress(increment: 15.0)
+            sortTask()
+            presentPopOver = false
             todoListContainer.saveLocalData()
             if curUserContainer.curUser != nil {
                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -81,6 +84,8 @@ struct PopOverContent: View {
         
         Button(action: {
             updateProgress(increment: -15.0)
+            sortTask()
+            presentPopOver = false
             todoListContainer.saveLocalData()
             if curUserContainer.curUser != nil {
                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -97,6 +102,8 @@ struct PopOverContent: View {
         
         Button(action: {
             todoContent.progress = 0
+            sortTask()
+            presentPopOver = false
             todoListContainer.saveLocalData()
             if curUserContainer.curUser != nil {
                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -117,6 +124,14 @@ struct PopOverContent: View {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        }
+    }
+    
+    func sortTask() {
+        if curUserContainer.sortOption == 0 {
+            todoListContainer.todoList.sort(by: {$1.date < $0.date})
+        } else {
+            todoListContainer.todoList.sort(by: {$0.progress < $1.progress})
         }
     }
 }

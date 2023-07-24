@@ -54,8 +54,6 @@ struct SortOptionsView: View {
                         
                     }
                 }
-                
-                
                 if curUserContainer.sortOption == 1 {
                     HStack {
                         Image(systemName: "checkmark")
