@@ -120,13 +120,11 @@ struct TodoListView: View {
                                     .onTapGesture {
                                         UIApplication.shared.endEditing()
                                     }
-//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                             } else {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                     .onTapGesture {
                                         UIApplication.shared.endEditing()
                                     }
-//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])

@@ -20,6 +20,9 @@ struct MainView: View {
             if showSideMenu {
                 Color.black.opacity(0.5)
                     .ignoresSafeArea(.all)
+                    .onTapGesture {
+                        showSideMenu = false
+                    }
                 HStack {
                     SideMenuView(showSideMenu: $showSideMenu)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
