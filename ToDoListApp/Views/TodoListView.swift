@@ -115,8 +115,14 @@ struct TodoListView: View {
                             if todoListContainer.todoList[todoIndex].completed {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                     .strikethrough(true)
+                                    .onTapGesture {
+                                        UIApplication.shared.endEditing()
+                                    }
                             } else {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                                    .onTapGesture {
+                                        UIApplication.shared.endEditing()
+                                    }
                             }
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
@@ -173,5 +179,12 @@ struct TodoListView: View {
                 }
             }
         }
+        
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
