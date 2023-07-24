@@ -8,8 +8,9 @@
 import Foundation
 
 struct TodoContent: Hashable, Codable, Identifiable {
+    
     static var lastAssignedID: Int = 0
-    var id: Int
+    var id: UUID
     var content: String
     var completed: Bool
     var date: Date
@@ -26,7 +27,7 @@ struct TodoContent: Hashable, Codable, Identifiable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(Int.self, forKey: .id)
+        id = try container.decode(UUID.self, forKey: .id)
         content = try container.decode(String.self, forKey: .content)
         completed = try container.decode(Bool.self, forKey: .completed)
         priority = try container.decode(Double.self, forKey: .priority)
@@ -43,8 +44,7 @@ struct TodoContent: Hashable, Codable, Identifiable {
     }
     
     init(content: String, completed: Bool, date: Date) {
-        TodoContent.lastAssignedID += 1
-        id = TodoContent.lastAssignedID
+        id = UUID()
         self.content = content
         self.completed = completed
         self.date = date
