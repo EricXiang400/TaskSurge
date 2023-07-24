@@ -51,13 +51,6 @@ struct TodoListView: View {
         }
         isEditing = false
     }
-//    var dateFilteredTodos: [TodoContent] {
-//        return todoListContainer.todoList.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDateContainer.selectedDate) }
-//    }
-    
-//    var progressFilteredTodos: [TodoContent] {
-//
-//    }
     
     var body: some View {
         ZStack {
@@ -99,7 +92,7 @@ struct TodoListView: View {
                             todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                         }
                         HStack {
-                            Button {
+                            Button(action: {
                                 if todoListContainer.todoList[todoIndex].content != "" {
                                     if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
                                         objectIndex = todoIndex
@@ -114,12 +107,10 @@ struct TodoListView: View {
                                 if curUserContainer.curUser != nil {
                                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                                 }
-                            } label: {
-                                Label("Toggle Selected", systemImage: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-                                    .labelStyle(.iconOnly)
+                            }) {
+                                Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
                                     .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                             }
-                            .contentShape(Circle())
                             .padding(5)
                             if todoListContainer.todoList[todoIndex].completed {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
@@ -167,20 +158,20 @@ struct TodoListView: View {
                 }
             }
             
-        if showSortingOptions {
-            Color.white.opacity(0.1)
-                .onTapGesture {
-                    showSortingOptions = false
+            if showSortingOptions {
+                Color.white.opacity(0.1)
+                    .onTapGesture {
+                        showSortingOptions = false
+                    }
+                    .ignoresSafeArea(.all)
+                VStack {
+                    Spacer()
+                    SortOptionsView(showSortingOptions: $showSortingOptions)
+                        .frame(width: UIScreen.main.bounds.width - 40, height: 150)
+                        .offset(x: 100, y: -UIScreen.main.bounds.width / 1.5)
+                        .animation(.spring())
                 }
-                .ignoresSafeArea(.all)
-            VStack {
-                Spacer()
-                SortOptionsView(showSortingOptions: $showSortingOptions)
-                    .frame(width: UIScreen.main.bounds.width - 40, height: 150)
-                    .offset(x: 100, y: -UIScreen.main.bounds.width / 1.5)
-                    .animation(.spring())
             }
         }
-    }
     }
 }

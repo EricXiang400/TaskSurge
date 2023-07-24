@@ -11,7 +11,6 @@ import FirebaseAuth
 struct MainView: View {
     @State var showLoginView = false
     @State var showSideMenu = false
-    @GestureState private var dragOffset: CGFloat = 0
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @State var showCalendar: Bool = true

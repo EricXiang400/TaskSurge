@@ -16,7 +16,6 @@ struct SortOptionsView: View {
         VStack(alignment: .leading) {
             Text("Sort By:")
                 .font(.headline)
-                .padding(.horizontal)
             Button(action: {
                 showSortingOptions = false
                 todoListContainer.todoList.sort(by: {$1.date < $0.date})
@@ -24,8 +23,20 @@ struct SortOptionsView: View {
                 if curUserContainer.curUser != nil {
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
+                curUserContainer.sortOption = 0
             }) {
-                Text("Date")
+                if curUserContainer.sortOption == 0 {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.blue)
+                        Text("Date")
+                    }
+                } else {
+                    HStack {
+                        Text("Date")
+                    }
+                    .padding(.horizontal)
+                }
             }
             .padding(.horizontal)
             Button(action: {
@@ -35,8 +46,28 @@ struct SortOptionsView: View {
                 if curUserContainer.curUser != nil {
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
+                curUserContainer.sortOption = 1
             }) {
-                Text("Progress")
+                
+                HStack {
+                    if curUserContainer.sortOption == 1 {
+                        
+                    }
+                }
+                
+                
+                if curUserContainer.sortOption == 1 {
+                    HStack {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.blue)
+                        Text("Progress")
+                    }
+                } else {
+                    HStack {
+                        Text("Progress")
+                    }
+                    .padding(.horizontal)
+                }
             }
             .padding(.horizontal)
             Spacer()
