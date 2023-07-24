@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9B2A291A75000354F9 /* TodoContent.swift */; };
 		76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9D2A291AD1000354F9 /* SelectedDate.swift */; };
-		76499EA42A292FF6000354F9 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 76499EA32A292FF6000354F9 /* data.json */; };
 		766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766B3F752A5160A4005CA1FE /* ProgressBarView.swift */; };
 		766C75992A5CE92D007F1A2E /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C75982A5CE92D007F1A2E /* SideMenuView.swift */; };
 		766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */; };
@@ -82,7 +81,6 @@
 /* Begin PBXFileReference section */
 		76499E9B2A291A75000354F9 /* TodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContent.swift; sourceTree = "<group>"; };
 		76499E9D2A291AD1000354F9 /* SelectedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDate.swift; sourceTree = "<group>"; };
-		76499EA32A292FF6000354F9 /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		766B3F752A5160A4005CA1FE /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		766C75982A5CE92D007F1A2E /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 				76A8F9622A337CEC00A3AA38 /* Firebase */,
 				76FBAC792A265E7B00A86343 /* Assets.xcassets */,
 				76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */,
-				76499EA32A292FF6000354F9 /* data.json */,
 				76FBAC7B2A265E7B00A86343 /* Preview Content */,
 			);
 			path = ToDoListApp;
@@ -401,7 +398,6 @@
 			files = (
 				76FBAC7D2A265E7B00A86343 /* Preview Assets.xcassets in Resources */,
 				76A8F9212A3121CA00A3AA38 /* GoogleService-Info.plist in Resources */,
-				76499EA42A292FF6000354F9 /* data.json in Resources */,
 				76FBAC7A2A265E7B00A86343 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

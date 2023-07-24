@@ -113,22 +113,26 @@ struct TodoListView: View {
                                     .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                             }
                             .padding(5)
+                            .buttonStyle(PlainButtonStyle())
                             if todoListContainer.todoList[todoIndex].completed {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                     .strikethrough(true)
                                     .onTapGesture {
                                         UIApplication.shared.endEditing()
                                     }
+//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                             } else {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                     .onTapGesture {
                                         UIApplication.shared.endEditing()
                                     }
+//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
                             }
                         }
+                        .contentShape(Rectangle())
                         .alert(isPresented: $showConfirmationSheet) {
                             Alert(
                                 title: Text("Task Completion"),
