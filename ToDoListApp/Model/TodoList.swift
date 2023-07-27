@@ -28,6 +28,7 @@ final class TodoList: ObservableObject {
                 return try decoder.decode([TodoContent].self, from: data)
             }
         } catch {
+            print("No local Data so return []")
             return []
         }
     }

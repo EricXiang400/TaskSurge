@@ -24,7 +24,6 @@ struct SideMenuView: View {
             .opacity (showSideMenu ? 1 : 0)
             MenuContentView(showLoginView: $showLoginView, showSideMenu: $showSideMenu)
         }
-
     }
 }
 

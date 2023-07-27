@@ -10,7 +10,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct MenuContentView: View {
-    @EnvironmentObject private var curUserContainer: AppUser
+    @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
@@ -37,7 +37,7 @@ struct MenuContentView: View {
                     Button("Sign out") {
                         if signOut() {
                             curUserContainer.curUser = nil
-                            todoListContainer.todoList = []
+                            todoListContainer.todoList = TodoList.loadLocalData(user: nil)
                         }
                     }
                 } else {
