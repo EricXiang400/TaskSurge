@@ -39,6 +39,7 @@ struct MenuContentView: View {
                         if signOut() {
                             curUserContainer.curUser = nil
                             todoListContainer.todoList = TodoList.loadLocalData(user: nil)
+                            userSettings.loadLocalSettings(user: curUserContainer.curUser)
                         }
                     }
                 } else {
@@ -66,6 +67,9 @@ struct MenuContentView: View {
             .onChange(of: userSettings.darkMode) { newValue in
                 userSettings.darkMode = newValue
                 userSettings.saveLocalSettings()
+                if curUserContainer.curUser != nil {
+                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                }
             }
         }
     }
