@@ -62,6 +62,7 @@ struct PopOverContent: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
+    @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
     var body: some View {
         Button(action: {
@@ -128,7 +129,7 @@ struct PopOverContent: View {
     }
     
     func sortTask() {
-        if curUserContainer.sortOption == 0 {
+        if userSettings.sortOption == 0 {
             todoListContainer.todoList.sort(by: {$1.date < $0.date})
         } else {
             todoListContainer.todoList.sort(by: {$0.progress < $1.progress})

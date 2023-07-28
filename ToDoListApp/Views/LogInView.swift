@@ -19,7 +19,7 @@ struct LogInView: View {
     @Binding var showSideWindow: Bool
     @State private var error: Error? = nil
     @State var showForgotPasswordView: Bool = false
-
+    @EnvironmentObject var userSettings: UserSettings
     var body: some View {
         VStack {
             Text("Log In")

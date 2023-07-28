@@ -13,6 +13,7 @@ struct TodoListView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
+    @EnvironmentObject private var userSettings: UserSettings
     @State var showConfirmationSheet: Bool = false
     @State var objectIndex: Int? = nil
     @Binding var showCalendar: Bool
@@ -164,6 +165,7 @@ struct TodoListView: View {
                 .listStyle(.plain)
                 .onAppear {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
+                    userSettings.sortOption = UserSettings.loadLocalSettings(user: curUserContainer.curUser)!.sortOption
                 }
             }
             

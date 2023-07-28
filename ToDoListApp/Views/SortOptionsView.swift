@@ -11,21 +11,24 @@ import SwiftUI
 struct SortOptionsView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject private var userSettings: UserSettings
     @Binding var showSortingOptions: Bool
     var body: some View {
         VStack(alignment: .leading) {
             Text("Sort By:")
                 .font(.headline)
             Button(action: {
+                userSettings.sortOption = 0
                 showSortingOptions = false
                 todoListContainer.todoList.sort(by: {$1.date < $0.date})
                 todoListContainer.saveLocalData()
+                userSettings.saveLocalSettings()
                 if curUserContainer.curUser != nil {
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
-                curUserContainer.sortOption = 0
+                
             }) {
-                if curUserContainer.sortOption == 0 {
+                if userSettings.sortOption == 0 {
                     HStack {
                         Image(systemName: "checkmark")
                             .foregroundColor(.blue)
@@ -40,21 +43,16 @@ struct SortOptionsView: View {
             }
             .padding(.horizontal)
             Button(action: {
+                userSettings.sortOption = 1
                 showSortingOptions = false
                 todoListContainer.todoList.sort(by: {$0.progress < $1.progress})
                 todoListContainer.saveLocalData()
+                userSettings.saveLocalSettings()
                 if curUserContainer.curUser != nil {
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
-                curUserContainer.sortOption = 1
             }) {
-                
-                HStack {
-                    if curUserContainer.sortOption == 1 {
-                        
-                    }
-                }
-                if curUserContainer.sortOption == 1 {
+                if userSettings.sortOption == 1 {
                     HStack {
                         Image(systemName: "checkmark")
                             .foregroundColor(.blue)

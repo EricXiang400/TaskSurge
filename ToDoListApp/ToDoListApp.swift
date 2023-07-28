@@ -23,12 +23,14 @@ struct ToDoListApp: App {
     @StateObject private var selectedDate = SelectedDate()
     @StateObject private var todos: TodoList = TodoList()
     @StateObject private var curUser: AppUser = AppUser()
+    @StateObject private var userSettings: UserSettings = UserSettings()
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environmentObject(selectedDate)
                 .environmentObject(todos)
                 .environmentObject(curUser)
+                .environmentObject(userSettings)
                 .preferredColorScheme(colorScheme)
         }
     }

@@ -33,6 +33,8 @@ final class TodoList: ObservableObject {
         }
     }
     
+    
+    
     func saveLocalData() {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -55,6 +57,8 @@ final class TodoList: ObservableObject {
             fatalError("Error encoding or writing")
         }
     }
+    
+    
     
     static func loadLocalUser() -> UserWrapper? {
         let data: Data
