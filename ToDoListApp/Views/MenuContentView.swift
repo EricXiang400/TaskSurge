@@ -12,6 +12,7 @@ import FirebaseAuth
 struct MenuContentView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject var userSettings: UserSettings
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
     var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
@@ -58,6 +59,14 @@ struct MenuContentView: View {
                 }
             }
             .listStyle(.plain)
+            
+            Toggle(isOn: $userSettings.darkMode) {
+                Text("Dark Mode")
+            }
+            .onChange(of: userSettings.darkMode) { newValue in
+                userSettings.darkMode = newValue
+                userSettings.saveLocalSettings()
+            }
         }
     }
     

@@ -165,7 +165,7 @@ struct TodoListView: View {
                 .listStyle(.plain)
                 .onAppear {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
-                    userSettings.sortOption = UserSettings.loadLocalSettings(user: curUserContainer.curUser)!.sortOption
+                    userSettings.loadLocalSettings(user: curUserContainer.curUser)
                 }
             }
             
