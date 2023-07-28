@@ -13,6 +13,7 @@ struct MenuContentView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
+    @State var isShowingSetting: Bool = false
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
     var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
@@ -61,16 +62,23 @@ struct MenuContentView: View {
             }
             .listStyle(.plain)
             
-            Toggle(isOn: $userSettings.darkMode) {
-                Text("Dark Mode")
-            }
-            .onChange(of: userSettings.darkMode) { newValue in
-                userSettings.darkMode = newValue
-                userSettings.saveLocalSettings()
-                if curUserContainer.curUser != nil {
-                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+            HStack {
+                NavigationView {
+                    // Settings button
+                    Button (action: {
+                        isShowingSetting = true
+                    }) {
+                        Image(systemName: "gearshape") // SF Symbol for settings
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
+                    .fullScreenCover(isPresented: $isShowingSetting) {
+                        SettingsView(isShowingSetting: $isShowingSetting)
+                    }
                 }
+                .navigationBarTitle("Home")
             }
+            
         }
     }
     
