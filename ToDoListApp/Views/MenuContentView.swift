@@ -61,24 +61,21 @@ struct MenuContentView: View {
                 }
             }
             .listStyle(.plain)
-            
             HStack {
-                NavigationView {
-                    // Settings button
-                    Button (action: {
-                        isShowingSetting = true
-                    }) {
-                        Image(systemName: "gearshape") // SF Symbol for settings
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    }
-                    .fullScreenCover(isPresented: $isShowingSetting) {
-                        SettingsView(isShowingSetting: $isShowingSetting)
-                    }
+                // Settings button
+                Button (action: {
+                    isShowingSetting = true
+                }) {
+                    Image(systemName: "gearshape") // SF Symbol for settings
+                        .resizable()
+                        .frame(width: 30, height: 30)
                 }
-                .navigationBarTitle("Home")
+                .fullScreenCover(isPresented: $isShowingSetting) {
+                    SettingsView(isShowingSetting: $isShowingSetting)
+                }
+                .padding(.leading)
+                Spacer()
             }
-            
         }
     }
     
