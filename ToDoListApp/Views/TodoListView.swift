@@ -170,7 +170,7 @@ struct TodoListView: View {
             }
             
             if showSortingOptions {
-                Color.white.opacity(0.1)
+                Color.white.opacity(0.0001)
                     .onTapGesture {
                         showSortingOptions = false
                     }
