@@ -13,7 +13,7 @@ struct MenuContentView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
-    @State var isShowingSetting: Bool = false
+    @Binding var isShowingSetting: Bool
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
     var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
@@ -70,9 +70,9 @@ struct MenuContentView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                 }
-                .fullScreenCover(isPresented: $isShowingSetting) {
-                    SettingsView(isShowingSetting: $isShowingSetting)
-                }
+//                .fullScreenCover(isPresented: $isShowingSetting) {
+//                    SettingsView(isShowingSetting: $isShowingSetting)
+//                }
                 .padding(.leading)
                 Spacer()
             }

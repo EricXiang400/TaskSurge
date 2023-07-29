@@ -15,6 +15,7 @@ struct SideMenuView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @Binding var showSideMenu: Bool
     @Environment(\.colorScheme) var colorScheme
+    @Binding var isShowSettingView: Bool
     var body: some View {
         ZStack {
             GeometryReader { _ in
@@ -22,7 +23,7 @@ struct SideMenuView: View {
             }
             .background(Color.primaryColor(for: colorScheme))
             .opacity (showSideMenu ? 1 : 0)
-            MenuContentView(showLoginView: $showLoginView, showSideMenu: $showSideMenu)
+            MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu)
         }
     }
 }

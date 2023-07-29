@@ -17,7 +17,9 @@ struct SettingsView: View {
         VStack {
             HStack {
                 Button (action: {
-                    isShowingSetting = false
+                    withAnimation {
+                        isShowingSetting = false
+                       }
                 }) {
                     Image(systemName: "chevron.left")
                         .imageScale(.large)
