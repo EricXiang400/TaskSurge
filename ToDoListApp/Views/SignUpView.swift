@@ -76,7 +76,6 @@ struct SignUpView: View {
                         .background(Color.blue)
                         .cornerRadius(8)
                 }
-                
             }
         }
         .padding(5)
