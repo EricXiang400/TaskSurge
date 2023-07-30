@@ -27,6 +27,13 @@ struct SettingsView: View {
                 .padding(.leading)
                 Spacer()
             }
+            HStack {
+                Text("Settings")
+                    .font(.title)
+                    .bold()
+                    .padding()
+                Spacer()
+            }
             Spacer()
             VStack {
                 Toggle(isOn: $userSettings.darkMode) {
