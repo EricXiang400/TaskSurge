@@ -118,14 +118,14 @@ struct TodoListView: View {
                             if todoListContainer.todoList[todoIndex].completed {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                     .strikethrough(true)
-//                                    .onTapGesture {
-//                                        UIApplication.shared.endEditing()
-//                                    }
+                                    .onTapGesture {
+                                        UIApplication.shared.endEditing()
+                                    }
                             } else {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-//                                    .onTapGesture {
-//                                        UIApplication.shared.endEditing()
-//                                    }
+                                    .onTapGesture {
+                                        UIApplication.shared.endEditing()
+                                    }
                             }
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
@@ -167,9 +167,9 @@ struct TodoListView: View {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
                 }
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
+//                .onTapGesture {
+//                    UIApplication.shared.endEditing()
+//                }
             }
             
             if showSortingOptions {
