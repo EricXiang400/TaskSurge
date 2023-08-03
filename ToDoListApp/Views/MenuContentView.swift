@@ -56,21 +56,11 @@ struct MenuContentView: View {
             
         
             ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) {index, strElem in
-//                HStack {
-//                    Text(strElem)
-//                    Button {
-//
-//                    } label: {
-//                        Image(systemName: "pencil")
-//                    }
-//                    Button {
-//                        categoryContainer.categories.remove(at: index)
-//                    } label: {
-//                        Image(systemName: "trash")
-//                    }
-//                }
-                CategoryRow(index: index)
+                CategoryRow(category: $categoryContainer.categories[index], delete: {
+                    categoryContainer.categories.remove(at: index)
+                })
             }
+            
             Button (action: {
                 categoryContainer.categories.append("")
             }) {

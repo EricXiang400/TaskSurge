@@ -10,17 +10,16 @@ import SwiftUI
 
 struct CategoryRow: View {
     @EnvironmentObject var categoryContainer: Category
-//    @Binding var category: String
+    @Binding var category: String
     @State var isEditing: Bool = false
-    var index: Int
-    
+    var delete: () -> Void
     var body: some View {
         HStack {
             if isEditing {
-                TextField("Category", text: $categoryContainer.categories[index])
+                TextField("Category", text: $category)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             } else {
-                Text(categoryContainer.categories[index])
+                Text(category)
             }
             Button {
                 isEditing.toggle()
@@ -28,7 +27,7 @@ struct CategoryRow: View {
                 Image(systemName: self.isEditing ? "checkmark" : "pencil")
             }
             Button {
-                categoryContainer.categories.remove(at: index)
+                delete()
             } label: {
                 Image(systemName: "trash")
             }
