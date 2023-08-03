@@ -56,24 +56,30 @@ struct MenuContentView: View {
             
         
             ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) {index, strElem in
-                CategoryRow(category: $categoryContainer.categories[index], delete: {
-                    categoryContainer.categories.remove(at: index)
-                })
+                HStack {
+                    Spacer()
+                    CategoryRow(category: $categoryContainer.categories[index], delete: {
+                        categoryContainer.categories.remove(at: index)
+                    })
+                    Spacer()
+                }
+                
+            }
+            HStack {
+                Spacer()
+                Button (action: {
+                    categoryContainer.categories.append("")
+                }) {
+                    Image(systemName: "plus")
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 125)
+                        .padding(.vertical, 10)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+                Spacer()
             }
             
-            Button (action: {
-                categoryContainer.categories.append("")
-            }) {
-                Circle()
-                    .foregroundColor(.blue)
-                    .frame(width: 25, height: 25)
-                    .overlay(
-                        Image(systemName: "plus")
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                    )
-                    .padding()
-            }
             
             
             Spacer()
