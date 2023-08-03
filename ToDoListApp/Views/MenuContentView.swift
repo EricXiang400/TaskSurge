@@ -13,6 +13,7 @@ struct MenuContentView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var categoryContainer: Category
     @Binding var isShowingSetting: Bool
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
@@ -52,15 +53,40 @@ struct MenuContentView: View {
                     }
                 }
             }
-            List {
-                ForEach(menuItems) { item in
-                    NavigationLink(item.itemName) {
-                        EmptyView()
-                    }
-                    .frame(width: 200, height: 25)
-                }
+            
+        
+            ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) {index, strElem in
+//                HStack {
+//                    Text(strElem)
+//                    Button {
+//
+//                    } label: {
+//                        Image(systemName: "pencil")
+//                    }
+//                    Button {
+//                        categoryContainer.categories.remove(at: index)
+//                    } label: {
+//                        Image(systemName: "trash")
+//                    }
+//                }
+                CategoryRow(index: index)
             }
-            .listStyle(.plain)
+            Button (action: {
+                categoryContainer.categories.append("")
+            }) {
+                Circle()
+                    .foregroundColor(.blue)
+                    .frame(width: 25, height: 25)
+                    .overlay(
+                        Image(systemName: "plus")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                    )
+                    .padding()
+            }
+            
+            
+            Spacer()
             HStack {
                 // Settings button
                 Button (action: {
@@ -77,6 +103,9 @@ struct MenuContentView: View {
                 Spacer()
             }
         }
+        .onAppear {
+            categoryContainer.categories = Category.loadLocalCategories()
+        }
     }
     
     func signOut() -> Bool {
@@ -89,6 +118,7 @@ struct MenuContentView: View {
             return false
         }
     }
+
 }
 
 struct MenuItem: Identifiable, Hashable {
@@ -102,3 +132,5 @@ struct MenuItem: Identifiable, Hashable {
         self.id = MenuItem.lastAssignedID
     }
 }
+
+

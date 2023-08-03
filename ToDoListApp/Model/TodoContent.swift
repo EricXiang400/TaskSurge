@@ -16,6 +16,8 @@ struct TodoContent: Hashable, Codable, Identifiable {
     var date: Date
     var priority: Double
     var progress: Float
+    var category: String
+    
     enum CodingKeys: String, CodingKey {
         case id
         case content
@@ -23,6 +25,7 @@ struct TodoContent: Hashable, Codable, Identifiable {
         case date
         case priority
         case progress
+        case category
     }
     
     init(from decoder: Decoder) throws {
@@ -32,10 +35,10 @@ struct TodoContent: Hashable, Codable, Identifiable {
         completed = try container.decode(Bool.self, forKey: .completed)
         priority = try container.decode(Double.self, forKey: .priority)
         progress = try container.decode(Float.self, forKey: .progress)
+        category = try container.decode(String.self, forKey: .category)
         let dateString = try container.decode(String.self, forKey: .date)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-
         if let date = dateFormatter.date(from: dateString) {
             self.date = date
         } else {
@@ -50,5 +53,6 @@ struct TodoContent: Hashable, Codable, Identifiable {
         self.date = date
         self.priority = 0.0
         self.progress = 0.0
+        self.category = ""
     }
 }
