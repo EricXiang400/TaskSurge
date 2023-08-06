@@ -26,10 +26,12 @@ struct CategoryRow: View {
             } label: {
                 Image(systemName: self.isEditing ? "checkmark" : "pencil")
             }
-            Button {
-                delete()
-            } label: {
-                Image(systemName: "trash")
+            if isEditing {
+                Button {
+                    delete()
+                } label: {
+                    Image(systemName: "trash")
+                }
             }
         }
         .foregroundColor(.black)
