@@ -54,8 +54,7 @@ struct MenuContentView: View {
                 }
             }
             
-        
-            ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) {index, strElem in
+            ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                 HStack {
                     Spacer()
                     CategoryRow(category: $categoryContainer.categories[index], delete: {
@@ -63,12 +62,12 @@ struct MenuContentView: View {
                     })
                     Spacer()
                 }
-                
+                .padding(.horizontal, 10)
             }
             HStack {
                 Spacer()
                 Button (action: {
-                    categoryContainer.categories.append("")
+                    categoryContainer.categories.append("Untitled")
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(.white)
@@ -79,9 +78,6 @@ struct MenuContentView: View {
                 }
                 Spacer()
             }
-            
-            
-            
             Spacer()
             HStack {
                 // Settings button
@@ -92,9 +88,6 @@ struct MenuContentView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                 }
-//                .fullScreenCover(isPresented: $isShowingSetting) {
-//                    SettingsView(isShowingSetting: $isShowingSetting)
-//                }
                 .padding(.leading)
                 Spacer()
             }

@@ -17,10 +17,10 @@ struct CategoryRow: View {
         HStack {
             if isEditing {
                 TextField("Category", text: $category)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
             } else {
                 Text(category)
             }
+            Spacer()
             Button {
                 isEditing.toggle()
             } label: {
@@ -32,5 +32,11 @@ struct CategoryRow: View {
                 Image(systemName: "trash")
             }
         }
+        .foregroundColor(.black)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 10)
+        .background(Color.orange)
+        .cornerRadius(10)
+        
     }
 }
