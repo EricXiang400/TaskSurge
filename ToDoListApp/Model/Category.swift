@@ -34,9 +34,9 @@ final class Category: ObservableObject, Codable {
     
     static func randomColor() -> Color {
         return Color(
-            red: Double.random(in: 0.5..<1),
-            green: Double.random(in: 0.5..<1),
-            blue: Double.random(in: 0.5..<1)
+            red: Double.random(in: 0.3..<1),
+            green: Double.random(in: 0.3..<1),
+            blue: Double.random(in: 0.3..<1)
         )
     }
     
