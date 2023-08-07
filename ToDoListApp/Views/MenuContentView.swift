@@ -59,6 +59,7 @@ struct MenuContentView: View {
                     Spacer()
                     CategoryRow(category: $categoryContainer.categories[index], delete: {
                         categoryContainer.categories.remove(at: index)
+                        categoryContainer.saveLocalCategories()
                     })
                     Spacer()
                 }
