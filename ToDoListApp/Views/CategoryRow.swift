@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CategoryRow: View {
     @EnvironmentObject var categoryContainer: CategoriesData
+    @EnvironmentObject var todoListContainer: TodoList
     @Binding var category: Category
     @State var isEditing: Bool = false
     var delete: () -> Void
@@ -28,8 +29,15 @@ struct CategoryRow: View {
             Button {
                 isEditing.toggle()
             } label: {
-                if !isEditing {
-                    Image(systemName: "pencil")
+                HStack {
+                    if todoListContainer.category == category {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.blue)
+                    }
+                    if !isEditing {
+                        Image(systemName: "pencil")
+                    }
+                    
                 }
             }
             if isEditing {
@@ -45,6 +53,15 @@ struct CategoryRow: View {
         .padding(.vertical, 10)
         .background(category.color)
         .cornerRadius(10)
+        .onTapGesture {
+            todoListContainer.category = category
+            print("Selcted")
+        }
     }
-    
+}
+
+extension Category: Equatable {
+    static func == (lhs: Category, rhs: Category) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

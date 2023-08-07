@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 final class TodoList: ObservableObject {
     @Published var todoList: [TodoContent] = []
+    @Published var category: Category?
 
     static func loadLocalData(user: User?) -> [TodoContent] {
         let data: Data

@@ -74,22 +74,36 @@ struct TodoListView: View {
                             .font(.system(size: 25))
                     }
                     Button(action:{
-                        todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate))
+                        if todoListContainer.category != nil {
+                            todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.category!))
+                        }
                     }) {
-                        Circle()
-                            .foregroundColor(.blue)
-                            .frame(width: 25, height: 25)
-                            .overlay(
-                                Image(systemName: "plus")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.white)
-                            )
+                        if todoListContainer.category == nil {
+                            Circle()
+                                .foregroundColor(.blue)
+                                .frame(width: 25, height: 25)
+                                .overlay(
+                                    Image(systemName: "plus")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.white)
+                                        .opacity(0.5)
+                                )
+                        } else {
+                            Circle()
+                                .foregroundColor(.blue)
+                                .frame(width: 25, height: 25)
+                                .overlay(
+                                    Image(systemName: "plus")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.white)
+                                )
+                        }
                     }
                     .padding(10)
                 }
                 
                 List(todoListContainer.todoList) { todo in
-                    if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) {
+                    if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.category == todo.category {
                         var todoIndex: Int {
                             todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                         }
@@ -167,9 +181,6 @@ struct TodoListView: View {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
                 }
-//                .onTapGesture {
-//                    UIApplication.shared.endEditing()
-//                }
             }
             
             if showSortingOptions {
