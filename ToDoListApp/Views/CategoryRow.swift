@@ -9,22 +9,28 @@ import Foundation
 import SwiftUI
 
 struct CategoryRow: View {
-    @EnvironmentObject var categoryContainer: Category
-    @Binding var category: String
+    @EnvironmentObject var categoryContainer: CategoriesData
+    @Binding var category: Category
     @State var isEditing: Bool = false
     var delete: () -> Void
     var body: some View {
         HStack {
             if isEditing {
-                TextField("Category", text: $category)
+                TextField("Category", text: $category.name, onCommit: {
+                    if category.name != "" {
+                        categoryContainer.saveLocalCategories()
+                    }
+                })
             } else {
-                Text(category)
+                Text(category.name)
             }
             Spacer()
             Button {
                 isEditing.toggle()
             } label: {
-                Image(systemName: self.isEditing ? "checkmark" : "pencil")
+                if !isEditing {
+                    Image(systemName: "pencil")
+                }
             }
             if isEditing {
                 Button {
@@ -37,8 +43,8 @@ struct CategoryRow: View {
         .foregroundColor(.black)
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
-        .background(Color.orange)
+        .background(category.color)
         .cornerRadius(10)
-        
     }
+    
 }

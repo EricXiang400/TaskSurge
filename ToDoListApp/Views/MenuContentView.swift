@@ -13,7 +13,7 @@ struct MenuContentView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
-    @EnvironmentObject var categoryContainer: Category
+    @EnvironmentObject var categoryContainer: CategoriesData
     @Binding var isShowingSetting: Bool
     @Binding var showLoginView: Bool
     @Binding var showSideMenu: Bool
@@ -67,7 +67,8 @@ struct MenuContentView: View {
             HStack {
                 Spacer()
                 Button (action: {
-                    categoryContainer.categories.append("Untitled")
+                    categoryContainer.categories.append(Category(name: "Untitled"))
+                    categoryContainer.saveLocalCategories()
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(.white)
@@ -93,7 +94,7 @@ struct MenuContentView: View {
             }
         }
         .onAppear {
-            categoryContainer.categories = Category.loadLocalCategories()
+            categoryContainer.categories = CategoriesData.loadLocalCategories()
         }
     }
     
