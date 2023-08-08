@@ -69,7 +69,7 @@ struct CategoryRow: View {
         .cornerRadius(10)
         .onTapGesture {
             todoListContainer.category = category
-            print("Selcted")
+            todoListContainer.saveLocalCategory()
         }
     }
 }

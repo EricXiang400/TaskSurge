@@ -96,6 +96,7 @@ struct MenuContentView: View {
         }
         .onAppear {
             categoryContainer.categories = CategoriesData.loadLocalCategories()
+            todoListContainer.category = TodoList.loadLocalCategory(user: curUserContainer.curUser)
         }
     }
     
