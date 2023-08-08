@@ -30,21 +30,35 @@ struct CategoryRow: View {
                 isEditing.toggle()
             } label: {
                 HStack {
-                    if todoListContainer.category == category {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(.blue)
-                    }
-                    if !isEditing {
+                    if todoListContainer.category == category && !isEditing {
                         Image(systemName: "pencil")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.blue)
+                            
+                    } else if !isEditing {
+                        Image(systemName: "pencil")
+                            .resizable()
+                            .frame(width: 20, height: 20)
                     }
-                    
                 }
             }
             if isEditing {
                 Button {
                     delete()
+                    isEditing.toggle()
                 } label: {
                     Image(systemName: "trash")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color(red: 0.9, green: 0, blue: 0))
+                }
+                Button {
+                    isEditing.toggle()
+                } label: {
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .frame(width: 17, height: 17)
                 }
             }
         }
