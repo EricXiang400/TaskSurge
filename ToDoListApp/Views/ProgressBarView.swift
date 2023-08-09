@@ -69,8 +69,8 @@ struct PopOverContent: View {
         VStack {
             Text("\(Int(todoContent.progress))%")
                 .bold()
-            Slider(value: $todoContent.progress, in: 0...100)
-                .padding([.leading, .trailing], 20)
+                Slider(value: $todoContent.progress, in: 0...100)
+                    .padding([.leading, .trailing], 20)
         }
             .padding()
         HStack {
@@ -93,22 +93,25 @@ struct PopOverContent: View {
                     .background(Color.red.opacity(0.2))
                     .cornerRadius(8)
             }
-            Button(action: {
-                todoContent.progress = 100
-                todoContent.completed = true
+            Button  {
+                if todoContent.progress != 100 {
+                    todoContent.completed = false
+                } else {
+                    todoContent.completed = true
+                }
                 sortTask()
                 presentPopOver = false
                 todoListContainer.saveLocalData()
                 if curUserContainer.curUser != nil {
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
-            }) {
-                Text("Complete Task")
+            } label: {
+                Text("Confirm")
                     .font(.headline)
-                    .foregroundColor(.green)
+                    .foregroundColor(.blue)
                     .frame(maxWidth: 135)
                     .padding(.vertical, 12)
-                    .background(Color.green.opacity(0.2))
+                    .background(Color.blue.opacity(0.2))
                     .cornerRadius(8)
             }
             .padding(.leading)
