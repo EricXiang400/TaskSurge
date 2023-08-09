@@ -69,8 +69,8 @@ struct SortOptionsView: View {
             Spacer()
         }
         .padding()
-        .background(colorScheme == .light ? Color.white.opacity(0.9) : Color.white.opacity(0.1))
+        .background(colorScheme == .light ? Color.white : Color.black)
         .cornerRadius(12)
-        .shadow(radius: 5)
+        .shadow(color: .gray.opacity(0.5), radius: 5)
     }
 }
