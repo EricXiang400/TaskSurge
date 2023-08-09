@@ -198,7 +198,7 @@ struct TodoListView: View {
                 VStack {
                     Spacer()
                     SortOptionsView(showSortingOptions: $showSortingOptions)
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 150)
+                        .frame(width: UIScreen.main.bounds.width - 250, height: 150)
                         .offset(x: 100, y: -UIScreen.main.bounds.width / 1.5)
                         .animation(.spring())
                 }

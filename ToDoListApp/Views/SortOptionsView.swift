@@ -18,55 +18,57 @@ struct SortOptionsView: View {
         VStack(alignment: .leading) {
             Text("Sort By:")
                 .font(.headline)
-            Button(action: {
-                userSettings.sortOption = 0
-                showSortingOptions = false
-                todoListContainer.todoList.sort(by: {$1.date < $0.date})
-                todoListContainer.saveLocalData()
-                userSettings.saveLocalSettings()
-                if curUserContainer.curUser != nil {
-                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+            List {
+                Button(action: {
+                    userSettings.sortOption = 0
+                    showSortingOptions = false
+                    todoListContainer.todoList.sort(by: {$1.date < $0.date})
+                    todoListContainer.saveLocalData()
+                    userSettings.saveLocalSettings()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
+                }) {
+                    if userSettings.sortOption == 0 {
+                        HStack {
+                            Text("Date")
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                            Spacer()
+                        }
+                    } else {
+                        HStack {
+                            Text("Date")
+                            Spacer()
+                        }
+                    }
                 }
-            }) {
-                if userSettings.sortOption == 0 {
-                    HStack {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(.blue)
-                        Text("Date")
+                Button(action: {
+                    userSettings.sortOption = 1
+                    showSortingOptions = false
+                    todoListContainer.todoList.sort(by: {$0.progress < $1.progress})
+                    todoListContainer.saveLocalData()
+                    userSettings.saveLocalSettings()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
-                } else {
-                    HStack {
-                        Text("Date")
+                }) {
+                    if userSettings.sortOption == 1 {
+                        HStack {
+                            Text("Progress")
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                            Spacer()
+                        }
+                    } else {
+                        HStack {
+                            Text("Progress")
+                            Spacer()
+                        }
                     }
-                    .padding(.horizontal)
                 }
             }
-            .padding(.horizontal)
-            Button(action: {
-                userSettings.sortOption = 1
-                showSortingOptions = false
-                todoListContainer.todoList.sort(by: {$0.progress < $1.progress})
-                todoListContainer.saveLocalData()
-                userSettings.saveLocalSettings()
-                if curUserContainer.curUser != nil {
-                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                }
-            }) {
-                if userSettings.sortOption == 1 {
-                    HStack {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(.blue)
-                        Text("Progress")
-                    }
-                } else {
-                    HStack {
-                        Text("Progress")
-                    }
-                    .padding(.horizontal)
-                }
-            }
-            .padding(.horizontal)
-            Spacer()
+            .listStyle(PlainListStyle())
         }
         .padding()
         .background(colorScheme == .light ? Color.white : Color.black)

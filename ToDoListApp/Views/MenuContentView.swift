@@ -73,7 +73,6 @@ struct MenuContentView: View {
                 }
             }
             
-            
             HStack {
                 Spacer()
                 Button (action: {
@@ -92,7 +91,9 @@ struct MenuContentView: View {
                 }
                 Spacer()
             }
+            
             Spacer()
+            
             HStack {
                 // Settings button
                 Button (action: {
