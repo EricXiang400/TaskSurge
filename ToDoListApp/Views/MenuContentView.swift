@@ -53,24 +53,27 @@ struct MenuContentView: View {
                     }
                 }
             }
-            
-            ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
-                HStack {
-                    Spacer()
-                    CategoryRow(category: $categoryContainer.categories[index], delete: {
-                        if todoListContainer.category == categoryContainer.categories[index] {
-                            todoListContainer.category = nil
-                        }
-                        categoryContainer.categories.remove(at: index)
-                        categoryContainer.saveLocalCategories()
-                        if curUserContainer.curUser != nil {
-                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                        }
-                    })
-                    Spacer()
+            ScrollView {
+                ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
+                    HStack {
+                        Spacer()
+                        CategoryRow(category: $categoryContainer.categories[index], delete: {
+                            if todoListContainer.category == categoryContainer.categories[index] {
+                                todoListContainer.category = nil
+                            }
+                            categoryContainer.categories.remove(at: index)
+                            categoryContainer.saveLocalCategories()
+                            if curUserContainer.curUser != nil {
+                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                            }
+                        })
+                        Spacer()
+                    }
+                    .padding(.horizontal, 10)
                 }
-                .padding(.horizontal, 10)
             }
+            
+            
             HStack {
                 Spacer()
                 Button (action: {
