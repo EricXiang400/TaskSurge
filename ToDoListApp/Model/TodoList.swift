@@ -92,7 +92,7 @@ final class TodoList: ObservableObject {
                 return try decoder.decode(Category.self, from: data)
             }
         } catch {
-            print("No local Data so return []")
+            print("No local category so return nil")
             return nil
         }
     }

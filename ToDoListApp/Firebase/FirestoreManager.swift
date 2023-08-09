@@ -37,7 +37,7 @@ class FireStoreManager: ObservableObject {
                 }
             }
         } catch {
-            print("Error reading data from document directory")
+            print("Error writing data into firestore")
         }
     }
     

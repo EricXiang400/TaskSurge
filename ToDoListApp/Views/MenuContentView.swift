@@ -60,6 +60,9 @@ struct MenuContentView: View {
                     CategoryRow(category: $categoryContainer.categories[index], delete: {
                         categoryContainer.categories.remove(at: index)
                         categoryContainer.saveLocalCategories()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
                     })
                     Spacer()
                 }
@@ -70,6 +73,9 @@ struct MenuContentView: View {
                 Button (action: {
                     categoryContainer.categories.append(Category(name: "Untitled"))
                     categoryContainer.saveLocalCategories()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(.white)

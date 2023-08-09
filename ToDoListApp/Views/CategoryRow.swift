@@ -11,6 +11,7 @@ import SwiftUI
 struct CategoryRow: View {
     @EnvironmentObject var categoryContainer: CategoriesData
     @EnvironmentObject var todoListContainer: TodoList
+    @EnvironmentObject var curUserContainer: AppUser
     @Binding var category: Category
     @State var isEditing: Bool = false
     var delete: () -> Void
@@ -20,6 +21,9 @@ struct CategoryRow: View {
                 TextField("Category", text: $category.name, onCommit: {
                     if category.name != "" {
                         categoryContainer.saveLocalCategories()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
                     }
                 })
             } else {
@@ -46,6 +50,9 @@ struct CategoryRow: View {
             if isEditing {
                 Button {
                     categoryContainer.saveLocalCategories()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
                     isEditing.toggle()
                 } label: {
                     Image(systemName: "checkmark")
@@ -71,6 +78,9 @@ struct CategoryRow: View {
         .onTapGesture {
             todoListContainer.category = category
             todoListContainer.saveLocalCategory()
+            if curUserContainer.curUser != nil {
+                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+            }
         }
     }
 }
