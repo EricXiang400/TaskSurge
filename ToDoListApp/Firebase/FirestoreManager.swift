@@ -20,12 +20,16 @@ class FireStoreManager: ObservableObject {
         let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
         let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
         let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
+        let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
+        let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
         do {
             let encodedUser = try Data(contentsOf: userFileURL)
             let encodedData = try Data(contentsOf: dataFileURL)
             let encodedSettings = try Data(contentsOf: settingsFileURL)
+            let encodedCategories = try Data(contentsOf: categoriesFileURL)
+            let encodedCategory = try Data(contentsOf: categoryFileURL)
             let userDocumentRef = db.collection("uid").document(uid)
-            userDocumentRef.setData(["user": encodedUser,"data": encodedData, "settings": encodedSettings], merge: true) { error in
+            userDocumentRef.setData(["user": encodedUser,"data": encodedData, "settings": encodedSettings,"categories": encodedCategories, "category": encodedCategory], merge: true) { error in
                 if error != nil {
                     print("Error transfering data")
                 } else {
@@ -54,6 +58,8 @@ class FireStoreManager: ObservableObject {
                     let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
                     let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
                     let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
+                    let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
+                    let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
                     if let userJsonData = encodedData["user"] {
                         try (userJsonData as! Data).write(to: userFileURL)
                         print("user data download success")
@@ -71,6 +77,18 @@ class FireStoreManager: ObservableObject {
                         print("Settings data download success")
                     } else {
                         print("setting field is empty")
+                    }
+                    if let categoriesJsonData = encodedData["categories"] {
+                        try (categoriesJsonData as! Data).write(to: categoriesFileURL)
+                        print("categories data download success")
+                    } else {
+                        print("categoreis field is empty")
+                    }
+                    if let categoryJsonData = encodedData["category"] {
+                        try (categoryJsonData as! Data).write(to: categoryFileURL)
+                        print("category data download success")
+                    } else {
+                        print("category data field is empty")
                     }
                 } catch {
                     print("Error when working with encoded data from cloud")
