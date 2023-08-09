@@ -64,60 +64,57 @@ struct PopOverContent: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
+    @State var progressAmount: Double = 0
     var body: some View {
-        Button(action: {
-            updateProgress(increment: 15.0)
-            sortTask()
-            presentPopOver = false
-            todoListContainer.saveLocalData()
-            if curUserContainer.curUser != nil {
-                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        VStack {
+            Text("\(Int(todoContent.progress))%")
+                .bold()
+            Slider(value: $todoContent.progress, in: 0...100)
+                .padding([.leading, .trailing], 20)
+        }
+            .padding()
+        HStack {
+            Spacer()
+            Button(action: {
+                todoContent.progress = 0
+                todoContent.completed = false
+                sortTask()
+                presentPopOver = false
+                todoListContainer.saveLocalData()
+                if curUserContainer.curUser != nil {
+                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                }
+            }) {
+                Text("Reset Progress")
+                    .font(.headline)
+                    .foregroundColor(.red)
+                    .frame(maxWidth: 135)
+                    .padding(.vertical, 12)
+                    .background(Color.red.opacity(0.2))
+                    .cornerRadius(8)
             }
-        }) {
-            Text("Increase by 15")
-                .font(.headline)
-                .foregroundColor(.blue)
-                .frame(maxWidth: 125)
-                .padding(.vertical, 12)
-                .background(Color.blue.opacity(0.2))
-                .cornerRadius(8)
+            Button(action: {
+                todoContent.progress = 100
+                todoContent.completed = true
+                sortTask()
+                presentPopOver = false
+                todoListContainer.saveLocalData()
+                if curUserContainer.curUser != nil {
+                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                }
+            }) {
+                Text("Complete Task")
+                    .font(.headline)
+                    .foregroundColor(.green)
+                    .frame(maxWidth: 135)
+                    .padding(.vertical, 12)
+                    .background(Color.green.opacity(0.2))
+                    .cornerRadius(8)
+            }
+            .padding(.leading)
+            Spacer()
         }
         
-        Button(action: {
-            updateProgress(increment: -15.0)
-            sortTask()
-            presentPopOver = false
-            todoListContainer.saveLocalData()
-            if curUserContainer.curUser != nil {
-                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-            }
-        }) {
-            Text("Decrease by 15")
-                .font(.headline)
-                .foregroundColor(.red)
-                .frame(maxWidth: 135)
-                .padding(.vertical, 12)
-                .background(Color.red.opacity(0.2))
-                .cornerRadius(8)
-        }
-        
-        Button(action: {
-            todoContent.progress = 0
-            sortTask()
-            presentPopOver = false
-            todoListContainer.saveLocalData()
-            if curUserContainer.curUser != nil {
-                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-            }
-        }) {
-            Text("Reset Progress")
-                .font(.headline)
-                .foregroundColor(.red)
-                .frame(maxWidth: 135)
-                .padding(.vertical, 12)
-                .background(Color.red.opacity(0.2))
-                .cornerRadius(8)
-        }
     }
     private func updateProgress(increment: Float) {
         let newProgress = todoContent.progress + increment
