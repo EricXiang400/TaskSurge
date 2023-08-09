@@ -14,6 +14,7 @@ struct TodoListView: View {
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var categoryContainer: CategoriesData
     @State var showConfirmationSheet: Bool = false
     @State var objectIndex: Int? = nil
     @Binding var showCalendar: Bool
@@ -180,6 +181,11 @@ struct TodoListView: View {
                 .onAppear {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                    categoryContainer.categories = CategoriesData.loadLocalCategories()
+                    let curCategory = TodoList.loadLocalCategory(user: curUserContainer.curUser)
+                    if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                        todoListContainer.category = curCategory
+                    }
                 }
             }
             

@@ -58,6 +58,9 @@ struct MenuContentView: View {
                 HStack {
                     Spacer()
                     CategoryRow(category: $categoryContainer.categories[index], delete: {
+                        if todoListContainer.category == categoryContainer.categories[index] {
+                            todoListContainer.category = nil
+                        }
                         categoryContainer.categories.remove(at: index)
                         categoryContainer.saveLocalCategories()
                         if curUserContainer.curUser != nil {
@@ -102,7 +105,10 @@ struct MenuContentView: View {
         }
         .onAppear {
             categoryContainer.categories = CategoriesData.loadLocalCategories()
-            todoListContainer.category = TodoList.loadLocalCategory(user: curUserContainer.curUser)
+            var curCategory = TodoList.loadLocalCategory(user: curUserContainer.curUser)
+            if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                todoListContainer.category = curCategory
+            }
         }
     }
     
