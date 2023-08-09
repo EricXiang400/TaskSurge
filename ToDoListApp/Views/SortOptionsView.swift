@@ -15,7 +15,7 @@ struct SortOptionsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSortingOptions: Bool
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Sort By:")
                 .font(.headline)
             List {
