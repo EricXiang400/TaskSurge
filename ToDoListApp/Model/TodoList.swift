@@ -103,7 +103,6 @@ final class TodoList: ObservableObject {
             if let curUser = Auth.auth().currentUser {
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-category.json")
                 let encoder = JSONEncoder()
-                encoder.dateEncodingStrategy = .iso8601
                 let encodedData = try encoder.encode(category)
                 try encodedData.write(to: fileURL)
                 print("Category saved successful")
