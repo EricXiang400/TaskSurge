@@ -77,6 +77,7 @@ struct TodoListView: View {
                     Button(action:{
                         if todoListContainer.category != nil {
                             todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.category!))
+                            sortTask()
                         }
                     }) {
                         if todoListContainer.category == nil {
@@ -205,6 +206,23 @@ struct TodoListView: View {
             }
         }
         
+    }
+    func sortTask() {
+        if userSettings.sortOption == 0 {
+            todoListContainer.todoList.sort(by: {
+                if $0.date == $1.date {
+                    return $0.progress < $1.progress
+                }
+                return $1.date < $0.date
+            })
+        } else {
+            todoListContainer.todoList.sort(by: {
+                if $0.progress == $1.progress {
+                    return $1.date < $0.date
+                }
+                return $0.progress < $1.progress
+            })
+        }
     }
 }
 
