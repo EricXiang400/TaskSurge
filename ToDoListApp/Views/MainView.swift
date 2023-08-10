@@ -43,7 +43,6 @@ struct MainView: View {
                         .animation(.easeInOut)
                 }
             }
-                
         }
     }
 }

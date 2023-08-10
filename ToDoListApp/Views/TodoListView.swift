@@ -156,6 +156,7 @@ struct TodoListView: View {
                                     // Handle OK button action
                                     todoListContainer.todoList[objectIndex!].progress = 100.0
                                     todoListContainer.todoList[objectIndex!].completed = true
+                                    sortTask()
                                     todoListContainer.saveLocalData()
                                     if curUserContainer.curUser != nil {
                                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
