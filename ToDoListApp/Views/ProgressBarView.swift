@@ -25,6 +25,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     @EnvironmentObject private var curUserContainer: AppUser
     @Binding var presentPopOver: Bool
     @Binding var todoContent: TodoContent
+    @State var slideBarAmount: Float = 0
     
     func makeBody(configuration: Configuration) -> some View {
         let greenColor = Color(red: 0, green: 0.7, blue: 0)
@@ -46,9 +47,10 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                 }
                 .onTapGesture {
                     presentPopOver = true
+                    
                 }
                 .sheet(isPresented: $presentPopOver) {
-                    PopOverContent(todoContent: $todoContent, presentPopOver: $presentPopOver)
+                    PopOverContent(todoContent: $todoContent, presentPopOver: $presentPopOver, slideBarAmount: $slideBarAmount)
                 }
             }
             .frame(width: 125)
@@ -64,15 +66,19 @@ struct PopOverContent: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
-    @State var progressAmount: Double = 0
+    @Binding var slideBarAmount: Float
+    
     var body: some View {
         VStack {
-            Text("\(Int(todoContent.progress))%")
+            Text("\(Int(slideBarAmount))%")
                 .bold()
-                Slider(value: $todoContent.progress, in: 0...100)
+                Slider(value: $slideBarAmount, in: 0...100)
                     .padding([.leading, .trailing], 20)
         }
             .padding()
+            .onAppear {
+                slideBarAmount = todoContent.progress
+            }
         HStack {
             Spacer()
             Button(action: {
@@ -94,6 +100,7 @@ struct PopOverContent: View {
                     .cornerRadius(8)
             }
             Button  {
+                todoContent.progress = slideBarAmount
                 if todoContent.progress != 100 {
                     todoContent.completed = false
                 } else {
