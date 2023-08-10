@@ -16,9 +16,12 @@ struct MainView: View {
     @State var showCalendar: Bool = true
     @State var isShowSettingView: Bool = false
     @Environment(\.colorScheme) var colorScheme
+    @State var showProgressEditView: Bool = false
+    @State var selectedTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
+    @State var slideBarAmount: Float = 0
     var body: some View {
         ZStack {
-            TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu)
+            TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView)
             if showSideMenu {
                 Color.black.opacity(0.5)
                     .ignoresSafeArea(.all)
@@ -43,6 +46,27 @@ struct MainView: View {
                         .animation(.easeInOut)
                 }
             }
+            if showProgressEditView {
+                ZStack {
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea(.all)
+                        .onTapGesture {
+                            showProgressEditView = false
+                        }
+                        PopOverContent(todoContent: $selectedTodoContent, presentPopOver: $showProgressEditView, slideBarAmount: $slideBarAmount)
+                            .onAppear {
+                                slideBarAmount = selectedTodoContent.progress
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 3, alignment: .bottom)
+                            
+                            .background(colorScheme == .dark ? Color.black.edgesIgnoringSafeArea(.all) : Color.white.edgesIgnoringSafeArea(.all))
+                            .cornerRadius(15)
+                            .offset(y: 300)
+                            .transition(.move(edge: .bottom))
+                            .animation(.easeInOut)
+                }
+            }
+            
         }
     }
 }

@@ -23,6 +23,8 @@ struct TodoListView: View {
     @State var taskDescription: String = ""
     @State private var selectedFont: UIFont = UIFont.systemFont(ofSize: 14)
     @State var showSortingOptions: Bool = false
+    @Binding var selectedTodoContent: TodoContent
+    @Binding var showProgressEditView: Bool
     
     
     func sameDate(date1: Date, date2: Date) -> Bool {
@@ -144,7 +146,8 @@ struct TodoListView: View {
                                     }
                             }
                             if todoListContainer.todoList[todoIndex].content != "" {
-                                ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex])
+                                ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
+                                                showProgressEditView: $showProgressEditView)
                             }
                         }
                         .contentShape(Rectangle())

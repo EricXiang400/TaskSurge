@@ -13,9 +13,11 @@ struct ProgressBarView: View {
     @State private var totalProgress: Float = 100.0
     @State var presentPopOver: Bool = false
     @Binding var todoContent: TodoContent
+    @Binding var selectedTodoContent: TodoContent
+    @Binding var showProgressEditView: Bool
     var body: some View {
         ProgressView(value: todoContent.progress, total: totalProgress)
-            .progressViewStyle(CustomProgressViewStyle(presentPopOver: $presentPopOver, todoContent: $todoContent))
+            .progressViewStyle(CustomProgressViewStyle(presentPopOver: $presentPopOver, todoContent: $todoContent, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView))
     }
 }
 
@@ -25,6 +27,8 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     @EnvironmentObject private var curUserContainer: AppUser
     @Binding var presentPopOver: Bool
     @Binding var todoContent: TodoContent
+    @Binding var selectedTodoContent: TodoContent
+    @Binding var showProgressEditView: Bool
     @State var slideBarAmount: Float = 0
     
     func makeBody(configuration: Configuration) -> some View {
@@ -46,8 +50,9 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                         .font(.system(size: 13))
                 }
                 .onTapGesture {
-                    presentPopOver = true
-                    
+//                    presentPopOver = true
+                    showProgressEditView = true
+                    selectedTodoContent = todoContent
                 }
                 .sheet(isPresented: $presentPopOver) {
                     PopOverContent(todoContent: $todoContent, presentPopOver: $presentPopOver, slideBarAmount: $slideBarAmount)
@@ -67,63 +72,87 @@ struct PopOverContent: View {
     @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
     @Binding var slideBarAmount: Float
-    
+//    @State var actualTodoContent: TodoContent? = nil
     var body: some View {
         VStack {
-            Text("\(Int(slideBarAmount))%")
-                .bold()
-                Slider(value: $slideBarAmount, in: 0...100)
-                    .padding([.leading, .trailing], 20)
-        }
-            .padding()
-            .onAppear {
-                slideBarAmount = todoContent.progress
+            HStack {
+                Spacer()
+                Button {
+                    presentPopOver = false
+                } label: {
+                    Image(systemName: "xmark")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                }
+                .padding()
             }
-        HStack {
             Spacer()
-            Button(action: {
-                todoContent.progress = 0
-                todoContent.completed = false
-                sortTask()
-                presentPopOver = false
-                todoListContainer.saveLocalData()
-                if curUserContainer.curUser != nil {
-                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                }
-            }) {
-                Text("Reset Progress")
-                    .font(.headline)
-                    .foregroundColor(.red)
-                    .frame(maxWidth: 135)
-                    .padding(.vertical, 12)
-                    .background(Color.red.opacity(0.2))
-                    .cornerRadius(8)
+            VStack {
+                Text("\(Int(slideBarAmount))%")
+                    .bold()
+                    Slider(value: $slideBarAmount, in: 0...100)
+                        .padding([.leading, .trailing], 20)
             }
-            Button  {
-                todoContent.progress = slideBarAmount
-                if todoContent.progress != 100 {
-                    todoContent.completed = false
-                } else {
-                    todoContent.completed = true
+                .padding()
+                .onAppear {
+                    slideBarAmount = todoContent.progress
                 }
-                sortTask()
-                presentPopOver = false
-                todoListContainer.saveLocalData()
-                if curUserContainer.curUser != nil {
-                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+            HStack {
+                Spacer()
+                Button(action: {
+                    guard let index = todoListContainer.todoList.firstIndex(where: {todoContent.id == $0.id}) else {
+                        print("Could not find todocontent index")
+                        return
+                    }
+                    todoListContainer.todoList[index].progress = 0
+                    todoListContainer.todoList[index].completed = false
+                    sortTask()
+                    presentPopOver = false
+                    todoListContainer.saveLocalData()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
+                }) {
+                    Text("Reset Progress")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                        .frame(maxWidth: 135)
+                        .padding(.vertical, 12)
+                        .background(Color.red.opacity(0.2))
+                        .cornerRadius(8)
                 }
-            } label: {
-                Text("Confirm")
-                    .font(.headline)
-                    .foregroundColor(.blue)
-                    .frame(maxWidth: 135)
-                    .padding(.vertical, 12)
-                    .background(Color.blue.opacity(0.2))
-                    .cornerRadius(8)
+                Button  {
+                    guard let index = todoListContainer.todoList.firstIndex(where: {todoContent.id == $0.id}) else {
+                        print("Could not find todocontent index")
+                        return
+                    }
+                    todoListContainer.todoList[index].progress = slideBarAmount
+                    if todoListContainer.todoList[index].progress != 100 {
+                        todoListContainer.todoList[index].completed = false
+                    } else {
+                        todoListContainer.todoList[index].completed = true
+                    }
+                    sortTask()
+                    presentPopOver = false
+                    todoListContainer.saveLocalData()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
+                } label: {
+                    Text("Confirm")
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                        .frame(maxWidth: 135)
+                        .padding(.vertical, 12)
+                        .background(Color.blue.opacity(0.2))
+                        .cornerRadius(8)
+                }
+                .padding(.leading)
+                Spacer()
             }
-            .padding(.leading)
             Spacer()
         }
+        
         
     }
     private func updateProgress(increment: Float) {
