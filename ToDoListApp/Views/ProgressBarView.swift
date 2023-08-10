@@ -47,7 +47,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                 .onTapGesture {
                     presentPopOver = true
                 }
-                .popover(isPresented: $presentPopOver) {
+                .sheet(isPresented: $presentPopOver) {
                     PopOverContent(todoContent: $todoContent, presentPopOver: $presentPopOver)
                 }
             }
