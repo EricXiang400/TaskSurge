@@ -31,8 +31,7 @@ struct MainView: View {
                         }
                         
                 ZStack {
-//                    Color.primaryColor(for: colorScheme)
-                    Color.white
+                    Color.primaryColor(for: colorScheme)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                         .ignoresSafeArea(.all)
                         .offset(x: -55)
@@ -52,6 +51,7 @@ struct MainView: View {
                     .background(colorScheme == .dark ? Color.black.edgesIgnoringSafeArea(.all) : Color.white.edgesIgnoringSafeArea(.all)) // Set background color
                     .transition(.move(edge: .leading))
                     .animation(.easeInOut)
+                    .zIndex(1)
             }
             if showProgressEditView {
                     Color.black.opacity(0.5)
