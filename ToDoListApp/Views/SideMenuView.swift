@@ -18,11 +18,11 @@ struct SideMenuView: View {
     @Binding var isShowSettingView: Bool
     var body: some View {
         ZStack {
-            GeometryReader { _ in
-                EmptyView()
-            }
-            .background(Color.primaryColor(for: colorScheme))
-            .opacity (showSideMenu ? 1 : 0)
+//            GeometryReader { _ in
+//                EmptyView()
+//            }
+//            .background(Color.primaryColor(for: colorScheme))
+//            .opacity (showSideMenu ? 1 : 0)
             MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu)
         }
     }

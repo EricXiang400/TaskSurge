@@ -16,6 +16,7 @@ struct MenuContentView: View {
     @EnvironmentObject var categoryContainer: CategoriesData
     @Binding var isShowingSetting: Bool
     @Binding var showLoginView: Bool
+    @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
     var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
     var body: some View {
@@ -114,6 +115,7 @@ struct MenuContentView: View {
                 todoListContainer.category = curCategory
             }
         }
+//        .background(Color.primaryColor(for: colorScheme))
     }
     
     func signOut() -> Bool {
@@ -142,3 +144,8 @@ struct MenuItem: Identifiable, Hashable {
 }
 
 
+extension Color {
+    static func primaryColor(for colorScheme: ColorScheme) -> Color {
+        return colorScheme == .light ? Color.white : Color.black
+    }
+}
