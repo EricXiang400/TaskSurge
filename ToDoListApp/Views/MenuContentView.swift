@@ -54,7 +54,7 @@ struct MenuContentView: View {
                     }
                 }
             }
-            ScrollView {
+            List {
                 ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                     HStack {
                         Spacer()
@@ -67,13 +67,18 @@ struct MenuContentView: View {
                             if curUserContainer.curUser != nil {
                                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                             }
+                                
                         })
                         Spacer()
                     }
-                    .padding(.horizontal, 10)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15))
                 }
+                .listRowSeparator(.hidden)
+                
             }
-            
+            .listRowSeparator(.hidden)
+            .listStyle(.plain)
+            Spacer()
             HStack {
                 Spacer()
                 Button (action: {
@@ -90,11 +95,11 @@ struct MenuContentView: View {
                         .background(Color.blue)
                         .cornerRadius(10)
                 }
+                
                 Spacer()
             }
-            
-            Spacer()
-            
+            .padding()
+                        
             HStack {
                 // Settings button
                 Button (action: {
