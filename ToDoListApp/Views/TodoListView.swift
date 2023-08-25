@@ -63,7 +63,9 @@ struct TodoListView: View {
                 CalenderView()
                 HStack {
                     Button(action: {
-                        showSideMenu = true
+                        withAnimation(.easeInOut) {
+                            showSideMenu = true
+                        }
                     }) {
                         Image(systemName: "line.horizontal.3")
                             .imageScale(.large)

@@ -27,9 +27,10 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            showSideMenu = false
+                            withAnimation(.easeInOut) {
+                                showSideMenu = false
+                            }
                         }
-                        
                 ZStack {
                     Color.primaryColor(for: colorScheme)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
@@ -42,17 +43,17 @@ struct MainView: View {
                 }
                 .zIndex(1)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
-                .animation(.easeInOut)
             }
-            
+
             if isShowSettingView {
                 SettingsView(isShowingSetting: $isShowSettingView)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(colorScheme == .dark ? Color.black.edgesIgnoringSafeArea(.all) : Color.white.edgesIgnoringSafeArea(.all)) // Set background color
+                    .background(colorScheme == .dark ? Color.black.edgesIgnoringSafeArea(.all): Color.white.edgesIgnoringSafeArea(.all)) // Set background color
                     .transition(.move(edge: .leading))
                     .animation(.easeInOut)
                     .zIndex(1)
             }
+            
             if showProgressEditView {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)

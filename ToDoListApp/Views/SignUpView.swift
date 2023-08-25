@@ -88,7 +88,6 @@ struct SignUpView: View {
         }
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
-//                print("sign up error")
                 self.error = error
                 return
             }

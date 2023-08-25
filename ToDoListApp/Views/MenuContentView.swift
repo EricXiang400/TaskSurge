@@ -18,12 +18,15 @@ struct MenuContentView: View {
     @Binding var showLoginView: Bool
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
+    let fromTopTransition = AnyTransition.opacity.combined(with: .offset(y: -25))
     var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Button (action: {
-                    showSideMenu = false
+                    withAnimation(.easeInOut) {
+                        showSideMenu = false
+                    }
                 }) {
                     Image(systemName: "chevron.left")
                         .imageScale(.large)
@@ -54,7 +57,8 @@ struct MenuContentView: View {
                     }
                 }
             }
-            List {
+            
+            ScrollView {
                 ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                     HStack {
                         Spacer()
@@ -67,17 +71,16 @@ struct MenuContentView: View {
                             if curUserContainer.curUser != nil {
                                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                             }
-                                
                         })
                         Spacer()
                     }
                     .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15))
+                    .transition(fromTopTransition)
+                    .animation(.easeInOut)
                 }
-                .listRowSeparator(.hidden)
-                
             }
-            .listRowSeparator(.hidden)
-            .listStyle(.plain)
+            .transition(.identity)
+
             Spacer()
             HStack {
                 Spacer()
@@ -95,11 +98,9 @@ struct MenuContentView: View {
                         .background(Color.blue)
                         .cornerRadius(10)
                 }
-                
                 Spacer()
             }
             .padding()
-                        
             HStack {
                 // Settings button
                 Button (action: {
@@ -133,7 +134,6 @@ struct MenuContentView: View {
             return false
         }
     }
-
 }
 
 struct MenuItem: Identifiable, Hashable {
