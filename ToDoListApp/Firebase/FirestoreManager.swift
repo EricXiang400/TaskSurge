@@ -24,15 +24,10 @@ class FireStoreManager: ObservableObject {
         let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
         do {
             let encodedUser = try Data(contentsOf: userFileURL)
-            print("GOT HERE1")
             let encodedData = try Data(contentsOf: dataFileURL)
-            print("GOT HERE2")
             let encodedSettings = try Data(contentsOf: settingsFileURL)
-            print("GOT HERE3")
             let encodedCategories = try Data(contentsOf: categoriesFileURL)
-            print("GOT HERE4")
             let encodedCategory = try Data(contentsOf: categoryFileURL)
-            print("GOT HERE5")
             let userDocumentRef = db.collection("uid").document(uid)
             userDocumentRef.setData(["user": encodedUser,
                                      "data": encodedData,
