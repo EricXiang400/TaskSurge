@@ -13,6 +13,7 @@ import FirebaseAuth
 struct ReAuthenticationView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject private var categoryContainer: CategoriesData
     @Binding var showReauthenticationView: Bool
     @State var email: String = ""
     @State var password: String = ""
@@ -49,14 +50,15 @@ struct ReAuthenticationView: View {
                 reAuthenticate(email: email, password: password) {
                     userDataDeletion {
                         userAccountDeletion {
+                            print("Firestore data delete success")
                             deleteLocalData()
                             if signOut() {
                                 curUserContainer.curUser = nil
                                 todoListContainer.todoList = []
                                 userSettings.loadLocalSettings(user: curUserContainer.curUser)
                                 isShowingSetting = false
+                                categoryContainer.categories = []
                             }
-                            
                         }
                     }
                 }
@@ -111,7 +113,7 @@ struct ReAuthenticationView: View {
     func userDataDeletion(completion: @escaping () -> Void) {
         let db = Firestore.firestore()
         let userID = Auth.auth().currentUser?.uid
-        db.collection("users").document(userID!).delete() { err in
+        db.collection("uid").document(userID!).delete() { err in
             if let err = err {
                 print("Error deleting user data \(err)")
             } else {
@@ -149,16 +151,18 @@ struct ReAuthenticationView: View {
             print("Failed to access document directory when deleting local user data")
             return
         }
-        let categoryFileURL = documentsURL.appendingPathComponent("\(curUser!.uid)-categories.json")
+        let categoriesFileURL = documentsURL.appendingPathComponent("\(curUser!.uid)-categories.json")
         let settingsFileURL = documentsURL.appendingPathComponent("\(curUser!.uid)-settings.json")
         let userFileURL = documentsURL.appendingPathComponent("\(curUser!.uid)-user.json")
         let dataFileURL = documentsURL.appendingPathComponent("\(curUser!.uid)-data.json")
+        let categoryFileURL = documentsURL.appendingPathComponent("\(curUser!.uid)-category.json")
         do {
             try fileManager.removeItem(at: categoryFileURL)
+            try fileManager.removeItem(at: categoriesFileURL)
             try fileManager.removeItem(at: settingsFileURL)
             try fileManager.removeItem(at: userFileURL)
             try fileManager.removeItem(at: dataFileURL)
-            print("user local data success")
+            print("user local data deletion success")
         } catch {
             print("Error deleting user local data: \(error.localizedDescription)")
         }

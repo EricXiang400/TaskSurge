@@ -32,7 +32,7 @@ struct SignUpView: View {
             SecureField("Enter Password Here", text: $password)
                 .textFieldStyle(CustomTextFieldStyle())
                 .frame(width: UIScreen.main.bounds.width * 0.85)
-            SecureField("Enter Password Here", text: $confirmPassword)
+            SecureField("Re-Enter Password Here", text: $confirmPassword)
                 .textFieldStyle(CustomTextFieldStyle())
                 .frame(width: UIScreen.main.bounds.width * 0.85)
             HStack {
@@ -103,7 +103,15 @@ struct SignUpView: View {
                 let encodedData = try jsonEncoder.encode([] as! [TodoContent])
                 let user = UserWrapper(uid: result!.user.uid, userName: username)
                 let encodedUser = try jsonEncoder.encode(user)
-                userDocumentRef.setData(["user": encodedUser,"data": encodedData])
+                let encodedSetting = try jsonEncoder.encode(UserSettings())
+                let encodedCategories = try jsonEncoder.encode([] as! [Category])
+                let encodedCategory = try jsonEncoder.encode(Category(name: "none"))
+                userDocumentRef.setData(["user": encodedUser,
+                                         "data": encodedData,
+                                         "category": encodedCategory,
+                                         "categories": encodedCategories,
+                                         "settings": encodedSetting
+                                        ])
                 print("Sign-up success")
             } catch {
                 print("Encode empty array into json error")

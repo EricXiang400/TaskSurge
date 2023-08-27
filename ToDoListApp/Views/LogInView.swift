@@ -49,7 +49,9 @@ struct LogInView: View {
                 login(completion: {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                    
                     showLoginView = false
+                    print("ALL OPERATION FINISHED")
                 })
             }) {
                 if email == "" || password == "" {
@@ -109,7 +111,7 @@ struct LogInView: View {
                 curUserContainer.curUser = Auth.auth().currentUser!
                 FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
                     completion()
-                    print("ALL OPERATION FINISHED")
+                    
                 }
             }
         }
