@@ -7,12 +7,15 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAuth
 
 struct SettingsView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
     @Binding var isShowingSetting: Bool
+    @State var showDeleteAccountAlert: Bool = false
+    @State var showReauthenticationView: Bool = false
     var body: some View {
         VStack {
             HStack {
@@ -48,6 +51,31 @@ struct SettingsView: View {
                 }
                 .padding()
                 Spacer()
+            }
+            if curUserContainer.curUser != nil {
+                Button {
+                    showDeleteAccountAlert = true
+                } label: {
+                    Text("Delete Account")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .padding(.horizontal, 75)
+                        .padding(.vertical, 10)
+                        .background(Color.red)
+                        .cornerRadius(8)
+                }
+                .alert(isPresented: $showDeleteAccountAlert) {
+                    Alert(title: Text("Are you sure you want to delete your account?"),
+                          message: Text("Deleting your account will delete all of your user data and profile"),
+                          primaryButton: .default(Text("Confirm")) {
+                        showReauthenticationView = true
+                    },
+                          secondaryButton: .cancel()
+                    )
+                }
+                .sheet(isPresented: $showReauthenticationView) {
+                    ReAuthenticationView(showReauthenticationView: $showReauthenticationView, isShowingSetting: $isShowingSetting)
+                }
             }
         }
     }

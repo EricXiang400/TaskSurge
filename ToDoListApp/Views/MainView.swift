@@ -74,9 +74,7 @@ struct MainView: View {
                         .animation(.easeInOut)
                         .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                         .zIndex(2)
-                
             }
-            
         }
     }
 }

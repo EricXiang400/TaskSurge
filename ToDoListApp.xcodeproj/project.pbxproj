@@ -49,6 +49,7 @@
 		76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9652A3381BD00A3AA38 /* AppUser.swift */; };
 		76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9672A33904900A3AA38 /* TodoList.swift */; };
 		76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */; };
+		76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */; };
 		76F9C4792A6A68C800A60E0D /* SortOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */; };
 		76F9C47B2A72C70D00A60E0D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C47A2A72C70D00A60E0D /* UserSettings.swift */; };
 		76F9C47D2A739A9700A60E0D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C47C2A739A9700A60E0D /* SettingsView.swift */; };
@@ -96,6 +97,7 @@
 		76A8F9652A3381BD00A3AA38 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		76A8F9672A33904900A3AA38 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
 		76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWrapper.swift; sourceTree = "<group>"; };
+		76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthenticationView.swift; sourceTree = "<group>"; };
 		76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOptionsView.swift; sourceTree = "<group>"; };
 		76F9C47A2A72C70D00A60E0D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		76F9C47C2A739A9700A60E0D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
 				76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */,
 				76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */,
+				76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */,
 				766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */,
 				76F9C4842A7B769400A60E0D /* CategoryRow.swift */,
 				76F9C47C2A739A9700A60E0D /* SettingsView.swift */,
@@ -438,6 +441,7 @@
 				76FBAC782A265E7B00A86343 /* MainView.swift in Sources */,
 				76A8F9642A337D0100A3AA38 /* FirestoreManager.swift in Sources */,
 				76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */,
+				76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */,
 				76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */,
 				76F9C4852A7B769400A60E0D /* CategoryRow.swift in Sources */,
 				76898B9D2A8134A7002AD3CC /* CategoriesData.swift in Sources */,
