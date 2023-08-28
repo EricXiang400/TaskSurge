@@ -64,6 +64,7 @@ struct TodoListView: View {
                 HStack {
                     Button(action: {
                         withAnimation(.easeInOut) {
+                            UIApplication.shared.endEditing()
                             showSideMenu = true
                         }
                     }) {
@@ -73,12 +74,14 @@ struct TodoListView: View {
                     .padding(.leading)
                     Spacer()
                     Button (action: {
+                        UIApplication.shared.endEditing()
                         showSortingOptions.toggle()
                     }) {
                         Image(systemName: "line.horizontal.3.decrease.circle")
                             .font(.system(size: 25))
                     }
                     Button(action:{
+                        UIApplication.shared.endEditing()
                         if todoListContainer.category != nil {
                             todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.category!))
                             sortTask()

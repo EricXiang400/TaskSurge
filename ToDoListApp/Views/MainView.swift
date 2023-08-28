@@ -24,7 +24,6 @@ struct MainView: View {
             TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView)
                 .zIndex(0)
             if showSideMenu {
-                
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {

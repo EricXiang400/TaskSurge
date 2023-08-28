@@ -51,6 +51,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                 }
                 .onTapGesture {
 //                    presentPopOver = true
+                    UIApplication.shared.endEditing()
                     showProgressEditView = true
                     selectedTodoContent = todoContent
                 }
