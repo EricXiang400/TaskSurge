@@ -30,6 +30,8 @@ struct CategoryRow: View {
                 })
             } else {
                 Text(category.name)
+                    .font(.system(size: 20, weight: .bold, design: .default))
+                        .cornerRadius(5)
             }
             Spacer()
             Button {
@@ -65,9 +67,7 @@ struct CategoryRow: View {
                         .frame(width: 18, height: 18)
                 }
                 Button {
-//                    withAnimation(.easeOut) {
-                        delete()
-//                    }
+                    delete()
                     UIApplication.shared.endEditing()
                     toggleUIUpdate.toggle()
                 } label: {

@@ -20,7 +20,7 @@ struct MenuContentView: View {
     @Binding var showSideMenu: Bool
     @State var categoryIndex: Int = 0
     let fromTopTransition = AnyTransition.opacity.combined(with: .offset(y: -25))
-    var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -42,12 +42,17 @@ struct MenuContentView: View {
                     .padding(.leading, 18)
                 if curUserContainer.curUser != nil {
                     Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
-                    Button("Sign out") {
+                        .bold()
+                    Button {
                         if signOut() {
                             curUserContainer.curUser = nil
                             todoListContainer.todoList = TodoList.loadLocalData(user: nil)
                             userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                            todoListContainer.category = nil
                         }
+                    } label: {
+                        Text("Sign Out")
+                            .bold()
                     }
                 } else {
                     Button("Log in") {
