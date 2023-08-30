@@ -33,8 +33,8 @@ struct CategoryRow: View {
             }
             Spacer()
             Button {
-                toggleUIUpdate.toggle()
                 category.isEditing.toggle()
+                toggleUIUpdate.toggle()
             } label: {
                 HStack {
                     if todoListContainer.category == category && !category.isEditing {
@@ -52,11 +52,11 @@ struct CategoryRow: View {
             }
             if category.isEditing {
                 Button {
+                    category.isEditing = false
                     categoryContainer.saveLocalCategories()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
-                    category.isEditing.toggle()
                     UIApplication.shared.endEditing()
                     toggleUIUpdate.toggle()
                 } label: {
