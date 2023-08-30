@@ -60,7 +60,7 @@ struct TodoListView: View {
     var body: some View {
         ZStack {
             VStack {
-                CalenderView()
+                CalendarView()
                 HStack {
                     Button(action: {
                         withAnimation(.easeInOut) {

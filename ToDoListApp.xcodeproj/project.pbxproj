@@ -63,7 +63,7 @@
 		76FBAC912A265E7B00A86343 /* ToDoListAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC902A265E7B00A86343 /* ToDoListAppUITests.swift */; };
 		76FBAC932A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC922A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift */; };
 		76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC9F2A2663CE00A86343 /* TodoListView.swift */; };
-		76FBACA42A26649000A86343 /* CalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBACA32A26649000A86343 /* CalenderView.swift */; };
+		76FBACA42A26649000A86343 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBACA32A26649000A86343 /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,7 +114,7 @@
 		76FBAC902A265E7B00A86343 /* ToDoListAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppUITests.swift; sourceTree = "<group>"; };
 		76FBAC922A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		76FBAC9F2A2663CE00A86343 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
-		76FBACA32A26649000A86343 /* CalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderView.swift; sourceTree = "<group>"; };
+		76FBACA32A26649000A86343 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +184,7 @@
 				766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */,
 				76F9C4842A7B769400A60E0D /* CategoryRow.swift */,
 				76F9C47C2A739A9700A60E0D /* SettingsView.swift */,
-				76FBACA32A26649000A86343 /* CalenderView.swift */,
+				76FBACA32A26649000A86343 /* CalendarView.swift */,
 				766B3F752A5160A4005CA1FE /* ProgressBarView.swift */,
 			);
 			path = Views;
@@ -446,7 +446,7 @@
 				76F9C4852A7B769400A60E0D /* CategoryRow.swift in Sources */,
 				76898B9D2A8134A7002AD3CC /* CategoriesData.swift in Sources */,
 				76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */,
-				76FBACA42A26649000A86343 /* CalenderView.swift in Sources */,
+				76FBACA42A26649000A86343 /* CalendarView.swift in Sources */,
 				76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */,
 				76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */,
 				76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */,

@@ -55,12 +55,16 @@ struct MenuContentView: View {
                             .bold()
                     }
                 } else {
-                    Button("Log in") {
+                    Button {
                         showLoginView = true
+                    } label: {
+                        Text("Log In")
+                            .bold()
                     }
                     .sheet(isPresented: $showLoginView) {
                         LogInView(showLoginView: $showLoginView, showSideWindow: $showSideMenu)
                     }
+                    
                 }
             }
             
