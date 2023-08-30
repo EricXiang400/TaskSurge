@@ -10,6 +10,7 @@ import Firebase
 final class TodoList: ObservableObject {
     @Published var todoList: [TodoContent] = []
     @Published var category: Category?
+    @Published var editCategory: Category?
 
     static func loadLocalData(user: User?) -> [TodoContent] {
         let data: Data

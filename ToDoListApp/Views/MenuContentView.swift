@@ -18,6 +18,7 @@ struct MenuContentView: View {
     @Binding var showLoginView: Bool
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
+    @State var categoryIndex: Int = 0
     let fromTopTransition = AnyTransition.opacity.combined(with: .offset(y: -25))
     var menuItems: [MenuItem] = [MenuItem(itemName: "Feedbacks"), MenuItem(itemName: "Privacy"), MenuItem(itemName: "About Us")]
     var body: some View {
@@ -62,7 +63,7 @@ struct MenuContentView: View {
                 ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                     HStack {
                         Spacer()
-                        CategoryRow(category: $categoryContainer.categories[index], delete: {
+                        CategoryRow(category: $categoryContainer.categories[index], categoryIndex: $categoryIndex, localCategoryIndex: index,delete: {
                             if todoListContainer.category == categoryContainer.categories[index] {
                                 todoListContainer.category = nil
                             }
@@ -85,6 +86,7 @@ struct MenuContentView: View {
             HStack {
                 Spacer()
                 Button (action: {
+                    UIApplication.shared.endEditing()
                     categoryContainer.categories.append(Category(name: "Untitled"))
                     categoryContainer.saveLocalCategories()
                     if curUserContainer.curUser != nil {
@@ -104,6 +106,7 @@ struct MenuContentView: View {
             HStack {
                 // Settings button
                 Button (action: {
+                    UIApplication.shared.endEditing()
                     isShowingSetting = true
                 }) {
                     Image(systemName: "gearshape") // SF Symbol for settings
@@ -121,7 +124,6 @@ struct MenuContentView: View {
                 todoListContainer.category = curCategory
             }
         }
-//        .background(Color.primaryColor(for: colorScheme))
     }
     
     func signOut() -> Bool {
@@ -154,3 +156,4 @@ extension Color {
         return colorScheme == .light ? Color.white : Color.black
     }
 }
+

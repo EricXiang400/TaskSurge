@@ -83,7 +83,10 @@ struct TodoListView: View {
                     Button(action:{
                         UIApplication.shared.endEditing()
                         if todoListContainer.category != nil {
-                            todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.category!))
+                            withAnimation(.easeInOut) {
+                                todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.category!)
+                                    )
+                            }
                             sortTask()
                         }
                     }) {

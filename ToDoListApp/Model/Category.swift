@@ -10,6 +10,7 @@ import Firebase
 import SwiftUI
 final class Category: ObservableObject, Codable {
     @Published var name: String
+    @Published var isEditing: Bool
     var color: Color
     var id: UUID
     
@@ -17,18 +18,21 @@ final class Category: ObservableObject, Codable {
         case id
         case name
         case color
+        case isEditing
     }
     
     init(name: String) {
         self.id = UUID()
         self.name = name
         self.color = Category.randomColor()
+        self.isEditing = false
     }
     
-    init(id: UUID, name: String, color: Color) {
+    init(id: UUID, name: String, color: Color, isEditing: Bool) {
         self.id = id
         self.name = name
         self.color = color
+        self.isEditing = isEditing
     }
 
     
@@ -45,6 +49,7 @@ final class Category: ObservableObject, Codable {
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(color, forKey: .color)
+        try container.encode(isEditing, forKey: .isEditing)
     }
     
     convenience init(from decoder: Decoder) throws {
@@ -52,7 +57,8 @@ final class Category: ObservableObject, Codable {
         let id = try container.decode(UUID.self, forKey: .id)
         let name = try container.decode(String.self, forKey: .name)
         let color = try container.decode(Color.self, forKey: .color)
-        self.init(id: id, name: name, color: color)
+        let isEditing = try container.decode(Bool.self, forKey: .isEditing)
+        self.init(id: id, name: name, color: color, isEditing: isEditing)
     }
 }
 

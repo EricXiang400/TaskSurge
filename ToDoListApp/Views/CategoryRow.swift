@@ -13,11 +13,13 @@ struct CategoryRow: View {
     @EnvironmentObject var todoListContainer: TodoList
     @EnvironmentObject var curUserContainer: AppUser
     @Binding var category: Category
-    @State var isEditing: Bool = false
+    @Binding var categoryIndex: Int
+    @State var toggleUIUpdate: Bool = false
+    var localCategoryIndex: Int
     var delete: () -> Void
     var body: some View {
         HStack {
-            if isEditing {
+            if category.isEditing {
                 TextField("Category", text: $category.name, onCommit: {
                     if category.name != "" {
                         categoryContainer.saveLocalCategories()
@@ -31,37 +33,43 @@ struct CategoryRow: View {
             }
             Spacer()
             Button {
-                isEditing.toggle()
+                toggleUIUpdate.toggle()
+                category.isEditing.toggle()
             } label: {
                 HStack {
-                    if todoListContainer.category == category && !isEditing {
+                    if todoListContainer.category == category && !category.isEditing {
                         Image(systemName: "pencil")
                             .resizable()
                             .frame(width: 20, height: 20)
                             .foregroundColor(.blue)
                             
-                    } else if !isEditing {
+                    } else if !category.isEditing {
                         Image(systemName: "pencil")
                             .resizable()
                             .frame(width: 20, height: 20)
                     }
                 }
             }
-            if isEditing {
+            if category.isEditing {
                 Button {
                     categoryContainer.saveLocalCategories()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
-                    isEditing.toggle()
+                    category.isEditing.toggle()
+                    UIApplication.shared.endEditing()
+                    toggleUIUpdate.toggle()
                 } label: {
                     Image(systemName: "checkmark")
                         .resizable()
                         .frame(width: 18, height: 18)
                 }
                 Button {
-                    delete()
-                    isEditing.toggle()
+//                    withAnimation(.easeOut) {
+                        delete()
+//                    }
+                    UIApplication.shared.endEditing()
+                    toggleUIUpdate.toggle()
                 } label: {
                     Image(systemName: "trash")
                         .resizable()
@@ -76,6 +84,11 @@ struct CategoryRow: View {
         .background(category.color)
         .cornerRadius(10)
         .onTapGesture {
+            UIApplication.shared.endEditing()
+            if categoryIndex != localCategoryIndex {
+                categoryContainer.categories[categoryIndex].isEditing = false
+            }
+            categoryIndex = localCategoryIndex
             todoListContainer.category = category
             todoListContainer.saveLocalCategory()
             if curUserContainer.curUser != nil {
