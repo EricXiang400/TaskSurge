@@ -54,8 +54,6 @@ struct CalendarView: View {
             .font(.title)
             let columns = Array(repeating: GridItem(.flexible()), count: 7)
             
-            
-            
             HStack(spacing: 15) {
                 ForEach(daysOfTheWeek, id: \.self) { day in
                     Text(day)
@@ -66,7 +64,21 @@ struct CalendarView: View {
             
             LazyVGrid(columns: columns) {
                 ForEach(getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
-                    Text("\(calendar.component(.day, from: day))")
+                    if selectedDate.selectedDate == day {
+                        Text("\(calendar.component(.day, from: day))")
+                            .frame(width: 30, height: 30)
+                            .background(day == selectedDate.selectedDate ? Color.blue : Color.clear)
+                            .clipShape(Circle())
+                            .foregroundColor(day == selectedDate.selectedDate ? .white : .black)
+                    } else {
+                        Text("\(calendar.component(.day, from: day))")
+                            .frame(width: 30, height: 30)
+                            .background(day == selectedDate.selectedDate ? Color.blue : Color.clear)
+                            .clipShape(Circle())
+                            .onTapGesture {
+                                selectedDate.selectedDate = day
+                            }
+                    }
                 }
             }
         }
@@ -104,7 +116,6 @@ struct CalendarView: View {
         let output: [Date] = range.compactMap { day in
             calendar.date(byAdding: .day, value: day - 1, to: startOfMonth)
         }
-        
         return output
     }
     func getAllDatesWithRollOverDates(date: Date) -> [Date] {
