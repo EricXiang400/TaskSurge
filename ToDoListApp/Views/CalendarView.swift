@@ -52,7 +52,10 @@ struct CalendarView: View {
             }
             .padding()
             .font(.title)
-                        
+            let columns = Array(repeating: GridItem(.flexible()), count: 7)
+            
+            
+            
             HStack(spacing: 15) {
                 ForEach(daysOfTheWeek, id: \.self) { day in
                     Text(day)
@@ -61,28 +64,9 @@ struct CalendarView: View {
                 }
             }
             
-            ForEach(showOnlyCurrentWeek ? [currentWeek] : splitIntoWeeks(dates: daysInMonth), id: \.self) { week in
-                HStack(spacing: 15) {
-                    ForEach(week, id: \.self) { date in
-                        if selectedDate.selectedDate == date {
-                            Text("\(calendar.component(.day, from: date))")
-                                .frame(maxWidth: .infinity)
-                                .background(calendar.isDate(date, inSameDayAs: Date()) || date == selectedDate.selectedDate ? Color.blue : Color.gray.opacity(0.2))
-                                .foregroundColor(calendar.isDate(date, inSameDayAs: Date()) || date == selectedDate.selectedDate ? .white : .black)
-                                .cornerRadius(8)
-                                .onTapGesture {
-                                    selectedDate.selectedDate = date
-                                }
-                        } else {
-                            Text("\(calendar.component(.day, from: date))")
-                                .frame(maxWidth: .infinity)
-                                .cornerRadius(8)
-                                .onTapGesture {
-                                    selectedDate.selectedDate = date
-                                }
-                        }
-                        
-                    }
+            LazyVGrid(columns: columns) {
+                ForEach(getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
+                    Text("\(calendar.component(.day, from: day))")
                 }
             }
         }
@@ -109,5 +93,30 @@ struct CalendarView: View {
     
     func toggleView() {
         showOnlyCurrentWeek.toggle()
+    }
+    func getAllDates(date: Date) -> [Date] {
+        let calendar = Calendar.current
+        guard let range = calendar.range(of: .day, in: .month, for: date) else { return [] }
+        
+        // Start of the month
+        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date))!
+        
+        let output: [Date] = range.compactMap { day in
+            calendar.date(byAdding: .day, value: day - 1, to: startOfMonth)
+        }
+        
+        return output
+    }
+    func getAllDatesWithRollOverDates(date: Date) -> [Date] {
+        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date))!
+        let firstWeekDay = calendar.component(.weekday, from: startOfMonth)
+        let lastMonth = calendar.date(byAdding: .month, value: -1, to: date)
+        var output = getAllDates(date: date)
+        var datesInLastMonth : [Date] = getAllDates(date: lastMonth!)
+        let reverseDatesLastMonth = Array(datesInLastMonth.reversed())
+        for i in 0..<firstWeekDay - 1 {
+            output.insert(reverseDatesLastMonth[i], at: 0)
+        }
+        return output
     }
 }
