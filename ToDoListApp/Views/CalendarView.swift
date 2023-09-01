@@ -14,26 +14,13 @@ struct CalendarView: View {
     @State private var currentDate: Date = Date()
     @State private var offset = CGFloat.zero
     @State private var dragOffset = CGFloat.zero
+    @State var dates: [Date] = []
+
 
     
     private let monthArr: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     private let calendar = Calendar.current
     private var daysOfTheWeek: [String] = ["S", "M", "T", "W", "T", "F", "S"]
-    
-    private var daysInMonth: [Date] {
-        guard let range = calendar.range(of: .day, in: .month, for: currentDate) else { return [] }
-        return range.map {
-            calendar.date(byAdding: .day, value: $0 - 1, to: currentDate)!
-        }
-    }
-    
-    private var currentWeek: [Date] {
-        guard let currentDay = calendar.dateComponents([.weekday], from: currentDate).weekday else { return [] }
-        let startOfWeek = calendar.date(byAdding: .day, value: -currentDay + 1, to: currentDate)!
-        return (0..<7).compactMap {
-            calendar.date(byAdding: .day, value: $0, to: startOfWeek)
-        }
-    }
     
     var body: some View {
         VStack(spacing: 10) {
@@ -43,7 +30,15 @@ struct CalendarView: View {
                 Spacer()
                 
                 Spacer()
-                Button(action: previousMonth) {
+                Button(action: {
+//                    withAnimation(.easeInOut) {
+                        if showOnlyCurrentWeek {
+                            previousWeek()
+                        } else {
+                            previousMonth()
+                        }
+//                    }
+                }) {
                     Image(systemName: "arrow.left.circle.fill")
                 }
                 Button {
@@ -53,7 +48,15 @@ struct CalendarView: View {
                 } label: {
                     Image(systemName: showOnlyCurrentWeek ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                 }
-                Button(action: nextMonth) {
+                Button(action: {
+//                    withAnimation {
+                        if showOnlyCurrentWeek {
+                            nextWeek()
+                        } else {
+                            nextMonth()
+                        }
+//                    }
+                }) {
                     Image(systemName: "arrow.right.circle.fill")
                 }
             }
@@ -70,7 +73,7 @@ struct CalendarView: View {
             }
             
             LazyVGrid(columns: columns) {
-                ForEach(showOnlyCurrentWeek ? getWeek(date: selectedDate.selectedDate) : getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
+                ForEach(showOnlyCurrentWeek ? getWeek(date: currentDate) : getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
                     if selectedDate.selectedDate == day {
                         Text("\(calendar.component(.day, from: day))")
                             .frame(width: 30, height: 30)
@@ -94,12 +97,15 @@ struct CalendarView: View {
                         dragOffset = value.translation.width
                     })
                     .onEnded({ value in
-                        if dragOffset > 50 {
-                            previousMonth()
-                        } else if dragOffset < -50 {
-                            nextMonth()
+                        withAnimation {
+                            if dragOffset > 50 {
+                                previousMonth()
+                            } else if dragOffset < -50 {
+                                nextMonth()
+                            }
+                            dragOffset = 0
                         }
-                        dragOffset = 0
+                        
                     })
             )
         }
@@ -142,6 +148,18 @@ struct CalendarView: View {
         }
     }
     
+    func nextWeek() {
+        if let newDate = calendar.date(byAdding: .day, value: +7, to: currentDate) {
+            currentDate = newDate
+        }
+    }
+    
+    func previousWeek() {
+        if let newDate = calendar.date(byAdding: .day, value: -7, to: currentDate) {
+            currentDate = newDate
+        }
+    }
+    
     func toggleView() {
         showOnlyCurrentWeek.toggle()
     }
@@ -169,23 +187,5 @@ struct CalendarView: View {
         }
         return output
     }
-    func nextWeek() {
-        if let newDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDate) {
-            currentDate = newDate
-            offset -= UIScreen.main.bounds.width  // Slide to left
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                offset = 0
-            }
-        }
-    }
-        
-        func previousWeek() {
-            if let newDate = calendar.date(byAdding: .weekOfYear, value: -1, to: currentDate) {
-                currentDate = newDate
-                offset += UIScreen.main.bounds.width  // Slide to right
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    offset = 0
-                }
-            }
-        }
+    
 }
