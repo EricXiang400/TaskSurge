@@ -46,7 +46,11 @@ struct CalendarView: View {
                 Button(action: previousMonth) {
                     Image(systemName: "arrow.left.circle.fill")
                 }
-                Button(action: toggleView) {
+                Button {
+                    withAnimation(.easeInOut) {
+                        toggleView()
+                    }
+                } label: {
                     Image(systemName: showOnlyCurrentWeek ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                 }
                 Button(action: nextMonth) {
