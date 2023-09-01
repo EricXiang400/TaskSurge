@@ -12,6 +12,9 @@ struct CalendarView: View {
     @EnvironmentObject var selectedDate: SelectedDate
     @State private var showOnlyCurrentWeek = false
     @State private var currentDate: Date = Date()
+    @State private var offset = CGFloat.zero
+    @State private var dragOffset = CGFloat.zero
+
     
     private let monthArr: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     private let calendar = Calendar.current
@@ -63,7 +66,7 @@ struct CalendarView: View {
             }
             
             LazyVGrid(columns: columns) {
-                ForEach(getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
+                ForEach(showOnlyCurrentWeek ? getWeek(date: selectedDate.selectedDate) : getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
                     if selectedDate.selectedDate == day {
                         Text("\(calendar.component(.day, from: day))")
                             .frame(width: 30, height: 30)
@@ -81,15 +84,47 @@ struct CalendarView: View {
                     }
                 }
             }
+            .gesture(
+                DragGesture()
+                    .onChanged({ value in
+                        dragOffset = value.translation.width
+                    })
+                    .onEnded({ value in
+                        if dragOffset > 50 {
+                            previousMonth()
+                        } else if dragOffset < -50 {
+                            nextMonth()
+                        }
+                        dragOffset = 0
+                    })
+            )
         }
         .padding()
     }
     
-    func splitIntoWeeks(dates: [Date]) -> [[Date]] {
-        return stride(from: 0, to: dates.count, by: 7).map {
-            Array(dates[$0 ..< min($0 + 7, dates.count)])
+    func getWeek(date: Date) -> [Date] {
+        
+        let datesInLastMonth = getAllDates(date: calendar.date(byAdding: .month, value: -1, to: date)!)
+        let datesInNextMonth = getAllDates(date: calendar.date(byAdding: .month, value: 1, to: date)!)
+        let datesInMonth = datesInLastMonth + getAllDates(date: date) + datesInNextMonth
+        var index = datesInMonth.firstIndex(where: {
+            let component1 = calendar.dateComponents([.month, .day], from: $0)
+            let component2 = calendar.dateComponents([.month, .day], from: date)
+            return component1.month == component2.month && component1.day == component2.day
+        })!
+        var output: [Date] = []
+        let weekDay = calendar.component(.weekday, from: datesInMonth[index])
+        output.append(datesInMonth[index])
+        for i in 0..<weekDay-1 {
+            output.insert(datesInMonth[index - i - 1], at: 0)
         }
+        for i in weekDay+1..<8 {
+            output.append(datesInMonth[index + i - weekDay])
+        }
+        return output
     }
+    
+    
     
     func previousMonth() {
         if let newDate = calendar.date(byAdding: .month, value: -1, to: currentDate) {
@@ -130,4 +165,23 @@ struct CalendarView: View {
         }
         return output
     }
+    func nextWeek() {
+        if let newDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDate) {
+            currentDate = newDate
+            offset -= UIScreen.main.bounds.width  // Slide to left
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                offset = 0
+            }
+        }
+    }
+        
+        func previousWeek() {
+            if let newDate = calendar.date(byAdding: .weekOfYear, value: -1, to: currentDate) {
+                currentDate = newDate
+                offset += UIScreen.main.bounds.width  // Slide to right
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    offset = 0
+                }
+            }
+        }
 }
