@@ -20,7 +20,7 @@ struct CalendarView: View {
     
     private let monthArr: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     private let calendar = Calendar.current
-    private var daysOfTheWeek: [String] = ["S", "M", "T", "W", "T", "F", "S"]
+    private var daysOfTheWeek: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     
     var body: some View {
         VStack(spacing: 10) {
