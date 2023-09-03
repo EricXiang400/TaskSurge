@@ -11,7 +11,6 @@ import SwiftUI
 struct CalendarView: View {
     @EnvironmentObject var selectedDate: SelectedDate
     @State private var showOnlyCurrentWeek = false
-    @State private var currentDate: Date = Date()
     @State private var offset = CGFloat.zero
     @State private var dragOffset = CGFloat.zero
     @State var dates: [Date] = []
@@ -25,7 +24,7 @@ struct CalendarView: View {
     var body: some View {
         VStack(spacing: 10) {
             HStack {
-                Text("\(monthArr[calendar.component(.month, from: currentDate) - 1])-\(String(calendar.component(.year, from: currentDate)))")
+                Text("\(monthArr[calendar.component(.month, from: selectedDate.selectedDate) - 1])-\(String(calendar.component(.year, from: selectedDate.selectedDate)))")
                     .bold()
                 Spacer()
                 
@@ -73,17 +72,17 @@ struct CalendarView: View {
             }
             
             LazyVGrid(columns: columns) {
-                ForEach(showOnlyCurrentWeek ? getWeek(date: currentDate) : getAllDatesWithRollOverDates(date: currentDate), id: \.self) { day in
-                    if selectedDate.selectedDate == day {
-                        Text("\(calendar.component(.day, from: day))")
+                ForEach(showOnlyCurrentWeek ? getWeek(date: selectedDate.selectedDate) : getAllDatesWithRollOverDates(date: selectedDate.selectedDate), id: \.self) { day in
+                    if isSameDate(date1: selectedDate.selectedDate, date2: day) {
+                        Text("\(calendar.component(.day, from: selectedDate.selectedDate))")
                             .frame(width: 30, height: 30)
-                            .background(day == selectedDate.selectedDate ? Color.blue : Color.clear)
+                            .background(Color.blue)
                             .clipShape(Circle())
-                            .foregroundColor(day == selectedDate.selectedDate ? .white : .black)
+                            .foregroundColor(.white)
                     } else {
                         Text("\(calendar.component(.day, from: day))")
                             .frame(width: 30, height: 30)
-                            .background(day == selectedDate.selectedDate ? Color.blue : Color.clear)
+                            .background(Color.clear)
                             .clipShape(Circle())
                             .onTapGesture {
                                 selectedDate.selectedDate = day
@@ -91,6 +90,7 @@ struct CalendarView: View {
                     }
                 }
             }
+            
             .gesture(
                 DragGesture()
                     .onChanged({ value in
@@ -109,6 +109,13 @@ struct CalendarView: View {
                     })
             )
         }
+        .onAppear {
+            print(selectedDate.selectedDate)
+//                if selectedDate.selectedDate == nil {
+                selectedDate.selectedDate = Date()
+//                }
+        }
+        
         .padding()
     }
     
@@ -137,26 +144,26 @@ struct CalendarView: View {
     
     
     func previousMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: -1, to: currentDate) {
-            currentDate = newDate
+        if let newDate = calendar.date(byAdding: .month, value: -1, to: selectedDate.selectedDate) {
+            selectedDate.selectedDate = newDate
         }
     }
     
     func nextMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: 1, to: currentDate) {
-            currentDate = newDate
+        if let newDate = calendar.date(byAdding: .month, value: 1, to: selectedDate.selectedDate) {
+            selectedDate.selectedDate = newDate
         }
     }
     
     func nextWeek() {
-        if let newDate = calendar.date(byAdding: .day, value: +7, to: currentDate) {
-            currentDate = newDate
+        if let newDate = calendar.date(byAdding: .day, value: +7, to: selectedDate.selectedDate) {
+            selectedDate.selectedDate = newDate
         }
     }
     
     func previousWeek() {
-        if let newDate = calendar.date(byAdding: .day, value: -7, to: currentDate) {
-            currentDate = newDate
+        if let newDate = calendar.date(byAdding: .day, value: -7, to: selectedDate.selectedDate) {
+            selectedDate.selectedDate = newDate
         }
     }
     
@@ -186,6 +193,10 @@ struct CalendarView: View {
             output.insert(reverseDatesLastMonth[i], at: 0)
         }
         return output
+    }
+    
+    func isSameDate(date1: Date, date2: Date) -> Bool {
+        return calendar.component(.month, from: date1) == calendar.component(.month, from: date2) && calendar.component(.day, from: date1) == calendar.component(.day, from: date2)
     }
     
 }
