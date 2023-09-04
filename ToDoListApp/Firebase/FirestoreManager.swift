@@ -53,7 +53,7 @@ class FireStoreManager: ObservableObject {
                                      "data": dataDict,
                                      "settings": settingsDict,
                                      "categories": categoriesDict,
-                                     "category": encodedCategory], merge: true) { error in
+                                     "category": categoryDict], merge: true) { error in
                 if error != nil {
                     print("Error transfering data")
                 } else {
@@ -84,32 +84,37 @@ class FireStoreManager: ObservableObject {
                     let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
                     let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
                     let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
-                    if let userJsonData = encodedData["user"] {
-                        try (userJsonData as! Data).write(to: userFileURL)
+                    if let userJsonDictData = encodedData["user"] {
+                        let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
+                        try userJsonData.write(to: userFileURL)
                         print("user data download success")
                     } else {
                         print("User information field is empty")
                     }
-                    if let dataJsonData = encodedData["data"] {
-                        try (dataJsonData as! Data).write(to: dataFileURL)
+                    if let dataJsonDictData = encodedData["data"] {
+                        let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
+                        try dataJsonData.write(to: dataFileURL)
                         print("Content data download success")
                     } else {
                         print("Data field is empty")
                     }
-                    if let settingsJsonData = encodedData["settings"] {
-                        try (settingsJsonData as! Data).write(to: settingsFileURL)
+                    if let settingsJsonDictData = encodedData["settings"] {
+                        let settingsJsonData = try JSONSerialization.data(withJSONObject: settingsJsonDictData)
+                        try settingsJsonData.write(to: settingsFileURL)
                         print("Settings data download success")
                     } else {
                         print("setting field is empty")
                     }
-                    if let categoriesJsonData = encodedData["categories"] {
-                        try (categoriesJsonData as! Data).write(to: categoriesFileURL)
+                    if let categoriesJsonDictData = encodedData["categories"] {
+                        let categoriesJsonData = try JSONSerialization.data(withJSONObject: categoriesJsonDictData)
+                        try categoriesJsonData.write(to: categoriesFileURL)
                         print("categories data download success")
                     } else {
                         print("categoreis field is empty")
                     }
-                    if let categoryJsonData = encodedData["category"] {
-                        try (categoryJsonData as! Data).write(to: categoryFileURL)
+                    if let categoryJsonDictData = encodedData["category"] {
+                        let categoryJsonData = try JSONSerialization.data(withJSONObject: categoryJsonDictData)
+                        try categoryJsonData.write(to: categoryFileURL)
                         print("category data download success")
                     } else {
                         print("category data field is empty")

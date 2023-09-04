@@ -48,7 +48,7 @@ struct MenuContentView: View {
                             curUserContainer.curUser = nil
                             todoListContainer.todoList = TodoList.loadLocalData(user: nil).todoList
                             userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                            todoListContainer.category = nil
+                            todoListContainer.selectedCategory = nil
                         }
                     } label: {
                         Text("Sign Out")
@@ -73,8 +73,8 @@ struct MenuContentView: View {
                     HStack {
                         Spacer()
                         CategoryRow(category: $categoryContainer.categories[index], categoryIndex: $categoryIndex, localCategoryIndex: index,delete: {
-                            if todoListContainer.category == categoryContainer.categories[index] {
-                                todoListContainer.category = nil
+                            if todoListContainer.selectedCategory == categoryContainer.categories[index] {
+                                todoListContainer.selectedCategory = nil
                             }
                             categoryContainer.categories.remove(at: index)
                             categoryContainer.saveLocalCategories()
@@ -128,9 +128,9 @@ struct MenuContentView: View {
         }
         .onAppear {
             categoryContainer.categories = CategoriesData.loadLocalCategories().categories
-            var curCategory = TodoList.loadLocalCategory(user: curUserContainer.curUser)
+            var curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
             if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                todoListContainer.category = curCategory
+                todoListContainer.selectedCategory = curCategory
             }
         }
     }

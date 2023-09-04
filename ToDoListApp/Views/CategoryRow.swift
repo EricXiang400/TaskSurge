@@ -39,7 +39,7 @@ struct CategoryRow: View {
                 toggleUIUpdate.toggle()
             } label: {
                 HStack {
-                    if todoListContainer.category == category && !category.isEditing {
+                    if todoListContainer.selectedCategory == category && !category.isEditing {
                         Image(systemName: "pencil")
                             .resizable()
                             .frame(width: 20, height: 20)
@@ -89,8 +89,8 @@ struct CategoryRow: View {
                 categoryContainer.categories[categoryIndex].isEditing = false
             }
             categoryIndex = localCategoryIndex
-            todoListContainer.category = category
-            todoListContainer.saveLocalCategory()
+            todoListContainer.selectedCategory = category
+            todoListContainer.selectedCategory?.saveLocalCategory()
             if curUserContainer.curUser != nil {
                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
             }

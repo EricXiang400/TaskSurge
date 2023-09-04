@@ -82,15 +82,15 @@ struct TodoListView: View {
                     }
                     Button(action:{
                         UIApplication.shared.endEditing()
-                        if todoListContainer.category != nil {
+                        if todoListContainer.selectedCategory != nil {
                             withAnimation(.easeInOut) {
-                                todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.category!)
+                                todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
                                     )
                             }
                             sortTask()
                         }
                     }) {
-                        if todoListContainer.category == nil {
+                        if todoListContainer.selectedCategory == nil {
                             Circle()
                                 .foregroundColor(.blue)
                                 .frame(width: 25, height: 25)
@@ -115,7 +115,7 @@ struct TodoListView: View {
                 }
                 
                 List(todoListContainer.todoList) { todo in
-                    if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.category == todo.category {
+                    if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
                         var todoIndex: Int {
                             todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                         }
@@ -195,9 +195,9 @@ struct TodoListView: View {
                     todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser).todoList
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
                     categoryContainer.categories = CategoriesData.loadLocalCategories().categories
-                    let curCategory = TodoList.loadLocalCategory(user: curUserContainer.curUser)
+                    let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
                     if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                        todoListContainer.category = curCategory
+                        todoListContainer.selectedCategory = curCategory
                     }
                 }
             }

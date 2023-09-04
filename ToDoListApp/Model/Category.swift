@@ -60,6 +60,49 @@ final class Category: ObservableObject, Codable {
         let isEditing = try container.decode(Bool.self, forKey: .isEditing)
         self.init(id: id, name: name, color: color, isEditing: isEditing)
     }
+    
+    static func loadLocalCategory(user: User?) -> Category? {
+        let data: Data
+        do {
+            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            if let curUser = user {
+                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-category.json")
+                data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                return try decoder.decode(Category.self, from: data)
+            } else {
+                let fileURL = documentDirectory.appendingPathComponent("category.json")
+                data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                return try decoder.decode(Category.self, from: data)
+            }
+        } catch {
+            print("No local category so return nil")
+            return nil
+        }
+    }
+    
+    func saveLocalCategory() {
+        do {
+            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            if let curUser = Auth.auth().currentUser {
+                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-category.json")
+                let encoder = JSONEncoder()
+                let encodedData = try encoder.encode(self)
+                try encodedData.write(to: fileURL)
+                print("Category saved successful")
+            } else {
+                let fileURL = documentDirectory.appendingPathComponent("category.json")
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                let encodedData = try encoder.encode(self)
+                try encodedData.write(to: fileURL)
+                print("Category saved successful")
+            }
+        } catch {
+            fatalError("Error encoding or writing")
+        }
+    }
 }
 
 extension UIColor {
@@ -104,6 +147,7 @@ extension UIColor {
         
         return String(format: "#%02X%02X%02X%02X", red, green, blue, alpha)
     }
+    
 }
 
 extension Color: Codable {
@@ -124,4 +168,6 @@ extension Color: Codable {
         let hexString = uiColor.toHexString()
         try container.encode(hexString)
     }
+    
+    
 }
