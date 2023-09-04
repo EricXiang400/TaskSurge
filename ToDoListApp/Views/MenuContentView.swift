@@ -46,7 +46,7 @@ struct MenuContentView: View {
                     Button {
                         if signOut() {
                             curUserContainer.curUser = nil
-                            todoListContainer.todoList = TodoList.loadLocalData(user: nil)
+                            todoListContainer.todoList = TodoList.loadLocalData(user: nil).todoList
                             userSettings.loadLocalSettings(user: curUserContainer.curUser)
                             todoListContainer.category = nil
                         }
@@ -127,7 +127,7 @@ struct MenuContentView: View {
             }
         }
         .onAppear {
-            categoryContainer.categories = CategoriesData.loadLocalCategories()
+            categoryContainer.categories = CategoriesData.loadLocalCategories().categories
             var curCategory = TodoList.loadLocalCategory(user: curUserContainer.curUser)
             if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                 todoListContainer.category = curCategory

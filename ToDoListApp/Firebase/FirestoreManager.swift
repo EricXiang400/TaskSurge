@@ -24,15 +24,35 @@ class FireStoreManager: ObservableObject {
         let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
         do {
             let encodedUser = try Data(contentsOf: userFileURL)
+            guard let userDict = try? JSONSerialization.jsonObject(with: encodedUser, options: .mutableContainers) as? [String : Any] else {
+                print("Could not serialize user dict")
+                return
+            }
             let encodedData = try Data(contentsOf: dataFileURL)
+            guard let dataDict = try? JSONSerialization.jsonObject(with: encodedData, options: .mutableContainers) as? [String:Any] else {
+                print("Could not serialize data dict")
+                return
+            }
             let encodedSettings = try Data(contentsOf: settingsFileURL)
+            guard let settingsDict = try? JSONSerialization.jsonObject(with: encodedSettings, options: .mutableContainers) as? [String : Any] else {
+                print("Could not serialize setting dict")
+                return
+            }
             let encodedCategories = try Data(contentsOf: categoriesFileURL)
+            guard let categoriesDict = try? JSONSerialization.jsonObject(with: encodedCategories, options: .mutableContainers) as? [String : Any] else {
+                print("Could not serialize categories dict")
+                return
+            }
             let encodedCategory = try Data(contentsOf: categoryFileURL)
+            guard let categoryDict = try? JSONSerialization.jsonObject(with: encodedCategory, options: .mutableContainers) as? [String : Any] else {
+                print("Could not serialize category dict")
+                return
+            }
             let userDocumentRef = db.collection("uid").document(uid)
-            userDocumentRef.setData(["user": encodedUser,
-                                     "data": encodedData,
-                                     "settings": encodedSettings,
-                                     "categories": encodedCategories,
+            userDocumentRef.setData(["user": userDict,
+                                     "data": dataDict,
+                                     "settings": settingsDict,
+                                     "categories": categoriesDict,
                                      "category": encodedCategory], merge: true) { error in
                 if error != nil {
                     print("Error transfering data")

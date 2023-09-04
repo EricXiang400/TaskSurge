@@ -7,12 +7,40 @@
 
 import Foundation
 import Firebase
-final class TodoList: ObservableObject {
-    @Published var todoList: [TodoContent] = []
+
+final class TodoList: ObservableObject, Codable {
+    @Published var todoList: [TodoContent]
     @Published var category: Category?
     @Published var editCategory: Category?
-
-    static func loadLocalData(user: User?) -> [TodoContent] {
+    
+    init(todoList: [TodoContent] = [], category: Category? = nil, editCategory: Category? = nil) {
+        self.todoList = todoList
+        self.category = category
+        self.editCategory = editCategory
+    }
+    
+    convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let todoList = try container.decode([TodoContent].self, forKey: .todoList)
+        let category = try container.decode(Category.self, forKey: .category)
+        let editCategory = try container.decode(Category.self, forKey: .editCategory)
+        self.init(todoList: todoList, category: category, editCategory: editCategory)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case todoList
+        case category
+        case editCategory
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(todoList, forKey: .todoList)
+        try container.encode(category, forKey: .category)
+        try container.encode(editCategory, forKey: .editCategory)
+    }
+    
+    static func loadLocalData(user: User?) -> TodoList {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -21,17 +49,17 @@ final class TodoList: ObservableObject {
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                return try decoder.decode([TodoContent].self, from: data)
+                return try decoder.decode(TodoList.self, from: data)
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                return try decoder.decode([TodoContent].self, from: data)
+                return try decoder.decode(TodoList.self, from: data)
             }
         } catch {
             print("No local Data so return []")
-            return []
+            return TodoList()
         }
     }
 
@@ -42,14 +70,14 @@ final class TodoList: ObservableObject {
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-data.json")
                 let encoder = JSONEncoder()
                 encoder.dateEncodingStrategy = .iso8601
-                let encodedData = try encoder.encode(todoList)
+                let encodedData = try encoder.encode(self)
                 try encodedData.write(to: fileURL)
                 print("Data saved successful")
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 let encoder = JSONEncoder()
                 encoder.dateEncodingStrategy = .iso8601
-                let encodedData = try encoder.encode(todoList)
+                let encodedData = try encoder.encode(self)
                 try encodedData.write(to: fileURL)
                 print("Data saved successful")
             }
@@ -119,5 +147,4 @@ final class TodoList: ObservableObject {
             fatalError("Error encoding or writing")
         }
     }
-    
 }

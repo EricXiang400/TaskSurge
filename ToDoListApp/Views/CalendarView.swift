@@ -30,13 +30,11 @@ struct CalendarView: View {
                 
                 Spacer()
                 Button(action: {
-//                    withAnimation(.easeInOut) {
-                        if showOnlyCurrentWeek {
-                            previousWeek()
-                        } else {
-                            previousMonth()
-                        }
-//                    }
+                    if showOnlyCurrentWeek {
+                        previousWeek()
+                    } else {
+                        previousMonth()
+                    }
                 }) {
                     Image(systemName: "arrow.left.circle.fill")
                 }
@@ -48,13 +46,11 @@ struct CalendarView: View {
                     Image(systemName: showOnlyCurrentWeek ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                 }
                 Button(action: {
-//                    withAnimation {
-                        if showOnlyCurrentWeek {
-                            nextWeek()
-                        } else {
-                            nextMonth()
-                        }
-//                    }
+                    if showOnlyCurrentWeek {
+                        nextWeek()
+                    } else {
+                        nextMonth()
+                    }
                 }) {
                     Image(systemName: "arrow.right.circle.fill")
                 }
@@ -90,7 +86,6 @@ struct CalendarView: View {
                     }
                 }
             }
-            
             .gesture(
                 DragGesture()
                     .onChanged({ value in
@@ -110,17 +105,12 @@ struct CalendarView: View {
             )
         }
         .onAppear {
-            print(selectedDate.selectedDate)
-//                if selectedDate.selectedDate == nil {
-                selectedDate.selectedDate = Date()
-//                }
+            selectedDate.selectedDate = Date()
         }
-        
         .padding()
     }
     
     func getWeek(date: Date) -> [Date] {
-        
         let datesInLastMonth = getAllDates(date: calendar.date(byAdding: .month, value: -1, to: date)!)
         let datesInNextMonth = getAllDates(date: calendar.date(byAdding: .month, value: 1, to: date)!)
         let datesInMonth = datesInLastMonth + getAllDates(date: date) + datesInNextMonth
@@ -140,9 +130,7 @@ struct CalendarView: View {
         }
         return output
     }
-    
-    
-    
+
     func previousMonth() {
         if let newDate = calendar.date(byAdding: .month, value: -1, to: selectedDate.selectedDate) {
             selectedDate.selectedDate = newDate
@@ -170,6 +158,7 @@ struct CalendarView: View {
     func toggleView() {
         showOnlyCurrentWeek.toggle()
     }
+    
     func getAllDates(date: Date) -> [Date] {
         let calendar = Calendar.current
         guard let range = calendar.range(of: .day, in: .month, for: date) else { return [] }
@@ -182,6 +171,7 @@ struct CalendarView: View {
         }
         return output
     }
+    
     func getAllDatesWithRollOverDates(date: Date) -> [Date] {
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date))!
         let firstWeekDay = calendar.component(.weekday, from: startOfMonth)
