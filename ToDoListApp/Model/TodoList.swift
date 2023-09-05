@@ -62,9 +62,7 @@ final class TodoList: ObservableObject, Codable {
             }
         } catch {
             print("No local Data so return []")
-//            print(error.localizedDescription)
-            fatalError(error.localizedDescription)
-//            return TodoList()
+            return TodoList()
         }
     }
 
