@@ -40,7 +40,7 @@ final class TodoList: ObservableObject, Codable {
         try container.encode(editCategory, forKey: .editCategory)
     }
     
-    static func loadLocalData(user: User?) -> TodoList {
+    func loadLocalData(user: User?) {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -50,19 +50,26 @@ final class TodoList: ObservableObject, Codable {
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                print("GOTHERE")
-                return try decoder.decode(TodoList.self, from: data)
+                let output = try decoder.decode(TodoList.self, from: data)
+                self.selectedCategory = output.selectedCategory
+                self.todoList = output.todoList
+                self.editCategory = output.editCategory
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 print(fileURL)
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                return try decoder.decode(TodoList.self, from: data)
+                let output = try decoder.decode(TodoList.self, from: data)
+                self.selectedCategory = output.selectedCategory
+                self.todoList = output.todoList
+                self.editCategory = output.editCategory
             }
         } catch {
             print("No local Data so return []")
-            return TodoList()
+            self.selectedCategory = nil
+            self.todoList = []
+            self.editCategory = nil
         }
     }
 
@@ -84,7 +91,6 @@ final class TodoList: ObservableObject, Codable {
                 let encodedData = try encoder.encode(self)
                 try encodedData.write(to: fileURL)
                 print("Data saved successful")
-                print(fileURL)
             }
         } catch {
             fatalError("Error encoding or writing")
@@ -99,7 +105,8 @@ final class TodoList: ObservableObject, Codable {
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-user.json")
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
-                return try decoder.decode(UserWrapper.self, from: data)
+                let output = try decoder.decode(UserWrapper.self, from: data)
+                return output
             } else {
                 print("Need to be logged in")
                 return nil

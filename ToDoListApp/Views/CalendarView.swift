@@ -10,7 +10,8 @@ import SwiftUI
 
 struct CalendarView: View {
     @EnvironmentObject var selectedDate: SelectedDate
-    @State private var showOnlyCurrentWeek = false
+    @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var curUserContainer: AppUser
     @State private var offset = CGFloat.zero
     @State private var dragOffset = CGFloat.zero
     @State var dates: [Date] = []
@@ -30,7 +31,7 @@ struct CalendarView: View {
                 
                 Spacer()
                 Button(action: {
-                    if showOnlyCurrentWeek {
+                    if userSettings.weekView {
                         previousWeek()
                     } else {
                         previousMonth()
@@ -43,10 +44,10 @@ struct CalendarView: View {
                         toggleView()
                     }
                 } label: {
-                    Image(systemName: showOnlyCurrentWeek ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
+                    Image(systemName: userSettings.weekView ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                 }
                 Button(action: {
-                    if showOnlyCurrentWeek {
+                    if userSettings.weekView {
                         nextWeek()
                     } else {
                         nextMonth()
@@ -68,7 +69,7 @@ struct CalendarView: View {
             }
             
             LazyVGrid(columns: columns) {
-                ForEach(showOnlyCurrentWeek ? getWeek(date: selectedDate.selectedDate) : getAllDatesWithRollOverDates(date: selectedDate.selectedDate), id: \.self) { day in
+                ForEach(userSettings.weekView ? getWeek(date: selectedDate.selectedDate) : getAllDatesWithRollOverDates(date: selectedDate.selectedDate), id: \.self) { day in
                     if isSameDate(date1: selectedDate.selectedDate, date2: day) {
                         Text("\(calendar.component(.day, from: selectedDate.selectedDate))")
                             .frame(width: 30, height: 30)
@@ -106,6 +107,8 @@ struct CalendarView: View {
         }
         .onAppear {
             selectedDate.selectedDate = Date()
+            userSettings.loadLocalSettings(user: curUserContainer.curUser)
+            print(userSettings.weekView)
         }
         .padding()
     }
@@ -156,7 +159,11 @@ struct CalendarView: View {
     }
     
     func toggleView() {
-        showOnlyCurrentWeek.toggle()
+        userSettings.weekView.toggle()
+        userSettings.saveLocalSettings()
+        if curUserContainer.curUser != nil {
+            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        }
     }
     
     func getAllDates(date: Date) -> [Date] {

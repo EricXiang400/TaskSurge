@@ -48,7 +48,7 @@ final class CategoriesData: ObservableObject, Codable {
             print("categories saved failed")
         }
     }
-    static func loadLocalCategories() -> CategoriesData {
+    func loadLocalCategories() {
         let data: Data
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -56,16 +56,18 @@ final class CategoriesData: ObservableObject, Codable {
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-categories.json")
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
-                return try decoder.decode(CategoriesData.self, from: data)
+                let output = try decoder.decode(CategoriesData.self, from: data)
+                self.categories = output.categories
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("categories.json")
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
-                return try decoder.decode(CategoriesData.self, from: data)
+                let output = try decoder.decode(CategoriesData.self, from: data)
+                self.categories = output.categories
             }
         } catch {
             print("No local categories to return")
-            return CategoriesData()
+            self.categories = []
         }
     }
 }

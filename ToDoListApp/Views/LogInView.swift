@@ -47,9 +47,8 @@ struct LogInView: View {
             }
             Button(action: {
                 login(completion: {
-                    todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser!).todoList
+                    todoListContainer.loadLocalData(user: curUserContainer.curUser!)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                    
                     showLoginView = false
                     print("ALL OPERATION FINISHED")
                 })

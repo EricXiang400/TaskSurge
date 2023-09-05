@@ -192,9 +192,9 @@ struct TodoListView: View {
                 }
                 .listStyle(.plain)
                 .onAppear {
-                    todoListContainer.todoList = TodoList.loadLocalData(user: curUserContainer.curUser).todoList
+                    todoListContainer.loadLocalData(user: curUserContainer.curUser)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                    categoryContainer.categories = CategoriesData.loadLocalCategories().categories
+                    categoryContainer.loadLocalCategories()
                     let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
                     if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                         todoListContainer.selectedCategory = curCategory
