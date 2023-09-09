@@ -144,6 +144,7 @@ struct TodoListView: View {
                             .buttonStyle(PlainButtonStyle())
                             if todoListContainer.todoList[todoIndex].completed {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
+                                    .strikethrough(true)
                                     .onTapGesture {
                                         objectIndex = todoIndex
                                         UIApplication.shared.endEditing()
