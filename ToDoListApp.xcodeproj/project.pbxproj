@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9B2A291A75000354F9 /* TodoContent.swift */; };
 		76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9D2A291AD1000354F9 /* SelectedDate.swift */; };
+		765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DB5EE2AACF70F00E17C67 /* TaskView.swift */; };
 		766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766B3F752A5160A4005CA1FE /* ProgressBarView.swift */; };
 		766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */; };
 		76898B9D2A8134A7002AD3CC /* CategoriesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76898B9C2A8134A7002AD3CC /* CategoriesData.swift */; };
@@ -87,6 +88,7 @@
 /* Begin PBXFileReference section */
 		76499E9B2A291A75000354F9 /* TodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContent.swift; sourceTree = "<group>"; };
 		76499E9D2A291AD1000354F9 /* SelectedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDate.swift; sourceTree = "<group>"; };
+		765DB5EE2AACF70F00E17C67 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		766B3F752A5160A4005CA1FE /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
 		76898B9C2A8134A7002AD3CC /* CategoriesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesData.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				76A8F9592A31227C00A3AA38 /* LogInView.swift */,
 				76A8F95B2A3128E300A3AA38 /* SignUpView.swift */,
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
+				765DB5EE2AACF70F00E17C67 /* TaskView.swift */,
 				76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */,
 				76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */,
 				76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */,
@@ -456,6 +459,7 @@
 				76F9C4792A6A68C800A60E0D /* SortOptionsView.swift in Sources */,
 				76F9C4812A7B006D00A60E0D /* Category.swift in Sources */,
 				76A8F95A2A31227C00A3AA38 /* LogInView.swift in Sources */,
+				765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */,
 				76A8F95C2A3128E300A3AA38 /* SignUpView.swift in Sources */,
 				76F9C47B2A72C70D00A60E0D /* UserSettings.swift in Sources */,
 				76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */,

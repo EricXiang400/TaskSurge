@@ -142,28 +142,9 @@ struct TodoListView: View {
                             }
                             .padding(5)
                             .buttonStyle(PlainButtonStyle())
-                            if todoListContainer.todoList[todoIndex].completed {
-                                TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-                                    .strikethrough(true)
-                                    .onTapGesture {
-                                        objectIndex = todoIndex
-                                        UIApplication.shared.endEditing()
-                                        showTaskDetails = true
-                                    }
-                                    .sheet(isPresented: $showTaskDetails) {
-                                        EditTaskView(todoContent: $todoListContainer.todoList[objectIndex!])
-                                    }
-                            } else {
-                                TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-                                    .onTapGesture {
-                                        objectIndex = todoIndex
-                                        UIApplication.shared.endEditing()
-                                        showTaskDetails = true
-                                    }
-                                    .sheet(isPresented: $showTaskDetails) {
-                                        EditTaskView(todoContent: $todoListContainer.todoList[objectIndex!])
-                                    }
-                            }
+                            
+                            TaskView(todoContent: $todoListContainer.todoList[todoIndex])
+                            
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
                                                 showProgressEditView: $showProgressEditView)
