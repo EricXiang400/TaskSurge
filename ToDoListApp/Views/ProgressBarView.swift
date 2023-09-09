@@ -73,7 +73,7 @@ struct PopOverContent: View {
     @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
     @Binding var slideBarAmount: Float
-//    @State var actualTodoContent: TodoContent? = nil
+
     var body: some View {
         VStack {
             HStack {

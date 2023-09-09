@@ -25,6 +25,7 @@ struct TodoListView: View {
     @State var showSortingOptions: Bool = false
     @Binding var selectedTodoContent: TodoContent
     @Binding var showProgressEditView: Bool
+    @State var showTaskDetails: Bool = false
     
     
     func sameDate(date1: Date, date2: Date) -> Bool {
@@ -143,14 +144,23 @@ struct TodoListView: View {
                             .buttonStyle(PlainButtonStyle())
                             if todoListContainer.todoList[todoIndex].completed {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
-                                    .strikethrough(true)
                                     .onTapGesture {
+                                        objectIndex = todoIndex
                                         UIApplication.shared.endEditing()
+                                        showTaskDetails = true
+                                    }
+                                    .sheet(isPresented: $showTaskDetails) {
+                                        EditTaskView(todoContent: $todoListContainer.todoList[objectIndex!])
                                     }
                             } else {
                                 TextField("Task Name", text: $todoListContainer.todoList[todoIndex].content, onCommit: saveDataOnCommit)
                                     .onTapGesture {
+                                        objectIndex = todoIndex
                                         UIApplication.shared.endEditing()
+                                        showTaskDetails = true
+                                    }
+                                    .sheet(isPresented: $showTaskDetails) {
+                                        EditTaskView(todoContent: $todoListContainer.todoList[objectIndex!])
                                     }
                             }
                             if todoListContainer.todoList[todoIndex].content != "" {
