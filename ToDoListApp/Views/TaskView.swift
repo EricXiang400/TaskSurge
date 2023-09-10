@@ -27,9 +27,7 @@ struct TaskView: View {
                 } label: {
                     Color.clear
                 }
-                .sheet(isPresented: $showTaskDetails, onDismiss: {
-                    todoContentCopyPassIn = todoContent
-                }) {
+                .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails) {
                         todoContent = todoContentCopyPassIn
                         saveData()
@@ -47,9 +45,7 @@ struct TaskView: View {
                 } label: {
                     Color.clear
                 }
-                .sheet(isPresented: $showTaskDetails, onDismiss: {
-                    todoContentCopyPassIn = todoContent
-                }) {
+                .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails) {
                         todoContent = todoContentCopyPassIn
                         saveData()
