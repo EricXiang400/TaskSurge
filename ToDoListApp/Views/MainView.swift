@@ -21,8 +21,15 @@ struct MainView: View {
     @State var slideBarAmount: Float = 0
     var body: some View {
         ZStack {
-            TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView)
-                .zIndex(0)
+            VStack {
+                CalendarView()
+                    .zIndex(0)
+                TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView)
+                    .background(Color.primaryColor(for: colorScheme))
+                    .zIndex(0)
+            }
+            
+            
             if showSideMenu {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
