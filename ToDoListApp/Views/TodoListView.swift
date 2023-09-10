@@ -150,7 +150,6 @@ struct TodoListView: View {
                                 title: Text("Task Completion"),
                                 message: Text("Are you sure you want to complete this task?"),
                                 primaryButton: .default(Text("Complete")) {
-                                    // Handle OK button action
                                     todoListContainer.todoList[objectIndex!].progress = 100.0
                                     todoListContainer.todoList[objectIndex!].completed = true
                                     sortTask()

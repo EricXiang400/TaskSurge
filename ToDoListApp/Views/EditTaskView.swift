@@ -24,15 +24,25 @@ struct EditTaskView: View {
             HStack {
                 Text("Edit Task")
                     .font(.title)
+                    .bold()
+                    .padding()
                 Spacer()
             }
             TextEditor(text: $todoContent.content)
                 .frame(height: 200)
                 .padding()
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 1))
-            Slider(value: $todoContent.progress, in: 0...100)
-                .padding([.leading, .trailing], 20)
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
                 .padding()
+            VStack {
+                Text("\(Int(todoContent.progress))%")
+                    .font(.system(size: 25))
+                    .bold()
+                    
+                Slider(value: $todoContent.progress, in: 0...100)
+                    .padding([.leading, .trailing], 20)
+                    .padding(.bottom)
+            }
+            
             HStack {
                 Button {
                     showTaskDetails = false
