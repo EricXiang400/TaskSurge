@@ -13,7 +13,8 @@ struct CalendarView: View {
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var curUserContainer: AppUser
     @State private var offset = CGFloat.zero
-    @State private var dragOffset = CGFloat.zero
+    @State private var dragOffsetH = CGFloat.zero
+    @State private var dragOffsetV = CGFloat.zero
     @State var dates: [Date] = []
 
 
@@ -90,18 +91,23 @@ struct CalendarView: View {
             .gesture(
                 DragGesture()
                     .onChanged({ value in
-                        dragOffset = value.translation.width
+                        dragOffsetH = value.translation.width
+                        dragOffsetV = value.translation.height
                     })
                     .onEnded({ value in
                         withAnimation {
-                            if dragOffset > 50 {
+                            if dragOffsetH > 50 {
                                 previousMonth()
-                            } else if dragOffset < -50 {
+                            } else if dragOffsetH < -50 {
                                 nextMonth()
+                            } else if dragOffsetV > 25 {
+                                userSettings.weekView = false
+                            } else if dragOffsetV < -50 {
+                                userSettings.weekView = true
                             }
-                            dragOffset = 0
+                            dragOffsetH = 0
+                            dragOffsetV = 0
                         }
-                        
                     })
             )
         }
