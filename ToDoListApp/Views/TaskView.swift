@@ -14,7 +14,6 @@ struct TaskView: View {
     @EnvironmentObject var userSettings: UserSettings
     @Binding var todoContent: TodoContent
     @State var showTaskDetails: Bool = false
-    @State var todoContentCopyOriginVal: TodoContent
     @State var todoContentCopyPassIn: TodoContent
     var body: some View {
         if todoContent.completed {
@@ -29,10 +28,9 @@ struct TaskView: View {
                     Color.clear
                 }
                 .sheet(isPresented: $showTaskDetails, onDismiss: {
-                    todoContent = todoContentCopyOriginVal
-                    
+                    todoContentCopyPassIn = todoContent
                 }) {
-                    EditTaskView(todoContent: $todoContentCopyPassIn, showTaskDetails: $showTaskDetails) {
+                    EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails) {
                         todoContent = todoContentCopyPassIn
                         saveData()
                     }
@@ -50,12 +48,10 @@ struct TaskView: View {
                     Color.clear
                 }
                 .sheet(isPresented: $showTaskDetails, onDismiss: {
-                    todoContent = todoContentCopyOriginVal
-                    todoContentCopyPassIn = todoContentCopyOriginVal
+                    todoContentCopyPassIn = todoContent
                 }) {
-                    EditTaskView(todoContent: $todoContentCopyPassIn, showTaskDetails: $showTaskDetails) {
+                    EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails) {
                         todoContent = todoContentCopyPassIn
-                        todoContentCopyOriginVal = todoContent
                         saveData()
                     }
                 }

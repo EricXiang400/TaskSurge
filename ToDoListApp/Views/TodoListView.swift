@@ -137,7 +137,7 @@ struct TodoListView: View {
                             .padding(5)
                             .buttonStyle(PlainButtonStyle())
                             
-                            TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyOriginVal: todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
+                            TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
                             
                             if todoListContainer.todoList[todoIndex].content != "" {
                                 ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,

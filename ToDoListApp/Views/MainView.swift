@@ -31,13 +31,13 @@ struct MainView: View {
             
             
             if showSideMenu {
-                    Color.black.opacity(0.5)
-                        .ignoresSafeArea(.all)
-                        .onTapGesture {
-                            withAnimation(.easeInOut) {
-                                showSideMenu = false
-                            }
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea(.all)
+                    .onTapGesture {
+                        withAnimation(.easeInOut) {
+                            showSideMenu = false
                         }
+                    }
                 ZStack {
                     Color.primaryColor(for: colorScheme)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
