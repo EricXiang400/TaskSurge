@@ -9,8 +9,13 @@ import Foundation
 import SwiftUI
 
 struct TaskView: View {
+    @EnvironmentObject var curUserContainer: AppUser
+    @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject var userSettings: UserSettings
     @Binding var todoContent: TodoContent
     @State var showTaskDetails: Bool = false
+    @State var todoContentCopyOriginVal: TodoContent
+    @State var todoContentCopyPassIn: TodoContent
     var body: some View {
         if todoContent.completed {
             ZStack {
@@ -23,12 +28,17 @@ struct TaskView: View {
                 } label: {
                     Color.clear
                 }
-                .sheet(isPresented: $showTaskDetails) {
-                    EditTaskView(todoContent: $todoContent)
+                .sheet(isPresented: $showTaskDetails, onDismiss: {
+                    todoContent = todoContentCopyOriginVal
+                    
+                }) {
+                    EditTaskView(todoContent: $todoContentCopyPassIn, showTaskDetails: $showTaskDetails) {
+                        todoContent = todoContentCopyPassIn
+                        saveData()
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-
         } else {
             ZStack {
                 TextField("Task Name", text: $todoContent.content)
@@ -39,14 +49,24 @@ struct TaskView: View {
                 } label: {
                     Color.clear
                 }
-                .sheet(isPresented: $showTaskDetails) {
-                    EditTaskView(todoContent: $todoContent)
+                .sheet(isPresented: $showTaskDetails, onDismiss: {
+                    todoContent = todoContentCopyOriginVal
+                    todoContentCopyPassIn = todoContentCopyOriginVal
+                }) {
+                    EditTaskView(todoContent: $todoContentCopyPassIn, showTaskDetails: $showTaskDetails) {
+                        todoContent = todoContentCopyPassIn
+                        todoContentCopyOriginVal = todoContent
+                        saveData()
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        
     }
-    
-    
+    func saveData() {
+        todoListContainer.saveLocalData()
+        if curUserContainer.curUser != nil {
+            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        }
+    }
 }

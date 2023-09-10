@@ -16,6 +16,9 @@ struct EditTaskView: View {
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var categoryContainer: CategoriesData
     @Binding var todoContent: TodoContent
+    @Binding var showTaskDetails: Bool
+    var confirmClosure: () -> Void
+
     var body: some View {
         VStack {
             HStack {
@@ -32,33 +35,31 @@ struct EditTaskView: View {
                 .padding()
             HStack {
                 Button {
-                    
+                    showTaskDetails = false
                 } label: {
-                    Text("Cancel Change")
+                    Text("Cancel")
                         .font(.headline)
                         .foregroundColor(.red)
                         .frame(maxWidth: 135)
                         .padding(.vertical, 12)
                         .background(Color.red.opacity(0.2))
                         .cornerRadius(8)
-                }
-
-                Button {
                     
+                }
+                Button {
+                    confirmClosure()
+                    showTaskDetails = false
                 } label: {
-                    Text("Confirm Change")
+                    Text("Confirm")
                         .font(.headline)
                         .foregroundColor(.blue)
                         .frame(maxWidth: 135)
                         .padding(.vertical, 12)
                         .background(Color.blue.opacity(0.2))
                         .cornerRadius(8)
+                    
                 }
-                .padding(.leading)
-                
-                
             }
-            
         }
     }
 }
