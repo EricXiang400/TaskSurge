@@ -34,6 +34,9 @@ struct EditTaskView: View {
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
                 .padding()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
             VStack {
                 Text("\(Int(todoContentCopy.progress))%")
                     .font(.system(size: 25))
@@ -57,8 +60,13 @@ struct EditTaskView: View {
                         .cornerRadius(8)
                 }
                 Button {
-                    confirmClosure()
                     showTaskDetails = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                        // Task initialization here
+                        confirmClosure()
+                    }
+                    
+                    
                 } label: {
                     Text("Confirm")
                         .font(.headline)
