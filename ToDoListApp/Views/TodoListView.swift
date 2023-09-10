@@ -25,7 +25,6 @@ struct TodoListView: View {
     @Binding var selectedTodoContent: TodoContent
     @Binding var showProgressEditView: Bool
     @State var showTaskDetails: Bool = false
-    @State var tempString: String = ""
     
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame

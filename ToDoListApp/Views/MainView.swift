@@ -58,7 +58,9 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            showProgressEditView = false
+                            withAnimation(.easeInOut) {
+                                showProgressEditView = false
+                            }
                         }
                         .zIndex(1)
                     PopOverContent(todoContent: $selectedTodoContent, presentPopOver: $showProgressEditView, slideBarAmount: $slideBarAmount)
@@ -71,7 +73,6 @@ struct MainView: View {
                         .cornerRadius(15)
                         .offset(y: 300)
                         .transition(.move(edge: .bottom))
-                        .animation(.easeInOut)
                         .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                         .zIndex(2)
             }

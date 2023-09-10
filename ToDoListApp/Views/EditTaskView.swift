@@ -44,7 +44,6 @@ struct EditTaskView: View {
                         .padding(.vertical, 12)
                         .background(Color.red.opacity(0.2))
                         .cornerRadius(8)
-                    
                 }
                 Button {
                     confirmClosure()
@@ -57,7 +56,6 @@ struct EditTaskView: View {
                         .padding(.vertical, 12)
                         .background(Color.blue.opacity(0.2))
                         .cornerRadius(8)
-                    
                 }
             }
         }

@@ -50,9 +50,10 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                         .font(.system(size: 13))
                 }
                 .onTapGesture {
-//                    presentPopOver = true
                     UIApplication.shared.endEditing()
-                    showProgressEditView = true
+                    withAnimation(.easeInOut) {
+                        showProgressEditView = true
+                    }
                     selectedTodoContent = todoContent
                 }
                 .sheet(isPresented: $presentPopOver) {
@@ -79,7 +80,9 @@ struct PopOverContent: View {
             HStack {
                 Spacer()
                 Button {
-                    presentPopOver = false
+                    withAnimation(.easeInOut) {
+                        presentPopOver = false
+                    }
                 } label: {
                     Image(systemName: "xmark")
                         .resizable()
@@ -87,12 +90,13 @@ struct PopOverContent: View {
                 }
                 .padding()
             }
-            Spacer()
             VStack {
                 Text("\(Int(slideBarAmount))%")
+                    .font(.system(size: 25))
                     .bold()
-                    Slider(value: $slideBarAmount, in: 0...100)
-                        .padding([.leading, .trailing], 20)
+                    .padding()
+                Slider(value: $slideBarAmount, in: 0...100)
+                    .padding([.leading, .trailing], 20)
             }
                 .padding()
                 .onAppear {
@@ -108,7 +112,9 @@ struct PopOverContent: View {
                     todoListContainer.todoList[index].progress = 0
                     todoListContainer.todoList[index].completed = false
                     sortTask()
-                    presentPopOver = false
+                    withAnimation(.easeInOut) {
+                        presentPopOver = false
+                    }
                     todoListContainer.saveLocalData()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -134,7 +140,9 @@ struct PopOverContent: View {
                         todoListContainer.todoList[index].completed = true
                     }
                     sortTask()
-                    presentPopOver = false
+                    withAnimation(.easeInOut) {
+                        presentPopOver = false
+                    }
                     todoListContainer.saveLocalData()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
