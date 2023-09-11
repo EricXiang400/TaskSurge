@@ -61,7 +61,7 @@ struct EditTaskView: View {
                 }
                 Button {
                     showTaskDetails = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.122) {
                         // Task initialization here
                         confirmClosure()
                     }
