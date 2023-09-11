@@ -59,14 +59,12 @@ struct EditTaskView: View {
                         .background(Color.red.opacity(0.2))
                         .cornerRadius(8)
                 }
+                .padding()
                 Button {
                     showTaskDetails = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.122) {
-                        // Task initialization here
                         confirmClosure()
                     }
-                    
-                    
                 } label: {
                     Text("Confirm")
                         .font(.headline)
