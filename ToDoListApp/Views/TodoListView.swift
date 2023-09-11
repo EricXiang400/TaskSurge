@@ -25,6 +25,9 @@ struct TodoListView: View {
     @Binding var selectedTodoContent: TodoContent
     @Binding var showProgressEditView: Bool
     @State var showTaskDetails: Bool = false
+    @State var tempTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
+    @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date())
+    @State var presentSheet: Bool = false
     
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
@@ -81,10 +84,12 @@ struct TodoListView: View {
                         UIApplication.shared.endEditing()
                         if todoListContainer.selectedCategory != nil {
                             withAnimation(.easeInOut) {
-                                todoListContainer.todoList.append(TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
-                                    )
+                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
+                                
+                                tempTodoContentCopy = tempTodoContent
+                                presentSheet = true
                             }
-                            sortTask()
+                            
                         }
                     }) {
                         if todoListContainer.selectedCategory == nil {
@@ -109,6 +114,14 @@ struct TodoListView: View {
                         }
                     }
                     .padding(10)
+                    .sheet(isPresented: $presentSheet) {
+                        EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet) {
+                            tempTodoContent = tempTodoContentCopy
+                            todoListContainer.todoList.append(tempTodoContent)
+                            sortTask()
+                            saveData()
+                        }
+                    }
                 }
                 
                 List(todoListContainer.todoList) { todo in

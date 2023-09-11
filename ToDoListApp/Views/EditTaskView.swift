@@ -62,7 +62,7 @@ struct EditTaskView: View {
                 .padding()
                 Button {
                     showTaskDetails = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.122) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.123) {
                         confirmClosure()
                     }
                 } label: {
