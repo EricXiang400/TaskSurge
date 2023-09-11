@@ -18,7 +18,13 @@ struct EditTaskView: View {
     @Binding var todoContentCopy: TodoContent
     @Binding var todoContentOriginal: TodoContent
     @Binding var showTaskDetails: Bool
+    @Binding var isNewTask: Bool
+    @FocusState private var focusField: Field?
     var confirmClosure: () -> Void
+    
+    enum Field: Hashable {
+        case details
+    }
 
     var body: some View {
         VStack {
@@ -37,6 +43,7 @@ struct EditTaskView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
+                .focused($focusField, equals: .details)
             VStack {
                 Text("\(Int(todoContentCopy.progress))%")
                     .font(.system(size: 25))
@@ -78,6 +85,7 @@ struct EditTaskView: View {
         }
         .onAppear {
             todoContentCopy = todoContentOriginal
+            focusField = .details
         }
     }
 }

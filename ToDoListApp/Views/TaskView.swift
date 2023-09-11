@@ -15,6 +15,7 @@ struct TaskView: View {
     @Binding var todoContent: TodoContent
     @State var showTaskDetails: Bool = false
     @State var todoContentCopyPassIn: TodoContent
+    @State var isNewTask: Bool = false
     var body: some View {
         if todoContent.completed {
             ZStack {
@@ -28,7 +29,7 @@ struct TaskView: View {
                     Color.clear
                 }
                 .sheet(isPresented: $showTaskDetails) {
-                    EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails) {
+                    EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
                         saveData()
                     }
@@ -46,7 +47,7 @@ struct TaskView: View {
                     Color.clear
                 }
                 .sheet(isPresented: $showTaskDetails) {
-                    EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails) {
+                    EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
                         saveData()
                     }

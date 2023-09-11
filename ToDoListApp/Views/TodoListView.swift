@@ -28,7 +28,7 @@ struct TodoListView: View {
     @State var tempTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var presentSheet: Bool = false
-    
+    @State var isNewTask: Bool = true
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -115,7 +115,7 @@ struct TodoListView: View {
                     }
                     .padding(10)
                     .sheet(isPresented: $presentSheet) {
-                        EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet) {
+                        EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
                             tempTodoContent = tempTodoContentCopy
                             todoListContainer.todoList.append(tempTodoContent)
                             sortTask()
