@@ -29,10 +29,17 @@ struct EditTaskView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Edit Task")
-                    .font(.title)
-                    .bold()
-                    .padding()
+                if isNewTask {
+                    Text("New Task")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                } else {
+                    Text("Edit Task")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                }
                 Spacer()
             }
             TextEditor(text: $todoContentCopy.content)
@@ -69,6 +76,11 @@ struct EditTaskView: View {
                 .padding()
                 Button {
                     showTaskDetails = false
+                    if todoContentCopy.progress == 100 {
+                        todoContentCopy.completed = true
+                    } else {
+                        todoContentCopy.completed = false
+                    }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.123) {
                         confirmClosure()
                     }

@@ -89,7 +89,6 @@ struct TodoListView: View {
                                 tempTodoContentCopy = tempTodoContent
                                 presentSheet = true
                             }
-                            
                         }
                     }) {
                         if todoListContainer.selectedCategory == nil {
