@@ -85,7 +85,9 @@ struct EditTaskView: View {
         }
         .onAppear {
             todoContentCopy = todoContentOriginal
-            focusField = .details
+            if isNewTask {
+                focusField = .details
+            }
         }
     }
 }
