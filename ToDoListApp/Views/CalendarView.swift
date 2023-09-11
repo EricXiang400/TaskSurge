@@ -96,22 +96,22 @@ struct CalendarView: View {
                     })
                     .onEnded({ value in
                         withAnimation {
-                            if dragOffsetH > 50 {
+                            if dragOffsetH > 20 {
                                 if userSettings.weekView {
-                                    nextWeek()
+                                    previousWeek()
                                 } else {
                                     previousMonth()
                                 }
-                            } else if dragOffsetH < -50 {
+                            } else if dragOffsetH < -20 {
                                 if userSettings.weekView {
+                                    
                                     nextWeek()
                                 } else {
                                     nextMonth()
                                 }
-                                
-                            } else if dragOffsetV > 25 {
+                            } else if dragOffsetV > 20 {
                                 userSettings.weekView = false
-                            } else if dragOffsetV < -50 {
+                            } else if dragOffsetV < -20 {
                                 userSettings.weekView = true
                             }
                             dragOffsetH = 0

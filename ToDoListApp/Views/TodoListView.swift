@@ -58,7 +58,6 @@ struct TodoListView: View {
     var body: some View {
         ZStack {
             VStack {
-                
                 HStack {
                     Button(action: {
                         withAnimation(.easeInOut) {
@@ -192,7 +191,6 @@ struct TodoListView: View {
                     SortOptionsView(showSortingOptions: $showSortingOptions)
                         .frame(width: UIScreen.main.bounds.width - 250, height: 150)
                         .offset(x: 100, y: -UIScreen.main.bounds.width / 1.5)
-                        .animation(.spring())
                 }
             }
         }
