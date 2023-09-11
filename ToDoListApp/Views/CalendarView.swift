@@ -104,7 +104,6 @@ struct CalendarView: View {
                                 }
                             } else if dragOffsetH < -20 {
                                 if userSettings.weekView {
-                                    
                                     nextWeek()
                                 } else {
                                     nextMonth()

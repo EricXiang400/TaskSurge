@@ -28,9 +28,11 @@ struct CategoryRow: View {
                         }
                     }
                 })
+                .font(.system(size: 17, weight: .bold, design: .default))
+                    .cornerRadius(5)
             } else {
                 Text(category.name)
-                    .font(.system(size: 20, weight: .bold, design: .default))
+                    .font(.system(size: 17, weight: .bold, design: .default))
                         .cornerRadius(5)
             }
             Spacer()
