@@ -85,14 +85,25 @@ struct EditTaskView: View {
                         confirmClosure()
                     }
                 } label: {
-                    Text("Confirm")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                        .frame(maxWidth: 135)
-                        .padding(.vertical, 12)
-                        .background(Color.blue.opacity(0.2))
-                        .cornerRadius(8)
+                    if todoContentCopy.content == "" {
+                        Text("Confirm")
+                            .font(.headline)
+                            .foregroundColor(.blue.opacity(0.5))
+                            .frame(maxWidth: 135)
+                            .padding(.vertical, 12)
+                            .background(Color.blue.opacity(0.2))
+                            .cornerRadius(8)
+                    } else {
+                        Text("Confirm")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                            .frame(maxWidth: 135)
+                            .padding(.vertical, 12)
+                            .background(Color.blue.opacity(0.2))
+                            .cornerRadius(8)
+                    }
                 }
+                .disabled(todoContentCopy.content == "")
             }
         }
         .onAppear {

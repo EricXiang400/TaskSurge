@@ -131,7 +131,7 @@ struct CalendarView: View {
         let datesInLastMonth = getAllDates(date: calendar.date(byAdding: .month, value: -1, to: date)!)
         let datesInNextMonth = getAllDates(date: calendar.date(byAdding: .month, value: 1, to: date)!)
         let datesInMonth = datesInLastMonth + getAllDates(date: date) + datesInNextMonth
-        var index = datesInMonth.firstIndex(where: {
+        let index = datesInMonth.firstIndex(where: {
             let component1 = calendar.dateComponents([.month, .day], from: $0)
             let component2 = calendar.dateComponents([.month, .day], from: date)
             return component1.month == component2.month && component1.day == component2.day
@@ -198,7 +198,7 @@ struct CalendarView: View {
         let firstWeekDay = calendar.component(.weekday, from: startOfMonth)
         let lastMonth = calendar.date(byAdding: .month, value: -1, to: date)
         var output = getAllDates(date: date)
-        var datesInLastMonth : [Date] = getAllDates(date: lastMonth!)
+        let datesInLastMonth : [Date] = getAllDates(date: lastMonth!)
         let reverseDatesLastMonth = Array(datesInLastMonth.reversed())
         for i in 0..<firstWeekDay - 1 {
             output.insert(reverseDatesLastMonth[i], at: 0)
