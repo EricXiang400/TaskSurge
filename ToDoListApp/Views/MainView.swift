@@ -39,11 +39,20 @@ struct MainView: View {
                         }
                     }
                 ZStack {
-                    Color.primaryColor(for: colorScheme)
-                        .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
-                        .ignoresSafeArea(.all)
-                        .offset(x: -55)
-                        .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                    if (colorScheme == .dark) {
+                        Color(red: 0.1, green: 0.1, blue: 0.1)
+                            .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
+                            .ignoresSafeArea(.all)
+                            .offset(x: -55)
+                            .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                    } else {
+                        Color.primaryColor(for: colorScheme)
+                            .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
+                            .ignoresSafeArea(.all)
+                            .offset(x: -55)
+                            .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                    }
+                    
                     MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                         .offset(x: -55)
@@ -55,7 +64,7 @@ struct MainView: View {
             if isShowSettingView {
                 SettingsView(isShowingSetting: $isShowSettingView)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(colorScheme == .dark ? Color.black.edgesIgnoringSafeArea(.all): Color.white.edgesIgnoringSafeArea(.all)) // Set background color
+                    .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1).edgesIgnoringSafeArea(.all): Color.white.edgesIgnoringSafeArea(.all)) // Set background color
                     .transition(.move(edge: .leading))
                     .animation(.easeInOut)
                     .zIndex(1)
@@ -76,7 +85,7 @@ struct MainView: View {
                         }
                         .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 3, alignment: .bottom)
 
-                        .background(colorScheme == .dark ? Color.black.edgesIgnoringSafeArea(.all) : Color.white.edgesIgnoringSafeArea(.all))
+                        .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1).edgesIgnoringSafeArea(.all) : Color.white.edgesIgnoringSafeArea(.all))
                         .cornerRadius(15)
                         .offset(y: 300)
                         .transition(.move(edge: .bottom))
