@@ -71,7 +71,7 @@ struct CalendarView: View {
             
             LazyVGrid(columns: columns) {
                 ForEach(userSettings.weekView ? getWeek(date: selectedDate.selectedDate) : getAllDatesWithRollOverDates(date: selectedDate.selectedDate), id: \.self) { day in
-                    if isSameDate(date1: selectedDate.selectedDate, date2: day) {
+                    if CalendarView.isSameDate(date1: selectedDate.selectedDate, date2: day) {
                         Text("\(calendar.component(.day, from: selectedDate.selectedDate))")
                             .frame(width: 30, height: 30)
                             .background(Color.blue)
@@ -206,7 +206,8 @@ struct CalendarView: View {
         return output
     }
     
-    func isSameDate(date1: Date, date2: Date) -> Bool {
+    static func isSameDate(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
         return calendar.component(.month, from: date1) == calendar.component(.month, from: date2) && calendar.component(.day, from: date1) == calendar.component(.day, from: date2)
     }
     
