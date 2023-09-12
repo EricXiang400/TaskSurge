@@ -108,7 +108,7 @@ struct EditTaskView: View {
         }
         .onAppear {
             todoContentCopy = todoContentOriginal
-            if isNewTask {
+            if isNewTask && userSettings.showKeyboardOnStart {
                 focusField = .details
             }
         }

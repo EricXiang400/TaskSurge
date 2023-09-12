@@ -49,7 +49,29 @@ struct SettingsView: View {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                Toggle(isOn: $userSettings.showKeyboardOnStart) {
+                    Text("Keyboard On New Task")
+                }
+                .onChange(of: userSettings.showKeyboardOnStart) { newValue in
+                    userSettings.showKeyboardOnStart = newValue
+                    userSettings.saveLocalSettings()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
+                }
+                .padding(.horizontal)
+                Toggle(isOn: $userSettings.taskLayover) {
+                    Text("Task Layover")
+                }
+                .onChange(of: userSettings.taskLayover) { newValue in
+                    userSettings.taskLayover = newValue
+                    userSettings.saveLocalSettings()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
+                }
+                .padding(.horizontal)
                 Spacer()
             }
             if curUserContainer.curUser != nil {

@@ -12,17 +12,23 @@ final class UserSettings: NSObject, ObservableObject, Codable {
     @Published var sortOption: Int
     @Published var darkMode: Bool
     @Published var weekView: Bool
+    @Published var taskLayover: Bool
+    @Published var showKeyboardOnStart: Bool
     
-    init(sortOption: Int = 0, darkMode: Bool = false, weekView: Bool = false) {
+    init(sortOption: Int = 0, darkMode: Bool = false, weekView: Bool = false, taskLayover: Bool = false, showKeyboardOnStart: Bool = true) {
         self.sortOption = sortOption
         self.darkMode = darkMode
         self.weekView = weekView
+        self.taskLayover = taskLayover
+        self.showKeyboardOnStart = showKeyboardOnStart
     }
     
     enum CodingKeys: CodingKey {
         case sortOption
         case darkMode
         case weekView
+        case taskLayover
+        case showKeyboardOnStart
     }
     
     func encode(to encoder: Encoder) throws {
@@ -30,6 +36,8 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         try container.encode(sortOption, forKey: .sortOption)
         try container.encode(darkMode, forKey: .darkMode)
         try container.encode(weekView, forKey: .weekView)
+        try container.encode(taskLayover, forKey: .taskLayover)
+        try container.encode(showKeyboardOnStart, forKey: .showKeyboardOnStart)
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -37,7 +45,9 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         let sortOption = try container.decode(Int.self, forKey: .sortOption)
         let darkMode = try container.decode(Bool.self, forKey: .darkMode)
         let weekView = try container.decode(Bool.self, forKey: .weekView)
-        self.init(sortOption: sortOption, darkMode: darkMode, weekView: weekView)
+        let taskLayover = try container.decode(Bool.self, forKey: .taskLayover)
+        let showKeyboardOnStart = try container.decode(Bool.self, forKey: .showKeyboardOnStart)
+        self.init(sortOption: sortOption, darkMode: darkMode, weekView: weekView, taskLayover: taskLayover, showKeyboardOnStart: showKeyboardOnStart)
     }
     
     func loadLocalSettings(user: User?) {
@@ -52,6 +62,8 @@ final class UserSettings: NSObject, ObservableObject, Codable {
                 self.sortOption = output.sortOption
                 self.darkMode = output.darkMode
                 self.weekView = output.weekView
+                self.taskLayover = output.taskLayover
+                self.showKeyboardOnStart = output.showKeyboardOnStart
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("settings.json")
                 data = try Data(contentsOf: fileURL)
@@ -60,6 +72,8 @@ final class UserSettings: NSObject, ObservableObject, Codable {
                 self.sortOption = output.sortOption
                 self.darkMode = output.darkMode
                 self.weekView = output.weekView
+                self.taskLayover = output.taskLayover
+                self.showKeyboardOnStart = output.showKeyboardOnStart
             }
         } catch {
             print("No local settings so return nil")
