@@ -31,6 +31,7 @@ struct TaskView: View {
                 .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
+                        sortTask()
                         saveData()
                     }
                 }
@@ -56,10 +57,30 @@ struct TaskView: View {
             }
         }
     }
+    
+//    These are the same as the one in todolistview
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        }
+    }
+    
+    func sortTask() {
+        if userSettings.sortOption == 0 {
+            todoListContainer.todoList.sort(by: {
+                if $0.date == $1.date {
+                    return $0.progress < $1.progress
+                }
+                return $1.date < $0.date
+            })
+        } else {
+            todoListContainer.todoList.sort(by: {
+                if $0.progress == $1.progress {
+                    return $1.date < $0.date
+                }
+                return $0.progress < $1.progress
+            })
         }
     }
 }
