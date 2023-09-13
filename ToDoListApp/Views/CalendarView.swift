@@ -77,6 +77,15 @@ struct CalendarView: View {
                             .background(Color.blue)
                             .clipShape(Circle())
                             .foregroundColor(.white)
+                    } else if CalendarView.isSameDate(date1: Date(), date2: day) {
+                        Text("\(calendar.component(.day, from: Date()))")
+                            .frame(width: 30, height: 30)
+                            .background(Color.blue.opacity(0.5))
+                            .clipShape(Circle())
+                            .foregroundColor(.white)
+                            .onTapGesture {
+                                selectedDate.selectedDate = day
+                            }
                     } else {
                         Text("\(calendar.component(.day, from: day))")
                             .frame(width: 30, height: 30)
