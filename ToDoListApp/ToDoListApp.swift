@@ -14,12 +14,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        print("XXXXXXXXXXXXXXXX")
-    }
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        print("XXXXXXXXXXXXXXXX")
-    }
 }
 
 @main
