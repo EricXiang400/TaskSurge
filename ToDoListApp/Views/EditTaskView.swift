@@ -47,9 +47,6 @@ struct EditTaskView: View {
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
                 .padding()
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
                 .focused($focusField, equals: .details)
             VStack {
                 Text("\(Int(todoContentCopy.progress))%")
