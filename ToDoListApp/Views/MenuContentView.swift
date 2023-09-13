@@ -113,6 +113,7 @@ struct MenuContentView: View {
             }
             .padding()
             HStack {
+                Spacer()
                 // Settings button
                 Button (action: {
                     UIApplication.shared.endEditing()
@@ -122,8 +123,7 @@ struct MenuContentView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                 }
-                .padding(.leading)
-                Spacer()
+                .padding(.trailing)
             }
         }
         .onAppear {
