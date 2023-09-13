@@ -51,7 +51,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                 }
                 .onTapGesture {
                     UIApplication.shared.endEditing()
-                    withAnimation(.easeInOut) {
+                    withAnimation(.easeInOut(duration: 0.25)) {
                         showProgressEditView = true
                     }
                     selectedTodoContent = todoContent
@@ -80,7 +80,7 @@ struct PopOverContent: View {
             HStack {
                 Spacer()
                 Button {
-                    withAnimation(.easeInOut) {
+                    withAnimation(.easeInOut(duration: 0.25)) {
                         presentPopOver = false
                     }
                 } label: {
@@ -112,7 +112,7 @@ struct PopOverContent: View {
                     todoListContainer.todoList[index].progress = 0
                     todoListContainer.todoList[index].completed = false
                     sortTask()
-                    withAnimation(.easeInOut) {
+                    withAnimation(.easeInOut(duration: 0.25)) {
                         presentPopOver = false
                     }
                     todoListContainer.saveLocalData()
@@ -140,7 +140,7 @@ struct PopOverContent: View {
                         todoListContainer.todoList[index].completed = true
                     }
                     sortTask()
-                    withAnimation(.easeInOut) {
+                    withAnimation(.easeInOut(duration: 0.25)) {
                         presentPopOver = false
                     }
                     todoListContainer.saveLocalData()

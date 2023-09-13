@@ -74,7 +74,7 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            withAnimation(.easeInOut) {
+                            withAnimation(.easeInOut(duration: 0.25)) {
                                 showProgressEditView = false
                             }
                         }
