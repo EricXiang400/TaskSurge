@@ -12,6 +12,7 @@ import Firebase
 struct TodoListView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
+    @EnvironmentObject var selectedDate: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var categoryContainer: CategoriesData
@@ -75,6 +76,20 @@ struct TodoListView: View {
                     }
                     .padding(.leading)
                     Spacer()
+                    Button {
+                        UIApplication.shared.endEditing()
+                        selectedDateContainer.selectedDate = Date()
+                    } label: {
+                        Text("Today")
+                            .font(.system(size: 13))
+                            .bold()
+                    }
+                    .padding(.vertical,4.5)
+                    .padding(.horizontal, 4)
+                    .background(.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(5)
+                    
                     Button (action: {
                         UIApplication.shared.endEditing()
                         showSortingOptions.toggle()
@@ -114,7 +129,7 @@ struct TodoListView: View {
                                 )
                         }
                     }
-                    .padding(10)
+                    .padding(.trailing, 10)
                     .sheet(isPresented: $presentSheet) {
                         EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
                             tempTodoContent = tempTodoContentCopy
