@@ -16,6 +16,7 @@ struct TodoListView: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var categoryContainer: CategoriesData
+    @Environment(\.scenePhase) var scenePhase
     @State var showConfirmationSheet: Bool = false
     @State var objectIndex: Int? = nil
     @Binding var showCalendar: Bool
@@ -208,6 +209,21 @@ struct TodoListView: View {
                     }
                     moveLayoverItems()
                     saveData()
+                }
+                .onChange(of: scenePhase) { newValue in
+                    if newValue == .active && curUserContainer.curUser != nil {
+                        FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
+                            todoListContainer.loadLocalData(user: curUserContainer.curUser)
+                            userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                            categoryContainer.loadLocalCategories()
+                            let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
+                            if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                                todoListContainer.selectedCategory = curCategory
+                            }
+                            moveLayoverItems()
+                            saveData()
+                        }
+                    }
                 }
             }
             

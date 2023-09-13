@@ -9,11 +9,17 @@ import SwiftUI
 import Firebase
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
+    func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    return true
-  }
+        FirebaseApp.configure()
+        return true
+    }
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        print("XXXXXXXXXXXXXXXX")
+    }
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        print("XXXXXXXXXXXXXXXX")
+    }
 }
 
 @main

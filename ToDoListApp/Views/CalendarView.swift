@@ -16,8 +16,6 @@ struct CalendarView: View {
     @State private var dragOffsetH = CGFloat.zero
     @State private var dragOffsetV = CGFloat.zero
     @State var dates: [Date] = []
-
-
     
     private let monthArr: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     private let calendar = Calendar.current
@@ -131,7 +129,6 @@ struct CalendarView: View {
         .onAppear {
             selectedDate.selectedDate = Date()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
-            print(userSettings.weekView)
         }
         .padding()
     }
