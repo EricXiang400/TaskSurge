@@ -50,6 +50,7 @@ struct TaskView: View {
                 .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
+                        sortTask()
                         saveData()
                     }
                 }
