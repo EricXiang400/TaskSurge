@@ -18,7 +18,7 @@ struct SortOptionsView: View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Sort By:")
                 .font(.headline)
-            List {
+            VStack {
                 Button(action: {
                     userSettings.sortOption = 0
                     showSortingOptions = false
@@ -43,6 +43,11 @@ struct SortOptionsView: View {
                         }
                     }
                 }
+                .padding(.trailing, 10)
+                .padding(.bottom, 2)
+                .padding(.top, 3)
+                .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color.white)
+                Divider()
                 Button(action: {
                     userSettings.sortOption = 1
                     showSortingOptions = false
@@ -67,12 +72,13 @@ struct SortOptionsView: View {
                         }
                     }
                 }
+                .padding(.trailing, 10)
+                .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color.white)
             }
-            .listStyle(PlainListStyle())
+            .listStyle(.plain)
         }
         .padding()
-        .background(colorScheme == .light ? Color.white : Color.black)
+        .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color.white)
         .cornerRadius(12)
-        .shadow(color: .gray.opacity(0.5), radius: 5)
     }
 }

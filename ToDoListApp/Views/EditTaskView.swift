@@ -52,7 +52,6 @@ struct EditTaskView: View {
                 Text("\(Int(todoContentCopy.progress))%")
                     .font(.system(size: 25))
                     .bold()
-                    
                 Slider(value: $todoContentCopy.progress, in: 0...100)
                     .padding([.leading, .trailing], 20)
                     .padding(.bottom)

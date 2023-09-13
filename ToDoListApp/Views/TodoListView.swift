@@ -29,6 +29,8 @@ struct TodoListView: View {
     @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var presentSheet: Bool = false
     @State var isNewTask: Bool = true
+    @Environment(\.colorScheme) var colorScheme
+    
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -204,7 +206,7 @@ struct TodoListView: View {
                     Spacer()
                     SortOptionsView(showSortingOptions: $showSortingOptions)
                         .frame(width: UIScreen.main.bounds.width - 250, height: 150)
-                        .offset(x: 100, y: -UIScreen.main.bounds.width / 1.5)
+                        .offset(x: 100, y: userSettings.weekView ? -UIScreen.main.bounds.height / 1.85 : -UIScreen.main.bounds.height / 2.65)
                 }
             }
         }
