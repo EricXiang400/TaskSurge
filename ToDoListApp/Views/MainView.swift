@@ -19,47 +19,80 @@ struct MainView: View {
     @State var showProgressEditView: Bool = false
     @State var selectedTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var slideBarAmount: Float = 0
+    @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
     var body: some View {
         ZStack {
             VStack {
                 CalendarView()
-                    .zIndex(0)
-                TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView)
+                TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(Color.primaryColor(for: colorScheme))
-                    .zIndex(0)
             }
+            .zIndex(0)
             
-            
-            if showSideMenu {
-                Color.black.opacity(0.5)
-                    .ignoresSafeArea(.all)
-                    .onTapGesture {
-                        withAnimation(.easeInOut) {
-                            showSideMenu = false
+                if showSideMenu {
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea(.all)
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                showSideMenu = false
+                                sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
+                            }
                         }
-                    }
+                }
                 ZStack {
+                    Color.white.opacity(0.0000001)
+                        .frame(width: UIScreen.main.bounds.width * (3/4) + 50, alignment: .leading)
+                        .onTapGesture {
+                            showSideMenu = true
+                            withAnimation {
+                                sideMenuOffset += 1
+                            }
+                        }
                     if (colorScheme == .dark) {
                         Color(red: 0.1, green: 0.1, blue: 0.1)
                             .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                             .ignoresSafeArea(.all)
-                            .offset(x: -55)
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                     } else {
                         Color.primaryColor(for: colorScheme)
                             .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                             .ignoresSafeArea(.all)
-                            .offset(x: -55)
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                     }
-                    
-                    MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu)
+
+                    MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
-                        .offset(x: -55)
+                    
+                        
+                    
                 }
+                .offset(x: sideMenuOffset)
+                .gesture(DragGesture()
+                    .onChanged({ value in
+                        if value.translation.width > 5 {
+                            sideMenuOffset = min(value.location.x - UIScreen.main.bounds.width * (3/4), -55)
+                        }
+                    }
+                              )
+                    .onEnded({ value in
+                        if value.startLocation.x - value.predictedEndLocation.x > 5 {
+                            withAnimation {
+                                showSideMenu = false
+                                sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
+                            }
+                        } else if value.predictedEndLocation.x - value.startLocation.x > 5 {
+                            withAnimation {
+                                sideMenuOffset = -55
+                                showSideMenu = true
+                            }
+                        }
+                    })
+                )
+            
+            
                 .zIndex(1)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
-            }
+//        }
 
             if isShowSettingView {
                 SettingsView(isShowingSetting: $isShowSettingView)

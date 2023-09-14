@@ -31,6 +31,7 @@ struct TodoListView: View {
     @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var presentSheet: Bool = false
     @State var isNewTask: Bool = true
+    @Binding var sideMenuOffset: CGFloat
     @Environment(\.colorScheme) var colorScheme
     
     func sameDate(date1: Date, date2: Date) -> Bool {
@@ -69,6 +70,7 @@ struct TodoListView: View {
                     Button(action: {
                         withAnimation(.easeInOut) {
                             UIApplication.shared.endEditing()
+                            sideMenuOffset = -55
                             showSideMenu = true
                         }
                     }) {

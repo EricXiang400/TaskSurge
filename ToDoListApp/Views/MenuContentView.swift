@@ -18,6 +18,7 @@ struct MenuContentView: View {
     @Binding var showLoginView: Bool
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
+    @Binding var menuOffset: CGFloat
     @State var categoryIndex: Int = 0
     let fromTopTransition = AnyTransition.opacity.combined(with: .offset(y: -25))
 
@@ -27,6 +28,7 @@ struct MenuContentView: View {
                 Button (action: {
                     withAnimation(.easeInOut) {
                         showSideMenu = false
+                        menuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                     }
                 }) {
                     Image(systemName: "chevron.left")
