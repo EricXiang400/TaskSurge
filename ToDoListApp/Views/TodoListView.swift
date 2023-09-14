@@ -68,11 +68,12 @@ struct TodoListView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        withAnimation(.easeInOut) {
-                            UIApplication.shared.endEditing()
+                        UIApplication.shared.endEditing()
+                        withAnimation(.easeInOut(duration: 0.23)) {
                             sideMenuOffset = -55
                             showSideMenu = true
                         }
+                        
                     }) {
                         Image(systemName: "line.horizontal.3")
                             .imageScale(.large)

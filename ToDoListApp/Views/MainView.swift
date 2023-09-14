@@ -26,14 +26,14 @@ struct MainView: View {
                 CalendarView()
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(Color.primaryColor(for: colorScheme))
-            }
-            .zIndex(0)
+                }
+                .zIndex(0)
             
                 if showSideMenu {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            withAnimation(.easeInOut) {
+                            withAnimation(.easeInOut(duration: 0.23)) {
                                 showSideMenu = false
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
@@ -41,11 +41,11 @@ struct MainView: View {
                 }
                 ZStack {
                     Color.white.opacity(0.0000001)
-                        .frame(width: UIScreen.main.bounds.width * (3/4) + 50, alignment: .leading)
+                        .frame(width: UIScreen.main.bounds.width * (3/4) + 20, alignment: .leading)
                         .onTapGesture {
-                            showSideMenu = true
-                            withAnimation {
-                                sideMenuOffset += 1
+                            withAnimation(.easeInOut(duration: 0.23)) {
+                                showSideMenu = true
+                                sideMenuOffset = -55
                             }
                         }
                     if (colorScheme == .dark) {
@@ -62,9 +62,6 @@ struct MainView: View {
 
                     MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
-                    
-                        
-                    
                 }
                 .offset(x: sideMenuOffset)
                 .gesture(DragGesture()
@@ -76,14 +73,19 @@ struct MainView: View {
                               )
                     .onEnded({ value in
                         if value.startLocation.x - value.predictedEndLocation.x > 5 {
-                            withAnimation {
+                            withAnimation(.easeInOut(duration: 0.23)) {
                                 showSideMenu = false
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
                         } else if value.predictedEndLocation.x - value.startLocation.x > 5 {
-                            withAnimation {
+                            withAnimation(.easeInOut(duration: 0.23)) {
                                 sideMenuOffset = -55
                                 showSideMenu = true
+                            }
+                        } else {
+                            withAnimation(.easeInOut(duration: 0.23)) {
+                                showSideMenu = false
+                                sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
                         }
                     })
