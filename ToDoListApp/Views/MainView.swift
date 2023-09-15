@@ -3,7 +3,6 @@
 //  ToDoListApp
 //
 //  Created by Eric Xiang on 5/30/23.
-//
 
 import SwiftUI
 import FirebaseAuth
@@ -66,7 +65,7 @@ struct MainView: View {
                 .offset(x: sideMenuOffset)
                 .gesture(DragGesture()
                     .onChanged({ value in
-                        if value.translation.width > 5 {
+                        if abs(value.translation.width) > 5 {
                             sideMenuOffset = min(value.location.x - UIScreen.main.bounds.width * (3/4), -55)
                         }
                     }

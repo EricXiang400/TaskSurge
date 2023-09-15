@@ -91,7 +91,7 @@ struct MenuContentView: View {
                     .animation(.easeInOut)
                 }
             }
-            .transition(.identity)
+//            .transition(.identity)
 
             Spacer()
             HStack {
