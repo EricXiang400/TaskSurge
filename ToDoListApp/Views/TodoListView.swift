@@ -33,6 +33,18 @@ struct TodoListView: View {
     @State var isNewTask: Bool = true
     @Binding var sideMenuOffset: CGFloat
     @Environment(\.colorScheme) var colorScheme
+    var offSetHeight: Int = 44
+    
+    var offSetCount: Int {
+        var count:Int = 0
+        for todo in todoListContainer.todoList {
+            if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
+                count += 1
+            }
+        }
+        return count
+    }
+    
     
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
@@ -144,90 +156,112 @@ struct TodoListView: View {
                     }
                 }
                 
-                List(todoListContainer.todoList) { todo in
-                    if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
-                        var todoIndex: Int {
-                            todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
-                        }
-                        HStack {
-                            Button(action: {
-                                if todoListContainer.todoList[todoIndex].content != "" {
-                                    if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                        objectIndex = todoIndex
-                                        showConfirmationSheet = true
-                                    } else {
+                ZStack {
+                    List(todoListContainer.todoList) { todo in
+                        if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
+                            var todoIndex: Int {
+                                todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
+                            }
+                            HStack {
+                                Button(action: {
+                                    if todoListContainer.todoList[todoIndex].content != "" {
+                                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+                                            objectIndex = todoIndex
+                                            showConfirmationSheet = true
+                                        } else {
+                                            todoListContainer.todoList[todoIndex].completed.toggle()
+                                        }
+                                    } else if todoListContainer.todoList[todoIndex].completed {
                                         todoListContainer.todoList[todoIndex].completed.toggle()
                                     }
-                                } else if todoListContainer.todoList[todoIndex].completed {
-                                    todoListContainer.todoList[todoIndex].completed.toggle()
-                                }
-                                saveData()
-                            }) {
-                                Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
-                            }
-                            .padding(5)
-                            .buttonStyle(PlainButtonStyle())
-                            
-                            TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
-                            
-                            if todoListContainer.todoList[todoIndex].content != "" {
-                                ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
-                                                showProgressEditView: $showProgressEditView)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                        .alert(isPresented: $showConfirmationSheet) {
-                            Alert(
-                                title: Text("Task Completion"),
-                                message: Text("Are you sure you want to complete this task?"),
-                                primaryButton: .default(Text("Complete")) {
-                                    todoListContainer.todoList[objectIndex!].progress = 100.0
-                                    todoListContainer.todoList[objectIndex!].completed = true
-                                    sortTask()
                                     saveData()
-                                },
-                                secondaryButton: .cancel()
-                            )
+                                }) {
+                                    Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
+                                }
+                                .padding(5)
+                                .buttonStyle(PlainButtonStyle())
+                                
+                                TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
+                                
+                                if todoListContainer.todoList[todoIndex].content != "" {
+                                    ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
+                                                    showProgressEditView: $showProgressEditView)
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .alert(isPresented: $showConfirmationSheet) {
+                                Alert(
+                                    title: Text("Task Completion"),
+                                    message: Text("Are you sure you want to complete this task?"),
+                                    primaryButton: .default(Text("Complete")) {
+                                        todoListContainer.todoList[objectIndex!].progress = 100.0
+                                        todoListContainer.todoList[objectIndex!].completed = true
+                                        sortTask()
+                                        saveData()
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(action: {
+                                    todoListContainer.todoList.remove(at: todoIndex)
+                                    saveData()
+                                }) {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                                .tint(.red)
+                            }
+                            
                         }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(action: {
-                                todoListContainer.todoList.remove(at: todoIndex)
+                            
+                    }
+                    .listStyle(.plain)
+                    .onAppear {
+                        todoListContainer.loadLocalData(user: curUserContainer.curUser)
+                        userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                        categoryContainer.loadLocalCategories()
+                        let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
+                        if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                            todoListContainer.selectedCategory = curCategory
+                        }
+                        moveLayoverItems()
+                        saveData()
+                    }
+                    .onChange(of: scenePhase) { newValue in
+                        if newValue == .active && curUserContainer.curUser != nil {
+                            FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
+                                todoListContainer.loadLocalData(user: curUserContainer.curUser)
+                                userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                                categoryContainer.loadLocalCategories()
+                                let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
+                                if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                                    todoListContainer.selectedCategory = curCategory
+                                }
+                                moveLayoverItems()
                                 saveData()
-                            }) {
-                                Label("Delete", systemImage: "trash")
                             }
-                            .tint(.red)
                         }
                     }
-                }
-                .listStyle(.plain)
-                .onAppear {
-                    todoListContainer.loadLocalData(user: curUserContainer.curUser)
-                    userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                    categoryContainer.loadLocalCategories()
-                    let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
-                    if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                        todoListContainer.selectedCategory = curCategory
-                    }
-                    moveLayoverItems()
-                    saveData()
-                }
-                .onChange(of: scenePhase) { newValue in
-                    if newValue == .active && curUserContainer.curUser != nil {
-                        FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
-                            todoListContainer.loadLocalData(user: curUserContainer.curUser)
-                            userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                            categoryContainer.loadLocalCategories()
-                            let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
-                            if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                                todoListContainer.selectedCategory = curCategory
-                            }
-                            moveLayoverItems()
-                            saveData()
+                    Color.white.opacity(0.00000001)
+                        .offset(y: CGFloat(offSetCount * offSetHeight))
+                        .onTapGesture {
+                            tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
+                            
+                            tempTodoContentCopy = tempTodoContent
+                            presentSheet = true
                         }
-                    }
+                        .sheet(isPresented: $presentSheet) {
+                            EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
+                                tempTodoContent = tempTodoContentCopy
+                                todoListContainer.todoList.append(tempTodoContent)
+                                sortTask()
+                                saveData()
+                            }
+                        }
                 }
+                
+                
             }
             
             if showSortingOptions {
