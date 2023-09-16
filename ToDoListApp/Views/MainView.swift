@@ -68,8 +68,10 @@ struct MainView: View {
                         if abs(value.translation.width) > 5 {
                             if !(value.translation.width > 5 && sideMenuOffset == -55) && value.location.y < 850 {
                                 sideMenuOffset = min(value.location.x - UIScreen.main.bounds.width * (3/4), -55)
+                                if sideMenuOffset == -55 {
+                                    showSideMenu = true
+                                }
                             }
-                            
                         }
                     }
                               )
