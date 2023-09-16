@@ -97,34 +97,30 @@ struct CalendarView: View {
                     }
                 }
             }
-            
             .gesture(
                 DragGesture()
-                    .onChanged({ value in
-                        dragOffsetH = value.translation.width
-                        dragOffsetV = value.translation.height
-                    })
                     .onEnded({ value in
-                        withAnimation {
-                            if dragOffsetH > 20 {
+                        withAnimation(.easeIn(duration: 0.23)) {
+                            let verticalPercent = value.translation.height / (value.translation.width + value.translation.height)
+                            let horizontalPercent = value.translation.width / (value.translation.width + value.translation.height)
+                            if value.translation.width > 5 && horizontalPercent > 0.8 {
                                 if userSettings.weekView {
                                     previousWeek()
                                 } else {
                                     previousMonth()
                                 }
-                            } else if dragOffsetH < -20 {
+                            } else if value.translation.width < -5 && horizontalPercent > 0.8{
                                 if userSettings.weekView {
                                     nextWeek()
                                 } else {
                                     nextMonth()
                                 }
-                            } else if dragOffsetV > 20 {
+                            } else if value.translation.height > 5 && verticalPercent > 0.8 {
                                 userSettings.weekView = false
-                            } else if dragOffsetV < -20 {
+                            } else if value.translation.height < -5 && verticalPercent > 0.8 {
                                 userSettings.weekView = true
                             }
-                            dragOffsetH = 0
-                            dragOffsetV = 0
+                           
                         }
                     })
             )
