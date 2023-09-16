@@ -66,31 +66,27 @@ struct MainView: View {
                 .gesture(DragGesture()
                     .onChanged({ value in
                         if abs(value.translation.width) > 5 {
-                            sideMenuOffset = min(value.location.x - UIScreen.main.bounds.width * (3/4), -55)
+                            if !(value.translation.width > 5 && sideMenuOffset == -55) && value.location.y < 850 {
+                                sideMenuOffset = min(value.location.x - UIScreen.main.bounds.width * (3/4), -55)
+                            }
+                            
                         }
                     }
                               )
                     .onEnded({ value in
-                        if value.startLocation.x - value.predictedEndLocation.x > 5 {
+                        if value.translation.width < -5 {
                             withAnimation(.easeInOut(duration: 0.23)) {
                                 showSideMenu = false
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
-                        } else if value.predictedEndLocation.x - value.startLocation.x > 5 {
+                        } else if value.translation.width > 5 && sideMenuOffset != -55 {
                             withAnimation(.easeInOut(duration: 0.23)) {
                                 sideMenuOffset = -55
                                 showSideMenu = true
                             }
-                        } else {
-                            withAnimation(.easeInOut(duration: 0.23)) {
-                                showSideMenu = false
-                                sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
-                            }
                         }
                     })
                 )
-            
-            
                 .zIndex(1)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
 //        }
