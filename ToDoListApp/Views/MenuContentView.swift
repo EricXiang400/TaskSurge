@@ -19,6 +19,7 @@ struct MenuContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
     @Binding var menuOffset: CGFloat
+    @Binding var settingViewOffset: CGFloat
     @State var categoryIndex: Int = 0
     let fromTopTransition = AnyTransition.opacity.combined(with: .offset(y: -25))
 
@@ -119,7 +120,11 @@ struct MenuContentView: View {
                 // Settings button
                 Button (action: {
                     UIApplication.shared.endEditing()
-                    isShowingSetting = true
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        isShowingSetting = true
+                        settingViewOffset = 0
+                    }
+                    
                 }) {
                     Image(systemName: "gearshape") // SF Symbol for settings
                         .resizable()

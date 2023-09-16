@@ -19,6 +19,7 @@ struct MainView: View {
     @State var selectedTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var slideBarAmount: Float = 0
     @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
+    @State var settingViewOffset: CGFloat = -440
     var body: some View {
         ZStack {
             VStack {
@@ -32,7 +33,7 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.23)) {
+                            withAnimation(.easeInOut(duration: 0.25)) {
                                 showSideMenu = false
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
@@ -42,7 +43,7 @@ struct MainView: View {
                     Color.white.opacity(0.0000001)
                         .frame(width: UIScreen.main.bounds.width * (3/4) + 20, alignment: .leading)
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.23)) {
+                            withAnimation(.easeInOut(duration: 0.25)) {
                                 showSideMenu = true
                                 sideMenuOffset = -55
                             }
@@ -59,30 +60,19 @@ struct MainView: View {
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                     }
 
-                    MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset)
+                    MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset, settingViewOffset: $settingViewOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                 }
                 .offset(x: sideMenuOffset)
                 .gesture(DragGesture()
-                    .onChanged({ value in
-                        if abs(value.translation.width) > 5 {
-                            if !(value.translation.width > 5 && sideMenuOffset == -55) && value.location.y < 850 {
-                                sideMenuOffset = min(value.location.x - UIScreen.main.bounds.width * (3/4), -55)
-                                if sideMenuOffset == -55 {
-                                    showSideMenu = true
-                                }
-                            }
-                        }
-                    }
-                              )
                     .onEnded({ value in
                         if value.translation.width < -5 {
-                            withAnimation(.easeInOut(duration: 0.23)) {
-                                showSideMenu = false
+                            withAnimation(.easeInOut(duration: 0.25)) {
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
+                                showSideMenu = false
                             }
                         } else if value.translation.width > 5 && sideMenuOffset != -55 {
-                            withAnimation(.easeInOut(duration: 0.23)) {
+                            withAnimation(.easeInOut(duration: 0.25)) {
                                 sideMenuOffset = -55
                                 showSideMenu = true
                             }
@@ -91,14 +81,29 @@ struct MainView: View {
                 )
                 .zIndex(1)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
-//        }
 
             if isShowSettingView {
-                SettingsView(isShowingSetting: $isShowSettingView)
+                SettingsView(isShowingSetting: $isShowSettingView, settingViewOffset: $settingViewOffset)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1).edgesIgnoringSafeArea(.all): Color.white.edgesIgnoringSafeArea(.all)) // Set background color
+                    .offset(x: settingViewOffset)
+                    
+                    .gesture(DragGesture()
+                        .onEnded({ value in
+                            if value.translation.width < -25 {
+                                withAnimation(.easeInOut(duration: 0.25)) {
+                                    isShowSettingView = false
+                                    settingViewOffset = -440
+                                }
+                            } else {
+                                withAnimation(.easeInOut(duration: 0.25)) {
+                                    isShowSettingView = true
+                                    settingViewOffset = 0
+                                }
+                            }
+                        })
+                    )
                     .transition(.move(edge: .leading))
-                    .animation(.easeInOut)
                     .zIndex(1)
             }
             

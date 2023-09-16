@@ -16,12 +16,14 @@ struct SettingsView: View {
     @Binding var isShowingSetting: Bool
     @State var showDeleteAccountAlert: Bool = false
     @State var showReauthenticationView: Bool = false
+    @Binding var settingViewOffset: CGFloat
     var body: some View {
         VStack {
             HStack {
                 Button (action: {
-                    withAnimation {
+                    withAnimation(.easeInOut(duration: 0.25)) {
                         isShowingSetting = false
+                        settingViewOffset = 0
                        }
                 }) {
                     Image(systemName: "chevron.left")
