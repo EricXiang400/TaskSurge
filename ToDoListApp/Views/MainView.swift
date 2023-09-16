@@ -33,7 +33,7 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.25)) {
+                            withAnimation(.easeInOut(duration: 0.22)) {
                                 showSideMenu = false
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
@@ -43,7 +43,7 @@ struct MainView: View {
                     Color.white.opacity(0.0000001)
                         .frame(width: UIScreen.main.bounds.width * (3/4) + 20, alignment: .leading)
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.25)) {
+                            withAnimation(.easeInOut(duration: 0.22)) {
                                 showSideMenu = true
                                 sideMenuOffset = -55
                             }
@@ -67,12 +67,12 @@ struct MainView: View {
                 .gesture(DragGesture()
                     .onEnded({ value in
                         if value.translation.width < -5 {
-                            withAnimation(.easeInOut(duration: 0.25)) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                                 showSideMenu = false
                             }
                         } else if value.translation.width > 5 && sideMenuOffset != -55 {
-                            withAnimation(.easeInOut(duration: 0.25)) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
                                 sideMenuOffset = -55
                                 showSideMenu = true
                             }
@@ -91,12 +91,12 @@ struct MainView: View {
                     .gesture(DragGesture()
                         .onEnded({ value in
                             if value.translation.width < -25 {
-                                withAnimation(.easeInOut(duration: 0.25)) {
+                                withAnimation(.easeInOut(duration: 0.22)) {
                                     isShowSettingView = false
                                     settingViewOffset = -440
                                 }
                             } else {
-                                withAnimation(.easeInOut(duration: 0.25)) {
+                                withAnimation(.easeInOut(duration: 0.22)) {
                                     isShowSettingView = true
                                     settingViewOffset = 0
                                 }
@@ -111,7 +111,7 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.25)) {
+                            withAnimation(.easeInOut(duration: 0.22)) {
                                 showProgressEditView = false
                             }
                         }

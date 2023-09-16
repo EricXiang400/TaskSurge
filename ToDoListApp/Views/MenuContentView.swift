@@ -120,7 +120,7 @@ struct MenuContentView: View {
                 // Settings button
                 Button (action: {
                     UIApplication.shared.endEditing()
-                    withAnimation(.easeInOut(duration: 0.25)) {
+                    withAnimation(.easeInOut(duration: 0.22)) {
                         isShowingSetting = true
                         settingViewOffset = 0
                     }
