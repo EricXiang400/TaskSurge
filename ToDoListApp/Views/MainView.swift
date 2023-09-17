@@ -41,7 +41,7 @@ struct MainView: View {
                 }
                 ZStack {
                     Color.white.opacity(0.0000001)
-                        .frame(width: UIScreen.main.bounds.width * (3/4) + 20, alignment: .leading)
+                        .frame(width: UIScreen.main.bounds.width * (3/4) + 35, alignment: .leading)
                         .onTapGesture {
                             withAnimation(.easeInOut(duration: 0.22)) {
                                 showSideMenu = true
