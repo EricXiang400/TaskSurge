@@ -43,7 +43,7 @@ struct MenuContentView: View {
                 Text("Categories")
                     .font(.title)
                     .bold()
-                    
+                
                 Spacer()
                 Button (action: {
                     UIApplication.shared.endEditing()
@@ -57,7 +57,7 @@ struct MenuContentView: View {
                         .resizable()
                         .frame(width: 17, height: 17)
                         .cornerRadius(10)
-                        
+                    
                 }
             }
             .padding()
@@ -82,27 +82,44 @@ struct MenuContentView: View {
                     .animation(.easeInOut)
                 }
             }
-//            .transition(.identity)
-
+            //            .transition(.identity)
+            
             Spacer()
-
-            HStack {
-                Spacer()
-                // Settings button
-                Button (action: {
-                    UIApplication.shared.endEditing()
-                    withAnimation(.easeInOut(duration: 0.22)) {
-                        isShowingSetting = true
-                        settingViewOffset = 0
-                    }
-                    
-                }) {
-                    Image(systemName: "gearshape") // SF Symbol for settings
-                        .resizable()
-                        .frame(width: 30, height: 30)
+            ZStack {
+                if colorScheme == .light {
+                    Color(red: 0.95, green: 0.95, blue: 0.95)
+                        .ignoresSafeArea(.all)
+                        .frame(height: 45)
+                        .shadow(radius: 3)
+                } else {
+                    Color(red: 0.15, green: 0.15, blue: 0.15)
+                        .ignoresSafeArea(.all)
+                        .frame(height: 45)
+                        .shadow(radius: 3)
                 }
-                .padding(.trailing)
+                
+                HStack {
+                    
+                    // Settings button
+                    Button (action: {
+                        UIApplication.shared.endEditing()
+                        withAnimation(.easeInOut(duration: 0.22)) {
+                            isShowingSetting = true
+                            settingViewOffset = 0
+                        }
+                        
+                    }) {
+                        Image(systemName: "gearshape") // SF Symbol for settings
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
+                    .padding(.trailing)
+                    .padding(.leading)
+                    Spacer()
+                }
+                
             }
+            
         }
         .onAppear {
             categoryContainer.loadLocalCategories()
