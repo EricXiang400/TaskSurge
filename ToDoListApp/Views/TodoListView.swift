@@ -278,8 +278,8 @@ struct TodoListView: View {
                 }
             }
         }
-        
     }
+    
     func sortTask() {
         if userSettings.sortOption == 0 {
             todoListContainer.todoList.sort(by: {

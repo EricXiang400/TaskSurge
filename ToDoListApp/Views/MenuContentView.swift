@@ -15,7 +15,6 @@ struct MenuContentView: View {
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var categoryContainer: CategoriesData
     @Binding var isShowingSetting: Bool
-    @Binding var showLoginView: Bool
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
     @Binding var menuOffset: CGFloat
@@ -38,39 +37,15 @@ struct MenuContentView: View {
                 .padding(.leading, 6.5)
                 Spacer()
             }
-            .padding()
-            HStack {
-                Image(systemName: "person.circle")
-                    .font(.system(size: 28))
-                    .padding(.leading, 18)
-                if curUserContainer.curUser != nil {
-                    Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
-                        .bold()
-                    Button {
-                        if signOut() {
-                            curUserContainer.curUser = nil
-                            todoListContainer.loadLocalData(user: nil)
-                            userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                            categoryContainer.loadLocalCategories()
-                        }
-                    } label: {
-                        Text("Sign Out")
-                            .bold()
-                    }
-                } else {
-                    Button {
-                        showLoginView = true
-                    } label: {
-                        Text("Log In")
-                            .bold()
-                    }
-                    .sheet(isPresented: $showLoginView) {
-                        LogInView(showLoginView: $showLoginView, showSideWindow: $showSideMenu)
-                    }
-                    
-                }
-            }
+            .padding(.leading)
             
+            HStack {
+                Text("Categories")
+                    .font(.title)
+                    .bold()
+                    .padding()
+                Spacer()
+            }
             ScrollView {
                 ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                     HStack {
@@ -142,16 +117,7 @@ struct MenuContentView: View {
         }
     }
     
-    func signOut() -> Bool {
-        do {
-            try Auth.auth().signOut()
-            showSideMenu = false
-            return true
-        } catch let signOutError_ as NSError {
-            print("Error signing out")
-            return false
-        }
-    }
+    
 }
 
 struct MenuItem: Identifiable, Hashable {

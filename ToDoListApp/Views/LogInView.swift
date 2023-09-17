@@ -12,11 +12,11 @@ import SwiftUI
 struct LogInView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject private var categoryContainer: CategoriesData
     @Binding var showLoginView: Bool
     @State var showSignupView = false
     @State var email: String = ""
     @State var password: String = ""
-    @Binding var showSideWindow: Bool
     @State private var error: Error? = nil
     @State var showForgotPasswordView: Bool = false
     @EnvironmentObject var userSettings: UserSettings
@@ -49,6 +49,7 @@ struct LogInView: View {
                 login(completion: {
                     todoListContainer.loadLocalData(user: curUserContainer.curUser!)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                    categoryContainer.loadLocalCategories()
                     showLoginView = false
                     print("ALL OPERATION FINISHED")
                 })
@@ -106,7 +107,6 @@ struct LogInView: View {
                 self.error = error
             } else {
                 print("Sign-in success")
-                showSideWindow = false
                 curUserContainer.curUser = Auth.auth().currentUser!
                 FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
                     completion()

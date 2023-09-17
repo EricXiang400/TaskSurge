@@ -13,10 +13,12 @@ struct SettingsView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var categoryContainer: CategoriesData
     @Binding var isShowingSetting: Bool
     @State var showDeleteAccountAlert: Bool = false
     @State var showReauthenticationView: Bool = false
     @Binding var settingViewOffset: CGFloat
+    @State var showLoginView: Bool = false
     var body: some View {
         VStack {
             HStack {
@@ -41,6 +43,37 @@ struct SettingsView: View {
             }
             Spacer()
             VStack {
+                HStack {
+                    Image(systemName: "person.circle")
+                        .font(.system(size: 28))
+                        .padding(.leading, 18)
+                    if curUserContainer.curUser != nil {
+                        Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
+                            .bold()
+                        Button {
+                            if signOut() {
+                                curUserContainer.curUser = nil
+                                todoListContainer.loadLocalData(user: nil)
+                                userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                                categoryContainer.loadLocalCategories()
+                            }
+                        } label: {
+                            Text("Sign Out")
+                                .bold()
+                        }
+                    } else {
+                        Button {
+                            showLoginView = true
+                        } label: {
+                            Text("Log In")
+                                .bold()
+                        }
+                        .sheet(isPresented: $showLoginView) {
+                            LogInView(showLoginView: $showLoginView)
+                        }
+                        
+                    }
+                }
                 Toggle(isOn: $userSettings.darkMode) {
                     Text("Dark Mode")
                 }
@@ -101,6 +134,15 @@ struct SettingsView: View {
                     ReAuthenticationView(showReauthenticationView: $showReauthenticationView, isShowingSetting: $isShowingSetting)
                 }
             }
+        }
+    }
+    func signOut() -> Bool {
+        do {
+            try Auth.auth().signOut()
+            return true
+        } catch let signOutError_ as NSError {
+            print("Error signing out")
+            return false
         }
     }
 }

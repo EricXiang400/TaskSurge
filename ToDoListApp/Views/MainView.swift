@@ -60,7 +60,7 @@ struct MainView: View {
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                     }
 
-                    MenuContentView(isShowingSetting: $isShowSettingView, showLoginView: $showLoginView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset, settingViewOffset: $settingViewOffset)
+                    MenuContentView(isShowingSetting: $isShowSettingView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset, settingViewOffset: $settingViewOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                 }
                 .offset(x: sideMenuOffset)
