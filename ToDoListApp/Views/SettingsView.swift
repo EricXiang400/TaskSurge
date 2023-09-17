@@ -46,10 +46,11 @@ struct SettingsView: View {
                 HStack {
                     Image(systemName: "person.circle")
                         .font(.system(size: 28))
-                        .padding(.leading, 18)
+                        .padding(.leading)
                     if curUserContainer.curUser != nil {
-                        Text("Hi, \(TodoList.loadLocalUser()?.userName ?? "Unknown")")
+                        Text("\(TodoList.loadLocalUser()?.userName ?? "")")
                             .bold()
+                        Spacer()
                         Button {
                             if signOut() {
                                 curUserContainer.curUser = nil
@@ -61,12 +62,15 @@ struct SettingsView: View {
                             Text("Sign Out")
                                 .bold()
                         }
+                        .padding()
                     } else {
+                        Spacer()
                         Button {
                             showLoginView = true
                         } label: {
                             Text("Log In")
                                 .bold()
+                                .padding()
                         }
                         .sheet(isPresented: $showLoginView) {
                             LogInView(showLoginView: $showLoginView)

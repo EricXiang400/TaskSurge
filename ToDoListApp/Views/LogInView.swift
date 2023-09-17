@@ -50,8 +50,12 @@ struct LogInView: View {
                     todoListContainer.loadLocalData(user: curUserContainer.curUser!)
                     userSettings.loadLocalSettings(user: curUserContainer.curUser)
                     categoryContainer.loadLocalCategories()
-                    showLoginView = false
+                    
                     print("ALL OPERATION FINISHED")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+//                        showLoginView = false
+                    }
+                    
                 })
             }) {
                 if email == "" || password == "" {
