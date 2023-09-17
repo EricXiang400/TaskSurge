@@ -46,17 +46,19 @@ struct LogInView: View {
                 }
             }
             Button(action: {
-                login(completion: {
-                    todoListContainer.loadLocalData(user: curUserContainer.curUser!)
-                    userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                    categoryContainer.loadLocalCategories()
-                    
-                    print("ALL OPERATION FINISHED")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-//                        showLoginView = false
-                    }
-                    
-                })
+                showLoginView = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    login(completion: {
+                        todoListContainer.loadLocalData(user: curUserContainer.curUser!)
+                        userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                        categoryContainer.loadLocalCategories()
+                        
+                        print("ALL OPERATION FINISHED")
+                        
+                        
+                    })
+                }
+                
             }) {
                 if email == "" || password == "" {
                     Text("Sign in")
