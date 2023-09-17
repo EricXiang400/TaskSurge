@@ -43,9 +43,24 @@ struct MenuContentView: View {
                 Text("Categories")
                     .font(.title)
                     .bold()
-                    .padding()
+                    
                 Spacer()
+                Button (action: {
+                    UIApplication.shared.endEditing()
+                    categoryContainer.categories.append(Category(name: "Untitled"))
+                    categoryContainer.saveLocalCategories()
+                    if curUserContainer.curUser != nil {
+                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                    }
+                }) {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width: 17, height: 17)
+                        .cornerRadius(10)
+                        
+                }
             }
+            .padding()
             ScrollView {
                 ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                     HStack {
@@ -70,26 +85,7 @@ struct MenuContentView: View {
 //            .transition(.identity)
 
             Spacer()
-            HStack {
-                Spacer()
-                Button (action: {
-                    UIApplication.shared.endEditing()
-                    categoryContainer.categories.append(Category(name: "Untitled"))
-                    categoryContainer.saveLocalCategories()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                    }
-                }) {
-                    Image(systemName: "plus")
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 125)
-                        .padding(.vertical, 10)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                Spacer()
-            }
-            .padding()
+
             HStack {
                 Spacer()
                 // Settings button

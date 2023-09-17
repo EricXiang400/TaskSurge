@@ -52,10 +52,7 @@ struct LogInView: View {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser!)
                         userSettings.loadLocalSettings(user: curUserContainer.curUser)
                         categoryContainer.loadLocalCategories()
-                        
                         print("ALL OPERATION FINISHED")
-                        
-                        
                     })
                 }
                 
