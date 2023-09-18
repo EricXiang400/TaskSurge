@@ -260,8 +260,6 @@ struct TodoListView: View {
                             }
                         }
                 }
-                
-                
             }
             
             if showSortingOptions {

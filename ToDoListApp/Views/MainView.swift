@@ -41,14 +41,17 @@ struct MainView: View {
                 }
                 ZStack {
                     Color.white.opacity(0.0000001)
-                        .frame(width: UIScreen.main.bounds.width * (3/4) + 35, alignment: .leading)
-                        .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.22)) {
-                                print(sideMenuOffset)
-                                showSideMenu = true
-                                sideMenuOffset = -55
-                            }
-                        }
+                        .frame(width: UIScreen.main.bounds.width * (3/4) + 50, alignment: .leading)
+                        .gesture(DragGesture()
+                            .onEnded({ value in
+                                if value.translation.width > 5 {
+                                    withAnimation(.easeInOut(duration: 0.22)) {
+                                        showSideMenu = true
+                                        sideMenuOffset = -55
+                                    }
+                                }
+                            })
+                        )
                         .zIndex(0)
                        
                     if (colorScheme == .dark) {
@@ -75,7 +78,6 @@ struct MainView: View {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                                 showSideMenu = false
-                                print(value.translation.width)
                             }
                         } else if value.translation.width > 5 && sideMenuOffset != -55 {
                             withAnimation(.easeInOut(duration: 0.2)) {
@@ -94,7 +96,6 @@ struct MainView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1).edgesIgnoringSafeArea(.all): Color.white.edgesIgnoringSafeArea(.all)) // Set background color
                     .offset(x: settingViewOffset)
-                    
                     .gesture(DragGesture()
                         .onEnded({ value in
                             if value.translation.width < -25 {
