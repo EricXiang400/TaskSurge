@@ -68,9 +68,7 @@ struct MainView: View {
                     MenuContentView(isShowingSetting: $isShowSettingView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset, settingViewOffset: $settingViewOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                         .zIndex(2)
-                        
                 }
-                
                 .gesture(DragGesture()
                     .onEnded({ value in
                         if value.translation.width < -5 {

@@ -20,6 +20,7 @@ struct MenuContentView: View {
     @Binding var menuOffset: CGFloat
     @Binding var settingViewOffset: CGFloat
     @State var categoryIndex: Int = 0
+    var categoryRowOffset: Int = 48
     let fromTopTransition = AnyTransition.opacity.combined(with: .offset(y: -25))
 
     var body: some View {
@@ -61,28 +62,41 @@ struct MenuContentView: View {
                 }
             }
             .padding()
-            ScrollView {
-                ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
-                    HStack {
-                        Spacer()
-                        CategoryRow(category: $categoryContainer.categories[index], categoryIndex: $categoryIndex, localCategoryIndex: index,delete: {
-                            if todoListContainer.selectedCategory == categoryContainer.categories[index] {
-                                todoListContainer.selectedCategory = nil
-                            }
-                            categoryContainer.categories.remove(at: index)
-                            categoryContainer.saveLocalCategories()
-                            if curUserContainer.curUser != nil {
-                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                            }
-                        })
-                        Spacer()
+            ZStack {
+                ScrollView {
+                    ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
+                        HStack {
+                            Spacer()
+                            CategoryRow(category: $categoryContainer.categories[index], categoryIndex: $categoryIndex, localCategoryIndex: index,delete: {
+                                if todoListContainer.selectedCategory == categoryContainer.categories[index] {
+                                    todoListContainer.selectedCategory = nil
+                                }
+                                categoryContainer.categories.remove(at: index)
+                                categoryContainer.saveLocalCategories()
+                                if curUserContainer.curUser != nil {
+                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                                }
+                            })
+                            Spacer()
+                        }
+                        .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15))
+                        .transition(fromTopTransition)
+                        .animation(.easeInOut)
                     }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15))
-                    .transition(fromTopTransition)
-                    .animation(.easeInOut)
                 }
+                Color.white.opacity(0.0000001)
+                    .offset(y: CGFloat(categoryContainer.categories.count * categoryRowOffset))
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                        categoryContainer.categories.append(Category(name: "Untitled"))
+                        categoryContainer.saveLocalCategories()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                    
             }
-            //            .transition(.identity)
+            
             
             Spacer()
             ZStack {
@@ -107,7 +121,6 @@ struct MenuContentView: View {
                             isShowingSetting = true
                             settingViewOffset = 0
                         }
-                        
                     }) {
                         Image(systemName: "gearshape") // SF Symbol for settings
                             .resizable()
