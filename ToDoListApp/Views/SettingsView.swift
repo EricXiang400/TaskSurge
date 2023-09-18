@@ -45,7 +45,7 @@ struct SettingsView: View {
             VStack {
                 HStack {
                     Image(systemName: "person.circle")
-                        .font(.system(size: 28))
+                        .font(.system(size: 40))
                         .padding(.leading)
                     if curUserContainer.curUser != nil {
                         Text("\(TodoList.loadLocalUser()?.userName ?? "")")
@@ -78,40 +78,73 @@ struct SettingsView: View {
                         
                     }
                 }
-                Toggle(isOn: $userSettings.darkMode) {
-                    Text("Dark Mode")
-                }
-                .onChange(of: userSettings.darkMode) { newValue in
-                    userSettings.darkMode = newValue
-                    userSettings.saveLocalSettings()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                
+                Divider()
+                
+                VStack {
+                    Toggle(isOn: $userSettings.darkMode) {
+                        Text("Dark Mode")
+                    }
+                    .onChange(of: userSettings.darkMode) { newValue in
+                        userSettings.darkMode = newValue
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
                     }
                 }
                 .padding(.horizontal)
-                Toggle(isOn: $userSettings.showKeyboardOnStart) {
-                    Text("Keyboard On New Task")
-                }
-                .onChange(of: userSettings.showKeyboardOnStart) { newValue in
-                    userSettings.showKeyboardOnStart = newValue
-                    userSettings.saveLocalSettings()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                
+                Divider()
+                
+                VStack {
+                    Toggle(isOn: $userSettings.showKeyboardOnStart) {
+                        Text("Keyboard Auto-Focus")
+                    }
+                    .onChange(of: userSettings.showKeyboardOnStart) { newValue in
+                        userSettings.showKeyboardOnStart = newValue
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Show keyboard on new task creation")
+                            .font(.system(size: 12))
+                            .foregroundColor(.gray)
+                        Spacer()
                     }
                 }
                 .padding(.horizontal)
-                Toggle(isOn: $userSettings.taskLayover) {
-                    Text("Task Layover")
-                }
-                .onChange(of: userSettings.taskLayover) { newValue in
-                    userSettings.taskLayover = newValue
-                    userSettings.saveLocalSettings()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                
+                Divider()
+                
+                VStack {
+                    Toggle(isOn: $userSettings.taskLayover) {
+                        Text("Task Layover")
+                    }
+                    .onChange(of: userSettings.taskLayover) { newValue in
+                        userSettings.taskLayover = newValue
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Incomplete tasks from the previous day are moved to the current date")
+                            .font(.system(size: 12))
+                            .foregroundColor(.gray)
+                        Spacer()
                     }
                 }
                 .padding(.horizontal)
+                
+                
+                Divider()
                 Spacer()
+                
             }
             if curUserContainer.curUser != nil {
                 Button {
