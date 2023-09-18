@@ -44,7 +44,6 @@ struct MenuContentView: View {
                 Text("Categories")
                     .font(.title)
                     .bold()
-                
                 Spacer()
                 Button (action: {
                     UIApplication.shared.endEditing()
@@ -58,7 +57,6 @@ struct MenuContentView: View {
                         .resizable()
                         .frame(width: 17, height: 17)
                         .cornerRadius(10)
-                    
                 }
             }
             .padding()
