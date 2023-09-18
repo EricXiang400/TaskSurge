@@ -84,16 +84,17 @@ struct MenuContentView: View {
                         .animation(.easeInOut)
                     }
                 }
-                Color.white.opacity(0.0000001)
-                    .offset(y: CGFloat(categoryContainer.categories.count * categoryRowOffset))
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
-                        categoryContainer.categories.append(Category(name: "Untitled"))
-                        categoryContainer.saveLocalCategories()
-                        if curUserContainer.curUser != nil {
-                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                        }
-                    }
+//                Tap on empty to create a new category
+//                Color.white.opacity(0.0000001)
+//                    .offset(y: CGFloat(categoryContainer.categories.count * categoryRowOffset))
+//                    .onTapGesture {
+//                        UIApplication.shared.endEditing()
+//                        categoryContainer.categories.append(Category(name: "Untitled"))
+//                        categoryContainer.saveLocalCategories()
+//                        if curUserContainer.curUser != nil {
+//                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//                        }
+//                    }
                     
             }
             
