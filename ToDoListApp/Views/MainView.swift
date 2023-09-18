@@ -44,32 +44,40 @@ struct MainView: View {
                         .frame(width: UIScreen.main.bounds.width * (3/4) + 35, alignment: .leading)
                         .onTapGesture {
                             withAnimation(.easeInOut(duration: 0.22)) {
+                                print(sideMenuOffset)
                                 showSideMenu = true
                                 sideMenuOffset = -55
                             }
                         }
+                        .zIndex(0)
+                       
                     if (colorScheme == .dark) {
                         Color(red: 0.1, green: 0.1, blue: 0.1)
                             .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                             .ignoresSafeArea(.all)
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                            .zIndex(1)
                     } else {
                         Color.primaryColor(for: colorScheme)
                             .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
                             .ignoresSafeArea(.all)
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                            .zIndex(1)
                     }
 
                     MenuContentView(isShowingSetting: $isShowSettingView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset, settingViewOffset: $settingViewOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
+                        .zIndex(2)
+                        
                 }
-                .offset(x: sideMenuOffset)
+                
                 .gesture(DragGesture()
                     .onEnded({ value in
                         if value.translation.width < -5 {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                                 showSideMenu = false
+                                print(value.translation.width)
                             }
                         } else if value.translation.width > 5 && sideMenuOffset != -55 {
                             withAnimation(.easeInOut(duration: 0.2)) {
@@ -81,6 +89,7 @@ struct MainView: View {
                 )
                 .zIndex(1)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
+                .offset(x: sideMenuOffset)
 
             if isShowSettingView {
                 SettingsView(isShowingSetting: $isShowSettingView, settingViewOffset: $settingViewOffset)
