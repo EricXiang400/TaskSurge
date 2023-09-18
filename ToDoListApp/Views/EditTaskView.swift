@@ -63,10 +63,10 @@ struct EditTaskView: View {
                 } label: {
                     Text("Cancel")
                         .font(.headline)
-                        .foregroundColor(.red)
+                        .foregroundColor(.white)
                         .frame(maxWidth: 135)
                         .padding(.vertical, 12)
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red)
                         .cornerRadius(8)
                 }
                 .padding()
@@ -81,23 +81,44 @@ struct EditTaskView: View {
                         confirmClosure()
                     }
                 } label: {
-                    if todoContentCopy.content == "" {
-                        Text("Confirm")
-                            .font(.headline)
-                            .foregroundColor(.blue.opacity(0.5))
-                            .frame(maxWidth: 135)
-                            .padding(.vertical, 12)
-                            .background(Color.blue.opacity(0.2))
-                            .cornerRadius(8)
+                    if isNewTask {
+                        if todoContentCopy.content == "" {
+                            Text("Create")
+                                .font(.headline)
+                                .foregroundColor(.blue.opacity(0.5))
+                                .frame(maxWidth: 135)
+                                .padding(.vertical, 12)
+                                .background(Color.blue.opacity(0.2))
+                                .cornerRadius(8)
+                        } else {
+                            Text("Create")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: 135)
+                                .padding(.vertical, 12)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                        }
                     } else {
-                        Text("Confirm")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                            .frame(maxWidth: 135)
-                            .padding(.vertical, 12)
-                            .background(Color.blue.opacity(0.2))
-                            .cornerRadius(8)
+                        if todoContentCopy.content == "" || (todoContentCopy.content == todoContentOriginal.content && todoContentCopy.progress == todoContentOriginal.progress) {
+                            Text("Confirm")
+                                .font(.headline)
+                                .foregroundColor(.blue.opacity(0.5))
+                                .frame(maxWidth: 135)
+                                .padding(.vertical, 12)
+                                .background(Color.blue.opacity(0.2))
+                                .cornerRadius(8)
+                        } else {
+                            Text("Confirm")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: 135)
+                                .padding(.vertical, 12)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                        }
                     }
+                    
                 }
                 .disabled(todoContentCopy.content == "")
             }
