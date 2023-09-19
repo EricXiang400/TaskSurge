@@ -45,7 +45,6 @@ struct TodoListView: View {
         return count
     }
     
-    
     func sameDate(date1: Date, date2: Date) -> Bool {
         return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
     }
@@ -85,7 +84,6 @@ struct TodoListView: View {
                             sideMenuOffset = -55
                             showSideMenu = true
                         }
-                        
                     }) {
                         Image(systemName: "line.horizontal.3")
                             .imageScale(.large)
@@ -177,6 +175,8 @@ struct TodoListView: View {
                                     saveData()
                                 }) {
                                     Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+                                        .resizable()
+                                        .frame(width: 22, height: 22)
                                         .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                                 }
                                 .padding(5)

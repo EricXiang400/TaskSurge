@@ -55,7 +55,6 @@ struct LogInView: View {
                         print("ALL OPERATION FINISHED")
                     })
                 }
-                
             }) {
                 if email == "" || password == "" {
                     Text("Sign in")
