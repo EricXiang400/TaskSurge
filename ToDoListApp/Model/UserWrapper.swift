@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct UserWrapper: Codable, Hashable {
     var uid: String
@@ -25,5 +26,39 @@ struct UserWrapper: Codable, Hashable {
     init(uid: String, userName: String) {
         self.uid = uid
         self.userName = userName
+    }
+    
+    static func loadLocalUser() -> UserWrapper? {
+        let data: Data
+        do {
+            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            if let curUser = Auth.auth().currentUser {
+                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-user.json")
+                data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                let output = try decoder.decode(UserWrapper.self, from: data)
+                return output
+            } else {
+                print("Need to be logged in")
+                return nil
+            }
+        } catch {
+            print("user is nil")
+            return nil
+        }
+    }
+    
+    static func saveLocalUser(user: User, userName: String) {
+        do {
+            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let fileURL = documentDirectory.appendingPathComponent("\(user.uid)-user.json")
+            let encoder = JSONEncoder()
+            let userWrapper = UserWrapper(uid: user.uid, userName: userName)
+            let encodedUser = try encoder.encode(userWrapper)
+            try encodedUser.write(to: fileURL)
+        } catch {
+            print("User save failed")
+        }
+        
     }
 }

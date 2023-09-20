@@ -48,7 +48,7 @@ struct SettingsView: View {
                         .font(.system(size: 40))
                         .padding(.leading)
                     if curUserContainer.curUser != nil {
-                        Text("\(TodoList.loadLocalUser()?.userName ?? "")")
+                        Text("\(UserWrapper.loadLocalUser()?.userName ?? "")")
                             .bold()
                         Spacer()
                         Button {

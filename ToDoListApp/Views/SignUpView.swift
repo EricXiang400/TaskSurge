@@ -11,6 +11,9 @@ import SwiftUI
 
 struct SignUpView: View {
     @EnvironmentObject var curUserContainer: AppUser
+    @EnvironmentObject private var todoListContainer: TodoList
+    @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var categoryContainer: CategoriesData
     @State var email: String = ""
     @State var password: String = ""
     @State var confirmPassword: String = ""
@@ -96,27 +99,11 @@ struct SignUpView: View {
                 return
             }
             showLoginView = false
-            let db = Firestore.firestore()
-            let userDocumentRef = db.collection("uid").document(user.uid)
-            let jsonEncoder = JSONEncoder()
-            do {
-                let encodedData = try jsonEncoder.encode([] as! [TodoContent])
-                let user = UserWrapper(uid: result!.user.uid, userName: username)
-                let encodedUser = try jsonEncoder.encode(user)
-                let encodedSetting = try jsonEncoder.encode(UserSettings())
-                let encodedCategories = try jsonEncoder.encode([] as! [Category])
-                let encodedCategory = try jsonEncoder.encode(Category(name: "none"))
-                userDocumentRef.setData(["user": encodedUser,
-                                         "data": encodedData,
-                                         "category": encodedCategory,
-                                         "categories": encodedCategories,
-                                         "settings": encodedSetting
-                                        ])
-                print("Sign-up success")
-            } catch {
-                print("Encode empty array into json error")
-            }
-            
+            UserSettings().saveLocalSettings()
+            TodoList().saveLocalData()
+            CategoriesData().saveLocalCategories()
+            UserWrapper.saveLocalUser(user: user, userName: username)
+            curUserContainer.curUser = user
         }
     }
 }

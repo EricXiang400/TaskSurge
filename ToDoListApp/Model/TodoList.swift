@@ -97,25 +97,6 @@ final class TodoList: ObservableObject, Codable {
         }
     }
     
-    static func loadLocalUser() -> UserWrapper? {
-        let data: Data
-        do {
-            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            if let curUser = Auth.auth().currentUser {
-                let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-user.json")
-                data = try Data(contentsOf: fileURL)
-                let decoder = JSONDecoder()
-                let output = try decoder.decode(UserWrapper.self, from: data)
-                return output
-            } else {
-                print("Need to be logged in")
-                return nil
-            }
-        } catch {
-            print("user is nil")
-            return nil
-        }
-    }
     
     
 }
