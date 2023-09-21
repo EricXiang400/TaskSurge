@@ -76,6 +76,8 @@ struct TodoListView: View {
     
     var body: some View {
         ZStack {
+            Color(red: 0.1, green: 0.1, blue: 0.1)
+                .ignoresSafeArea(.all)
             VStack {
                 HStack {
                     Button(action: {
@@ -189,7 +191,10 @@ struct TodoListView: View {
                                                     showProgressEditView: $showProgressEditView)
                                 }
                             }
+                            .listRowBackground(Color(red: 0.1, green: 0.1, blue: 0.1))
+                            .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                             .contentShape(Rectangle())
+                            .cornerRadius(5)
                             .alert(isPresented: $showConfirmationSheet) {
                                 Alert(
                                     title: Text("Task Completion"),
@@ -212,10 +217,10 @@ struct TodoListView: View {
                                 }
                                 .tint(.red)
                             }
-                            
                         }
-                            
                     }
+                    
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                     .listStyle(.plain)
                     .onAppear {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser)
@@ -261,6 +266,7 @@ struct TodoListView: View {
                         }
                 }
             }
+            .background(Color(red: 0.1, green: 0.1, blue: 0.1))
             
             if showSortingOptions {
                 Color.white.opacity(0.0001)
@@ -276,6 +282,7 @@ struct TodoListView: View {
                 }
             }
         }
+        .background(Color(red: 0.1, green: 0.1, blue: 0.1))
     }
     
     func sortTask() {

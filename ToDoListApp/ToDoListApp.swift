@@ -33,7 +33,9 @@ struct ToDoListApp: App {
                 .environmentObject(curUser)
                 .environmentObject(userSettings)
                 .environmentObject(categories)
-                .preferredColorScheme(userSettings.darkMode ? .dark : .light)
         }
     }
+}
+extension ColorScheme {
+    static let lightDark = Color(red: 0.1, green: 0.1, blue: 0.1)
 }

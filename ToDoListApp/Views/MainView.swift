@@ -22,13 +22,14 @@ struct MainView: View {
     @State var settingViewOffset: CGFloat = -440
     var body: some View {
         ZStack {
+            Color(red: 0.1, green: 0.1, blue: 0.1)
+                .ignoresSafeArea(.all)
             VStack {
                 CalendarView()
+                    .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(Color.primaryColor(for: colorScheme))
                 }
-//                .zIndex(0)
-            
                 if showSideMenu {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
