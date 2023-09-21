@@ -27,7 +27,7 @@ struct MainView: View {
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(Color.primaryColor(for: colorScheme))
                 }
-                .zIndex(0)
+//                .zIndex(0)
             
                 if showSideMenu {
                     Color.black.opacity(0.5)
@@ -38,6 +38,7 @@ struct MainView: View {
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
                         }
+                        .zIndex(1)
                 }
                 ZStack {
                     Color.white.opacity(0.0000001)
@@ -112,7 +113,7 @@ struct MainView: View {
                         })
                     )
                     .transition(.move(edge: .leading))
-                    .zIndex(1)
+                    .zIndex(2)
             }
             
             if showProgressEditView {
