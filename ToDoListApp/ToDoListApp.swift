@@ -33,6 +33,7 @@ struct ToDoListApp: App {
                 .environmentObject(curUser)
                 .environmentObject(userSettings)
                 .environmentObject(categories)
+                .preferredColorScheme(userSettings.darkMode ? .dark : .light)
         }
     }
 }

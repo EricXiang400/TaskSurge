@@ -15,18 +15,27 @@ struct MainView: View {
     @State var showCalendar: Bool = true
     @State var isShowSettingView: Bool = false
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var userSettings: UserSettings
     @State var showProgressEditView: Bool = false
     @State var selectedTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
     @State var slideBarAmount: Float = 0
     @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
     @State var settingViewOffset: CGFloat = -440
+    var backgroundColor: Color {
+        if userSettings.darkMode {
+            Color(red: 0.1, green: 0.1, blue: 0.1)
+        } else {
+            Color.white
+        }
+    }
     var body: some View {
         ZStack {
-            Color(red: 0.1, green: 0.1, blue: 0.1)
+            backgroundColor
                 .ignoresSafeArea(.all)
+            
             VStack {
                 CalendarView()
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1))
+                    .background(backgroundColor)
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(Color.primaryColor(for: colorScheme))
                 }
@@ -55,20 +64,11 @@ struct MainView: View {
                             })
                         )
                         .zIndex(0)
-                       
-                    if (colorScheme == .dark) {
-                        Color(red: 0.1, green: 0.1, blue: 0.1)
-                            .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
-                            .ignoresSafeArea(.all)
-                            .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
-                            .zIndex(1)
-                    } else {
-                        Color.primaryColor(for: colorScheme)
-                            .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
-                            .ignoresSafeArea(.all)
-                            .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
-                            .zIndex(1)
-                    }
+                   backgroundColor
+                    .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
+                    .ignoresSafeArea(.all)
+                    .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
+                    .zIndex(1)
 
                     MenuContentView(isShowingSetting: $isShowSettingView, showSideMenu: $showSideMenu, menuOffset: $sideMenuOffset, settingViewOffset: $settingViewOffset)
                         .frame(width: UIScreen.main.bounds.width * (3/4), alignment: .leading)
@@ -96,7 +96,7 @@ struct MainView: View {
             if isShowSettingView {
                 SettingsView(isShowingSetting: $isShowSettingView, settingViewOffset: $settingViewOffset)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1).edgesIgnoringSafeArea(.all): Color.white.edgesIgnoringSafeArea(.all)) // Set background color
+                    .background(backgroundColor.edgesIgnoringSafeArea(.all)) // Set background color
                     .offset(x: settingViewOffset)
                     .gesture(DragGesture()
                         .onEnded({ value in
@@ -132,7 +132,7 @@ struct MainView: View {
                         }
                         .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 3, alignment: .bottom)
 
-                        .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1).edgesIgnoringSafeArea(.all) : Color.white.edgesIgnoringSafeArea(.all))
+                        .background(backgroundColor.ignoresSafeArea(.all))
                         .cornerRadius(15)
                         .offset(y: 300)
                         .transition(.move(edge: .bottom))

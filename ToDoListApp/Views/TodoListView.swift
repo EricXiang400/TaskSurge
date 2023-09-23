@@ -33,6 +33,14 @@ struct TodoListView: View {
     @State var isNewTask: Bool = true
     @Binding var sideMenuOffset: CGFloat
     @Environment(\.colorScheme) var colorScheme
+    var backgroundColor: Color {
+        if userSettings.darkMode {
+            Color(red: 0.1, green: 0.1, blue: 0.1)
+        } else {
+            Color.white
+        }
+    }
+    
     var offSetHeight: Int = 44
     
     var offSetCount: Int {
@@ -76,7 +84,7 @@ struct TodoListView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.1, green: 0.1, blue: 0.1)
+            backgroundColor
                 .ignoresSafeArea(.all)
             VStack {
                 HStack {
@@ -191,8 +199,7 @@ struct TodoListView: View {
                                                     showProgressEditView: $showProgressEditView)
                                 }
                             }
-                            .listRowBackground(Color(red: 0.1, green: 0.1, blue: 0.1))
-                            .background(Color(red: 0.1, green: 0.1, blue: 0.1))
+                            .listRowBackground(backgroundColor)
                             .contentShape(Rectangle())
                             .cornerRadius(5)
                             .alert(isPresented: $showConfirmationSheet) {
@@ -220,7 +227,7 @@ struct TodoListView: View {
                         }
                     }
                     
-                    .background(Color(red: 0.1, green: 0.1, blue: 0.1))
+//                    .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                     .listStyle(.plain)
                     .onAppear {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser)
@@ -266,7 +273,7 @@ struct TodoListView: View {
                         }
                 }
             }
-            .background(Color(red: 0.1, green: 0.1, blue: 0.1))
+//            .background(backgroundColor)
             
             if showSortingOptions {
                 Color.white.opacity(0.0001)
@@ -282,7 +289,7 @@ struct TodoListView: View {
                 }
             }
         }
-        .background(Color(red: 0.1, green: 0.1, blue: 0.1))
+        .background(backgroundColor)
     }
     
     func sortTask() {

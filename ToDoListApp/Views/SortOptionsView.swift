@@ -14,6 +14,7 @@ struct SortOptionsView: View {
     @EnvironmentObject private var userSettings: UserSettings
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSortingOptions: Bool
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Sort By:")
@@ -46,7 +47,7 @@ struct SortOptionsView: View {
                 .padding(.trailing, 10)
                 .padding(.bottom, 2)
                 .padding(.top, 3)
-                .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color.white)
+                .background(colorScheme == .dark ? Color(red: 0.15, green: 0.15, blue: 0.15) : Color.white)
                 Divider()
                 Button(action: {
                     userSettings.sortOption = 1
@@ -73,12 +74,13 @@ struct SortOptionsView: View {
                     }
                 }
                 .padding(.trailing, 10)
-                .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color.white)
+                .background(colorScheme == .dark ? Color(red: 0.15, green: 0.15, blue: 0.15) : Color.white)
             }
             .listStyle(.plain)
         }
         .padding()
-        .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color.white)
+        .background(colorScheme == .dark ? Color(red: 0.15, green: 0.15, blue: 0.15) : Color.white)
         .cornerRadius(12)
+        .shadow(radius: 5)
     }
 }
