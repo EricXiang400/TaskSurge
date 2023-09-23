@@ -66,7 +66,6 @@ struct TodoListView: View {
             
             for fileURL in fileURLs {
                 try fileManager.removeItem(at: fileURL)
-                print("Removed file: \(fileURL.lastPathComponent)")
             }
             print("All files removed successfully.")
         } catch {
@@ -171,26 +170,32 @@ struct TodoListView: View {
                                 todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                             }
                             HStack {
-                                Button(action: {
-                                    if todoListContainer.todoList[todoIndex].content != "" {
-                                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                            objectIndex = todoIndex
-                                            showConfirmationSheet = true
-                                        } else {
-                                            todoListContainer.todoList[todoIndex].completed.toggle()
-                                        }
-                                    } else if todoListContainer.todoList[todoIndex].completed {
-                                        todoListContainer.todoList[todoIndex].completed.toggle()
-                                    }
-                                    saveData()
-                                }) {
-                                    Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-                                        .resizable()
-                                        .frame(width: 22, height: 22)
-                                        .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
-                                }
-                                .padding(5)
-                                .buttonStyle(PlainButtonStyle())
+//                                Button(action: {
+//                                    if todoListContainer.todoList[todoIndex].content != "" {
+//                                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+//                                            objectIndex = todoIndex
+//                                            showConfirmationSheet = true
+//                                        } else {
+//                                            todoListContainer.todoList[todoIndex].completed.toggle()
+//                                        }
+//                                    } else if todoListContainer.todoList[todoIndex].completed {
+//                                        todoListContainer.todoList[todoIndex].completed.toggle()
+//                                    }
+//                                    saveData()
+//                                }) {
+//                                    Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+//                                        .resizable()
+//                                        .frame(width: 22, height: 22)
+//                                        .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
+//                                }
+//                                .padding(5)
+//                                .buttonStyle(PlainButtonStyle())
+                                
+//                                ProgressView(value: todoListContainer.todoList[todoIndex].progress / 100)
+//                                    .progressViewStyle(.circular)
+                                CircularProgressView(todoContent: $todoListContainer.todoList[todoIndex])
+                                    .frame(width: 22, height: 22)
+                                    .padding(5)
                                 
                                 TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
                                 
@@ -202,19 +207,7 @@ struct TodoListView: View {
                             .listRowBackground(backgroundColor)
                             .contentShape(Rectangle())
                             .cornerRadius(5)
-                            .alert(isPresented: $showConfirmationSheet) {
-                                Alert(
-                                    title: Text("Task Completion"),
-                                    message: Text("Are you sure you want to complete this task?"),
-                                    primaryButton: .default(Text("Complete")) {
-                                        todoListContainer.todoList[objectIndex!].progress = 100.0
-                                        todoListContainer.todoList[objectIndex!].completed = true
-                                        sortTask()
-                                        saveData()
-                                    },
-                                    secondaryButton: .cancel()
-                                )
-                            }
+                            
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(action: {
                                     todoListContainer.todoList.remove(at: todoIndex)

@@ -12,6 +12,7 @@
 		765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DB5EE2AACF70F00E17C67 /* TaskView.swift */; };
 		766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766B3F752A5160A4005CA1FE /* ProgressBarView.swift */; };
 		766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */; };
+		767E02C72ABF76290003F0C4 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767E02C62ABF76290003F0C4 /* CircularProgressView.swift */; };
 		76898B9D2A8134A7002AD3CC /* CategoriesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76898B9C2A8134A7002AD3CC /* CategoriesData.swift */; };
 		76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */; };
 		76A8F9212A3121CA00A3AA38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */; };
@@ -91,6 +92,7 @@
 		765DB5EE2AACF70F00E17C67 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		766B3F752A5160A4005CA1FE /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
+		767E02C62ABF76290003F0C4 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		76898B9C2A8134A7002AD3CC /* CategoriesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesData.swift; sourceTree = "<group>"; };
 		76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				76A8F9592A31227C00A3AA38 /* LogInView.swift */,
 				76A8F95B2A3128E300A3AA38 /* SignUpView.swift */,
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
+				767E02C62ABF76290003F0C4 /* CircularProgressView.swift */,
 				765DB5EE2AACF70F00E17C67 /* TaskView.swift */,
 				76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */,
 				76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */,
@@ -467,6 +470,7 @@
 				766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */,
 				766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */,
 				76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */,
+				767E02C72ABF76290003F0C4 /* CircularProgressView.swift in Sources */,
 				76F9C47D2A739A9700A60E0D /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

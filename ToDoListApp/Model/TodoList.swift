@@ -46,7 +46,6 @@ final class TodoList: ObservableObject, Codable {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             if let curUser = user {
                 let fileURL = documentDirectory.appendingPathComponent("\(curUser.uid)-data.json")
-                print(fileURL)
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
@@ -56,7 +55,6 @@ final class TodoList: ObservableObject, Codable {
                 self.editCategory = output.editCategory
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
-                print(fileURL)
                 data = try Data(contentsOf: fileURL)
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
@@ -83,7 +81,6 @@ final class TodoList: ObservableObject, Codable {
                 let encodedData = try encoder.encode(self)
                 try encodedData.write(to: fileURL)
                 print("Data saved successful")
-                print(fileURL)
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 let encoder = JSONEncoder()
