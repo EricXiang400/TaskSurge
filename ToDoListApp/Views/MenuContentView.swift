@@ -66,9 +66,8 @@ struct MenuContentView: View {
                         HStack {
                             Spacer()
                             CategoryRow(category: $categoryContainer.categories[index], delete: {
-                                if todoListContainer.selectedCategory == categoryContainer.categories[index] {
-                                    todoListContainer.selectedCategory = nil
-                                }
+                                removeRelatedTodos(category: todoListContainer.selectedCategory!)
+                                todoListContainer.selectedCategory = nil
                                 categoryContainer.categories.remove(at: index)
                                 categoryContainer.saveLocalCategories()
                                 if curUserContainer.curUser != nil {
@@ -82,18 +81,6 @@ struct MenuContentView: View {
                         .animation(.easeInOut)
                     }
                 }
-//                Tap on empty to create a new category
-//                Color.white.opacity(0.0000001)
-//                    .offset(y: CGFloat(categoryContainer.categories.count * categoryRowOffset))
-//                    .onTapGesture {
-//                        UIApplication.shared.endEditing()
-//                        categoryContainer.categories.append(Category(name: "Untitled"))
-//                        categoryContainer.saveLocalCategories()
-//                        if curUserContainer.curUser != nil {
-//                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-//                        }
-//                    }
-                    
             }
             
             
@@ -142,7 +129,18 @@ struct MenuContentView: View {
         }
     }
     
-    
+    func removeRelatedTodos(category: Category) {
+        var toRemove: [TodoContent] = []
+        for i in todoListContainer.todoList.indices {
+            if todoListContainer.todoList[i].category.id == category.id {
+                toRemove.append(todoListContainer.todoList[i])
+            }
+        }
+        for todoContent in toRemove {
+            todoListContainer.todoList.removeAll(where: { $0.id == todoContent.id })
+        }
+        todoListContainer.saveLocalData()
+    }
 }
 
 struct MenuItem: Identifiable, Hashable {
@@ -155,6 +153,8 @@ struct MenuItem: Identifiable, Hashable {
         MenuItem.lastAssignedID += 1
         self.id = MenuItem.lastAssignedID
     }
+    
+    
 }
 
 
