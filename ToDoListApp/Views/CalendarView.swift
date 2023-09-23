@@ -27,33 +27,37 @@ struct CalendarView: View {
                 Text("\(monthArr[calendar.component(.month, from: selectedDate.selectedDate) - 1])-\(String(calendar.component(.year, from: selectedDate.selectedDate)))")
                     .bold()
                 Spacer()
+                if userSettings.showCalendarButton {
+                    HStack {
+                        Button(action: {
+                            if userSettings.weekView {
+                                previousWeek()
+                            } else {
+                                previousMonth()
+                            }
+                        }) {
+                            Image(systemName: "arrow.left.circle.fill")
+                        }
+                        Button {
+                            withAnimation(.easeInOut) {
+                                toggleView()
+                            }
+                        } label: {
+                            Image(systemName: userSettings.weekView ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
+                        }
+                        Button(action: {
+                            if userSettings.weekView {
+                                nextWeek()
+                            } else {
+                                nextMonth()
+                            }
+                        }) {
+                            Image(systemName: "arrow.right.circle.fill")
+                        }
+                    }
+                }
                 
-                Spacer()
-                Button(action: {
-                    if userSettings.weekView {
-                        previousWeek()
-                    } else {
-                        previousMonth()
-                    }
-                }) {
-                    Image(systemName: "arrow.left.circle.fill")
-                }
-                Button {
-                    withAnimation(.easeInOut) {
-                        toggleView()
-                    }
-                } label: {
-                    Image(systemName: userSettings.weekView ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
-                }
-                Button(action: {
-                    if userSettings.weekView {
-                        nextWeek()
-                    } else {
-                        nextMonth()
-                    }
-                }) {
-                    Image(systemName: "arrow.right.circle.fill")
-                }
+                
             }
             .padding()
             .font(.title)
@@ -117,8 +121,16 @@ struct CalendarView: View {
                                 }
                             } else if value.translation.height > 5 && verticalPercent > 0.8 {
                                 userSettings.weekView = false
+                                userSettings.saveLocalSettings()
+                                if curUserContainer.curUser != nil {
+                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                                }
                             } else if value.translation.height < -5 && verticalPercent > 0.8 {
                                 userSettings.weekView = true
+                                userSettings.saveLocalSettings()
+                                if curUserContainer.curUser != nil {
+                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                                }
                             }
                            
                         }

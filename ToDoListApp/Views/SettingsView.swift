@@ -131,7 +131,6 @@ struct SettingsView: View {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
                     }
-                    
                     HStack {
                         Text("Incomplete tasks from the previous day are moved to the current date")
                             .font(.system(size: 12))
@@ -141,10 +140,29 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal)
                 
+                Divider()
                 
+                VStack {
+                    Toggle(isOn: $userSettings.showCalendarButton) {
+                        Text("Calendar Guidance Button")
+                    }
+                    .onChange(of: userSettings.showCalendarButton) { newValue in
+                        userSettings.showCalendarButton = newValue
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                    HStack {
+                        Text("Show calendar movement buttons")
+                            .font(.system(size: 12))
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal)
                 Divider()
                 Spacer()
-                
             }
             if curUserContainer.curUser != nil {
                 Button {
@@ -173,6 +191,7 @@ struct SettingsView: View {
             }
         }
     }
+    
     func signOut() -> Bool {
         do {
             try Auth.auth().signOut()
