@@ -13,9 +13,7 @@ struct CategoryRow: View {
     @EnvironmentObject var todoListContainer: TodoList
     @EnvironmentObject var curUserContainer: AppUser
     @Binding var category: Category
-    @Binding var categoryIndex: Int
     @State var toggleUIUpdate: Bool = false
-    var localCategoryIndex: Int
     var delete: () -> Void
     var body: some View {
         HStack {
@@ -44,13 +42,12 @@ struct CategoryRow: View {
                     if todoListContainer.selectedCategory == category && !category.isEditing {
                         Image(systemName: "pencil")
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 25, height: 25)
                             .foregroundColor(.blue)
-                            
-                    } else if !category.isEditing {
-                        Image(systemName: "pencil")
+                    } else {
+                        Image(systemName: "")
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 25, height: 25)
                     }
                 }
             }
@@ -87,10 +84,6 @@ struct CategoryRow: View {
         .cornerRadius(10)
         .onTapGesture {
             UIApplication.shared.endEditing()
-            if categoryIndex != localCategoryIndex {
-                categoryContainer.categories[categoryIndex].isEditing = false
-            }
-            categoryIndex = localCategoryIndex
             todoListContainer.selectedCategory = category
             todoListContainer.selectedCategory?.saveLocalCategory()
             if curUserContainer.curUser != nil {

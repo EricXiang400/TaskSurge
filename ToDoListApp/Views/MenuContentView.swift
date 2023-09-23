@@ -65,7 +65,7 @@ struct MenuContentView: View {
                     ForEach(Array(categoryContainer.categories.enumerated()), id: \.offset) { index, strElem in
                         HStack {
                             Spacer()
-                            CategoryRow(category: $categoryContainer.categories[index], categoryIndex: $categoryIndex, localCategoryIndex: index,delete: {
+                            CategoryRow(category: $categoryContainer.categories[index], delete: {
                                 if todoListContainer.selectedCategory == categoryContainer.categories[index] {
                                     todoListContainer.selectedCategory = nil
                                 }

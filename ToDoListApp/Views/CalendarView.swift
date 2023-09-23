@@ -132,7 +132,6 @@ struct CalendarView: View {
                                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                                 }
                             }
-                           
                         }
                     })
             )
