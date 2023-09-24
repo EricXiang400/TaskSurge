@@ -11,7 +11,6 @@
 		76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9D2A291AD1000354F9 /* SelectedDate.swift */; };
 		765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DB5EE2AACF70F00E17C67 /* TaskView.swift */; };
 		766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766B3F752A5160A4005CA1FE /* ProgressBarView.swift */; };
-		766BA56B2ABFE62700C6B171 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766BA56A2ABFE62700C6B171 /* LaunchScreen.swift */; };
 		766BA56E2ABFEB7C00C6B171 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766BA56D2ABFEB7C00C6B171 /* Launch Screen.storyboard */; };
 		766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */; };
 		767E02C72ABF76290003F0C4 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767E02C62ABF76290003F0C4 /* CircularProgressView.swift */; };
@@ -93,7 +92,6 @@
 		76499E9D2A291AD1000354F9 /* SelectedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDate.swift; sourceTree = "<group>"; };
 		765DB5EE2AACF70F00E17C67 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		766B3F752A5160A4005CA1FE /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
-		766BA56A2ABFE62700C6B171 /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		766BA56C2ABFE9ED00C6B171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		766BA56D2ABFEB7C00C6B171 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
@@ -188,7 +186,6 @@
 				76FBAC772A265E7B00A86343 /* MainView.swift */,
 				76A8F9592A31227C00A3AA38 /* LogInView.swift */,
 				76A8F95B2A3128E300A3AA38 /* SignUpView.swift */,
-				766BA56A2ABFE62700C6B171 /* LaunchScreen.swift */,
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
 				767E02C62ABF76290003F0C4 /* CircularProgressView.swift */,
 				765DB5EE2AACF70F00E17C67 /* TaskView.swift */,
@@ -456,7 +453,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				766BA56B2ABFE62700C6B171 /* LaunchScreen.swift in Sources */,
 				76FBAC782A265E7B00A86343 /* MainView.swift in Sources */,
 				76A8F9642A337D0100A3AA38 /* FirestoreManager.swift in Sources */,
 				76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */,

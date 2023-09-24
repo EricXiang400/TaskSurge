@@ -33,6 +33,8 @@ struct TodoListView: View {
     @State var isNewTask: Bool = true
     @Binding var sideMenuOffset: CGFloat
     @Environment(\.colorScheme) var colorScheme
+    @State var noCircularConfirmation: Bool = false
+    
     var backgroundColor: Color {
         if userSettings.darkMode {
             Color(red: 0.1, green: 0.1, blue: 0.1)
@@ -175,7 +177,7 @@ struct TodoListView: View {
                                         if todoListContainer.todoList[todoIndex].content != "" {
                                             if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
                                                 objectIndex = todoIndex
-                                                showConfirmationSheet = true
+                                                noCircularConfirmation = true
                                             } else {
                                                 todoListContainer.todoList[todoIndex].completed.toggle()
                                             }
@@ -191,6 +193,22 @@ struct TodoListView: View {
                                     }
                                     .padding(5)
                                     .buttonStyle(PlainButtonStyle())
+                                    .alert(isPresented: $noCircularConfirmation) {
+                                        Alert(
+                                            title: Text("Task Completion"),
+                                            message: Text("Are you sure you want to complete this task?"),
+                                            primaryButton: .default(Text("Complete")) {
+                                                todoListContainer.todoList[objectIndex!].progress = 100.0
+                                                todoListContainer.todoList[objectIndex!].completed = true
+                                                sortTask()
+                                                todoListContainer.saveLocalData()
+                                                if curUserContainer.curUser != nil {
+                                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                                                }
+                                            },
+                                            secondaryButton: .cancel()
+                                        )
+                                    }
                                 }
                                 
                                 if userSettings.showProgressBar && userSettings.circularProgressBar {
