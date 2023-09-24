@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TodoContent: Codable, Identifiable {
+struct TodoContent: Codable, Identifiable, Equatable {
     
     static var lastAssignedID: Int = 0
     var id: UUID

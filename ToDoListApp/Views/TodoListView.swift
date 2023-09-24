@@ -170,39 +170,48 @@ struct TodoListView: View {
                                 todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                             }
                             HStack {
-//                                Button(action: {
-//                                    if todoListContainer.todoList[todoIndex].content != "" {
-//                                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-//                                            objectIndex = todoIndex
-//                                            showConfirmationSheet = true
-//                                        } else {
-//                                            todoListContainer.todoList[todoIndex].completed.toggle()
-//                                        }
-//                                    } else if todoListContainer.todoList[todoIndex].completed {
-//                                        todoListContainer.todoList[todoIndex].completed.toggle()
-//                                    }
-//                                    saveData()
-//                                }) {
-//                                    Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-//                                        .resizable()
-//                                        .frame(width: 22, height: 22)
-//                                        .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
-//                                }
-//                                .padding(5)
-//                                .buttonStyle(PlainButtonStyle())
-                                
-//                                ProgressView(value: todoListContainer.todoList[todoIndex].progress / 100)
-//                                    .progressViewStyle(.circular)
-                                CircularProgressView(todoContent: $todoListContainer.todoList[todoIndex])
-                                    .frame(width: 22, height: 22)
+                                if !userSettings.circularProgressBar {
+                                    Button(action: {
+                                        if todoListContainer.todoList[todoIndex].content != "" {
+                                            if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+                                                objectIndex = todoIndex
+                                                showConfirmationSheet = true
+                                            } else {
+                                                todoListContainer.todoList[todoIndex].completed.toggle()
+                                            }
+                                        } else if todoListContainer.todoList[todoIndex].completed {
+                                            todoListContainer.todoList[todoIndex].completed.toggle()
+                                        }
+                                        saveData()
+                                    }) {
+                                        Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+                                            .resizable()
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
+                                    }
                                     .padding(5)
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                                
+                                if userSettings.showProgressBar && userSettings.circularProgressBar {
+                                    ZStack {
+                                        Text("\(Int(todoListContainer.todoList[todoIndex].progress))")
+                                            .font(.system(size: 10))
+                                            .bold()
+                                        CircularProgressView(todoContent: $todoListContainer.todoList[todoIndex])
+                                            .frame(width: 25, height: 25)
+                                            .padding(5)
+                                    }
+                                }
                                 
                                 TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
-                                
-                                if todoListContainer.todoList[todoIndex].content != "" {
-                                    ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
-                                                    showProgressEditView: $showProgressEditView)
+                                if userSettings.showProgressBar {
+                                    if !userSettings.circularProgressBar {
+                                        ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
+                                                            showProgressEditView: $showProgressEditView)
+                                    }
                                 }
+                                
                             }
                             .listRowBackground(backgroundColor)
                             .contentShape(Rectangle())
@@ -220,7 +229,6 @@ struct TodoListView: View {
                         }
                     }
                     
-//                    .background(Color(red: 0.1, green: 0.1, blue: 0.1))
                     .listStyle(.plain)
                     .onAppear {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser)
@@ -286,14 +294,7 @@ struct TodoListView: View {
     }
     
     func sortTask() {
-        if userSettings.sortOption == 0 {
-            todoListContainer.todoList.sort(by: {
-                if $0.date == $1.date {
-                    return $0.progress < $1.progress
-                }
-                return $1.date < $0.date
-            })
-        } else {
+        if userSettings.sortOption == 1 {
             todoListContainer.todoList.sort(by: {
                 if $0.progress == $1.progress {
                     return $1.date < $0.date

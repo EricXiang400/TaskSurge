@@ -37,7 +37,10 @@ struct CircularProgressView: View {
                 .animation(.easeInOut, value: todoContent.progress)
         }
         .onTapGesture {
-            showConfirmationSheet = true
+            if !todoContent.completed {
+                showConfirmationSheet = true
+            }
+            
         }
         .alert(isPresented: $showConfirmationSheet) {
             Alert(
@@ -47,6 +50,7 @@ struct CircularProgressView: View {
                     todoContent.progress = 100.0
                     todoContent.completed = true
                     sortTask()
+                    
                     todoListContainer.saveLocalData()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -58,14 +62,7 @@ struct CircularProgressView: View {
         
     }
     func sortTask() {
-        if userSettings.sortOption == 0 {
-            todoListContainer.todoList.sort(by: {
-                if $0.date == $1.date {
-                    return $0.progress < $1.progress
-                }
-                return $1.date < $0.date
-            })
-        } else {
+        if userSettings.sortOption == 1 {
             todoListContainer.todoList.sort(by: {
                 if $0.progress == $1.progress {
                     return $1.date < $0.date

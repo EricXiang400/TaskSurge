@@ -224,7 +224,7 @@ struct CalendarView: View {
     
     static func isSameDate(date1: Date, date2: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.component(.month, from: date1) == calendar.component(.month, from: date2) && calendar.component(.day, from: date1) == calendar.component(.day, from: date2)
+        return calendar.component(.month, from: date1) == calendar.component(.month, from: date2) && calendar.component(.day, from: date1) == calendar.component(.day, from: date2) && calendar.component(.year, from: date1) == calendar.component(.year, from: date2)
     }
     
 }

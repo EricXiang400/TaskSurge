@@ -45,6 +45,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                         Rectangle()
                             .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * 75, height: 3.6)
                             .foregroundColor(greenColor)
+                            .animation(.easeInOut, value: todoContent.progress)
                     }
                     Text("\(Int(todoContent.progress))% ")
                         .font(.system(size: 13))
@@ -111,7 +112,10 @@ struct PopOverContent: View {
                     }
                     todoListContainer.todoList[index].progress = 0
                     todoListContainer.todoList[index].completed = false
-                    sortTask()
+                    if userSettings.sortOption != 2 {
+                        sortTask()
+                    }
+                    
                     withAnimation(.easeInOut(duration: 0.25)) {
                         presentPopOver = false
                     }
@@ -140,6 +144,8 @@ struct PopOverContent: View {
                         todoListContainer.todoList[index].completed = true
                     }
                     sortTask()
+                    
+                    
                     withAnimation(.easeInOut(duration: 0.25)) {
                         presentPopOver = false
                     }
@@ -175,9 +181,19 @@ struct PopOverContent: View {
     
     func sortTask() {
         if userSettings.sortOption == 0 {
-            todoListContainer.todoList.sort(by: {$1.date < $0.date})
-        } else {
-            todoListContainer.todoList.sort(by: {$0.progress < $1.progress})
+            todoListContainer.todoList.sort(by: {
+                if $0.date == $1.date {
+                    return $0.progress < $1.progress
+                }
+                return $1.date < $0.date
+            })
+        } else if userSettings.sortOption == 1 {
+            todoListContainer.todoList.sort(by: {
+                if $0.progress == $1.progress {
+                    return $1.date < $0.date
+                }
+                return $0.progress < $1.progress
+            })
         }
     }
 }

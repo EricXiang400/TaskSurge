@@ -162,6 +162,42 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal)
                 Divider()
+                VStack {
+                    Toggle(isOn: $userSettings.showProgressBar) {
+                        Text("Progress Bar")
+                    }
+                    .onChange(of: userSettings.showProgressBar) { newValue in
+                        withAnimation(.easeInOut) {
+                            userSettings.showProgressBar = newValue
+                            if userSettings.circularProgressBar {
+                                userSettings.circularProgressBar = false
+                            }
+                        }
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                }
+                .padding(.horizontal)
+                Divider()
+                VStack {
+                    Toggle(isOn: $userSettings.circularProgressBar) {
+                        Text("Circular Progress bar")
+                    }
+                    .onChange(of: userSettings.circularProgressBar) { newValue in
+                        userSettings.circularProgressBar = newValue
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                    .disabled(!userSettings.showProgressBar)
+                    
+                }
+                .padding(.horizontal)
+                
+                Divider()
                 Spacer()
             }
             if curUserContainer.curUser != nil {
