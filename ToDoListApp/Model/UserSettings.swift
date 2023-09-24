@@ -7,9 +7,10 @@
 
 import Foundation
 import Firebase
+import FirebaseAuth
 
 final class UserSettings: NSObject, ObservableObject, Codable {
-    @Published var sortOption: Int
+    @Published var sortOption: Bool
     @Published var darkMode: Bool
     @Published var weekView: Bool
     @Published var taskLayover: Bool
@@ -18,7 +19,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
     @Published var showProgressBar: Bool
     @Published var circularProgressBar: Bool
     
-    init(sortOption: Int = 0, darkMode: Bool = false, weekView: Bool = false, taskLayover: Bool = false, showKeyboardOnStart: Bool = true, showCalendarButton: Bool = true, showProgressBar: Bool = false, circularProgressBar: Bool = false) {
+    init(sortOption: Bool = false, darkMode: Bool = false, weekView: Bool = false, taskLayover: Bool = false, showKeyboardOnStart: Bool = true, showCalendarButton: Bool = true, showProgressBar: Bool = false, circularProgressBar: Bool = false) {
         self.sortOption = sortOption
         self.darkMode = darkMode
         self.weekView = weekView
@@ -54,7 +55,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
     
     required convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let sortOption = try container.decode(Int.self, forKey: .sortOption)
+        let sortOption = try container.decode(Bool.self, forKey: .sortOption)
         let darkMode = try container.decode(Bool.self, forKey: .darkMode)
         let weekView = try container.decode(Bool.self, forKey: .weekView)
         let taskLayover = try container.decode(Bool.self, forKey: .taskLayover)

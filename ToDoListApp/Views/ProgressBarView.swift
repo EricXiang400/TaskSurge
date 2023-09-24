@@ -112,7 +112,7 @@ struct PopOverContent: View {
                     }
                     todoListContainer.todoList[index].progress = 0
                     todoListContainer.todoList[index].completed = false
-                    if userSettings.sortOption != 2 {
+                    if userSettings.sortOption {
                         sortTask()
                     }
                     
@@ -180,14 +180,7 @@ struct PopOverContent: View {
     }
     
     func sortTask() {
-        if userSettings.sortOption == 0 {
-            todoListContainer.todoList.sort(by: {
-                if $0.date == $1.date {
-                    return $0.progress < $1.progress
-                }
-                return $1.date < $0.date
-            })
-        } else if userSettings.sortOption == 1 {
+        if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
                 if $0.progress == $1.progress {
                     return $1.date < $0.date

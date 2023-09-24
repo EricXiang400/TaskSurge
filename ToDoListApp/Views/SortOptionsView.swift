@@ -30,7 +30,7 @@ struct SortOptionsView: View {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
                 }) {
-                    if userSettings.sortOption == 1 {
+                    if userSettings.sortOption {
                         HStack {
                             Text("Progress")
                             Image(systemName: "checkmark")
@@ -56,7 +56,7 @@ struct SortOptionsView: View {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
                 }) {
-                    if userSettings.sortOption == 2 {
+                    if userSettings.sortOption {
                         HStack {
                             Text("None")
                             Image(systemName: "checkmark")

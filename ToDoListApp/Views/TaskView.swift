@@ -32,7 +32,7 @@ struct TaskView: View {
                 .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
-                        if userSettings.sortOption != 2 {
+                        if userSettings.sortOption {
                             sortTask()
                         }
                         
@@ -54,7 +54,7 @@ struct TaskView: View {
                 .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
-                        if userSettings.sortOption != 2 {
+                        if userSettings.sortOption {
                             sortTask()
                         }
                         saveData()
@@ -74,7 +74,7 @@ struct TaskView: View {
     }
     
     func sortTask() {
-        if userSettings.sortOption == 1 {
+        if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
                 if $0.progress == $1.progress {
                     return $1.date < $0.date

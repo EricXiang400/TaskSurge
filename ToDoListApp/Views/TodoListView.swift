@@ -117,17 +117,26 @@ struct TodoListView: View {
                     
                     Button (action: {
                         UIApplication.shared.endEditing()
-                        showSortingOptions.toggle()
+                        userSettings.sortOption.toggle()
+                        if userSettings.sortOption {
+                            sortTask()
+                        }
                     }) {
-                        Image(systemName: "line.horizontal.3.decrease.circle")
-                            .font(.system(size: 25))
+                        if userSettings.sortOption {
+                            Image(systemName: "line.horizontal.3.decrease.circle")
+                                .rotationEffect(.degrees(180))
+                                .font(.system(size: 25))
+                        } else {
+                            Image(systemName: "line.horizontal.3.circle")
+                                .font(.system(size: 25))
+                        }
                     }
+                    
                     Button(action:{
                         UIApplication.shared.endEditing()
                         if todoListContainer.selectedCategory != nil {
                             withAnimation(.easeInOut) {
                                 tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
-                                
                                 tempTodoContentCopy = tempTodoContent
                                 presentSheet = true
                             }
@@ -293,27 +302,12 @@ struct TodoListView: View {
                         }
                 }
             }
-//            .background(backgroundColor)
-            
-            if showSortingOptions {
-                Color.white.opacity(0.0001)
-                    .onTapGesture {
-                        showSortingOptions = false
-                    }
-                    .ignoresSafeArea(.all)
-                VStack {
-                    Spacer()
-                    SortOptionsView(showSortingOptions: $showSortingOptions)
-                        .frame(width: UIScreen.main.bounds.width - 250, height: 150)
-                        .offset(x: 100, y: userSettings.weekView ? -UIScreen.main.bounds.height / 1.85 : -UIScreen.main.bounds.height / 2.65)
-                }
-            }
         }
         .background(backgroundColor)
     }
     
     func sortTask() {
-        if userSettings.sortOption == 1 {
+        if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
                 if $0.progress == $1.progress {
                     return $1.date < $0.date

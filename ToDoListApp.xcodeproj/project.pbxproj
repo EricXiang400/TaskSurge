@@ -54,7 +54,6 @@
 		76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */; };
 		76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */; };
 		76C907212AABC88000643E80 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C907202AABC88000643E80 /* EditTaskView.swift */; };
-		76F9C4792A6A68C800A60E0D /* SortOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */; };
 		76F9C47B2A72C70D00A60E0D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C47A2A72C70D00A60E0D /* UserSettings.swift */; };
 		76F9C47D2A739A9700A60E0D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C47C2A739A9700A60E0D /* SettingsView.swift */; };
 		76F9C4812A7B006D00A60E0D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C4802A7B006D00A60E0D /* Category.swift */; };
@@ -107,7 +106,6 @@
 		76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWrapper.swift; sourceTree = "<group>"; };
 		76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthenticationView.swift; sourceTree = "<group>"; };
 		76C907202AABC88000643E80 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
-		76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOptionsView.swift; sourceTree = "<group>"; };
 		76F9C47A2A72C70D00A60E0D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		76F9C47C2A739A9700A60E0D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		76F9C4802A7B006D00A60E0D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
 				767E02C62ABF76290003F0C4 /* CircularProgressView.swift */,
 				765DB5EE2AACF70F00E17C67 /* TaskView.swift */,
-				76F9C4782A6A68C800A60E0D /* SortOptionsView.swift */,
 				76A7D7CE2A64E4240075C7CA /* ForgotPasswordView.swift */,
 				76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */,
 				766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */,
@@ -465,7 +462,6 @@
 				76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */,
 				76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */,
 				76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */,
-				76F9C4792A6A68C800A60E0D /* SortOptionsView.swift in Sources */,
 				76F9C4812A7B006D00A60E0D /* Category.swift in Sources */,
 				76A8F95A2A31227C00A3AA38 /* LogInView.swift in Sources */,
 				765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */,
