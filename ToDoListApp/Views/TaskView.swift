@@ -22,6 +22,7 @@ struct TaskView: View {
                 TextField("Task Name", text: $todoContent.content)
                     .disabled(true)
                     .strikethrough(true)
+                    .opacity(0.5)
                 Button {
                     showTaskDetails = true
                     UIApplication.shared.endEditing()
