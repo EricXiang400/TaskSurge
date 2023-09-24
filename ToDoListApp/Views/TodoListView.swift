@@ -277,10 +277,11 @@ struct TodoListView: View {
                     Color.white.opacity(0.00000001)
                         .offset(y: CGFloat(offSetCount * offSetHeight))
                         .onTapGesture {
-                            tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
-                            
-                            tempTodoContentCopy = tempTodoContent
-                            presentSheet = true
+                            if todoListContainer.selectedCategory != nil {
+                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
+                                tempTodoContentCopy = tempTodoContent
+                                presentSheet = true
+                            }
                         }
                         .sheet(isPresented: $presentSheet) {
                             EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {

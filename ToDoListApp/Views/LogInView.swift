@@ -46,15 +46,15 @@ struct LogInView: View {
                 }
             }
             Button(action: {
-                showLoginView = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     login(completion: {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser!)
                         userSettings.loadLocalSettings(user: curUserContainer.curUser)
                         categoryContainer.loadLocalCategories()
                         print("ALL OPERATION FINISHED")
                     })
-                }
+//                }
             }) {
                 if email == "" || password == "" {
                     Text("Sign in")
@@ -109,10 +109,10 @@ struct LogInView: View {
                 self.error = error
             } else {
                 print("Sign-in success")
+                showLoginView = false
                 curUserContainer.curUser = Auth.auth().currentUser!
                 FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
                     completion()
-                    
                 }
             }
         }

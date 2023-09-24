@@ -55,7 +55,7 @@ struct SettingsView: View {
                             if signOut() {
                                 curUserContainer.curUser = nil
                                 todoListContainer.loadLocalData(user: nil)
-                                userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                                userSettings.loadLocalSettings(user: nil)
                                 categoryContainer.loadLocalCategories()
                             }
                         } label: {
@@ -126,6 +126,7 @@ struct SettingsView: View {
                     }
                     .onChange(of: userSettings.taskLayover) { newValue in
                         userSettings.taskLayover = newValue
+                        moveLayoverItems()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -224,6 +225,22 @@ struct SettingsView: View {
                 .sheet(isPresented: $showReauthenticationView) {
                     ReAuthenticationView(showReauthenticationView: $showReauthenticationView, isShowingSetting: $isShowingSetting)
                 }
+            }
+        }
+        
+    }
+    func taskLayoverExist(todoContent: TodoContent) -> Bool {
+        if !userSettings.taskLayover {
+            return false
+        }
+        let calendar = Calendar.current
+        let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
+        return CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) && !todoContent.completed
+    }
+    func moveLayoverItems() {
+        for i in todoListContainer.todoList.indices {
+            if taskLayoverExist(todoContent: todoListContainer.todoList[i]) {
+                todoListContainer.todoList[i].date = Date()
             }
         }
     }
