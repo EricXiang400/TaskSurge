@@ -48,13 +48,15 @@ struct EditTaskView: View {
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
                 .padding()
                 .focused($focusField, equals: .details)
-            VStack {
-                Text("\(Int(todoContentCopy.progress))%")
-                    .font(.system(size: 25))
-                    .bold()
-                Slider(value: $todoContentCopy.progress, in: 0...100)
-                    .padding([.leading, .trailing], 20)
-                    .padding(.bottom)
+            if userSettings.showProgressBar {
+                VStack {
+                    Text("\(Int(todoContentCopy.progress))%")
+                        .font(.system(size: 25))
+                        .bold()
+                    Slider(value: $todoContentCopy.progress, in: 0...100)
+                        .padding([.leading, .trailing], 20)
+                        .padding(.bottom)
+                }
             }
             
             HStack {
