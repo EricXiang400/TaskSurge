@@ -183,15 +183,18 @@ struct TodoListView: View {
                             HStack {
                                 if !userSettings.circularProgressBar {
                                     Button(action: {
-                                        if todoListContainer.todoList[todoIndex].content != "" {
-                                            if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                                objectIndex = todoIndex
-                                                noCircularConfirmation = true
+                                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
+                                            objectIndex = todoIndex
+                                            noCircularConfirmation = true
+                                        } else {
+                                            if todoListContainer.todoList[todoIndex].completed {
+                                                todoListContainer.todoList[todoIndex].completed = false
+                                                if !userSettings.showProgressBar {
+                                                    todoListContainer.todoList[todoIndex].progress = 0
+                                                }
                                             } else {
-                                                todoListContainer.todoList[todoIndex].completed.toggle()
+                                                todoListContainer.todoList[todoIndex].completed = true
                                             }
-                                        } else if todoListContainer.todoList[todoIndex].completed {
-                                            todoListContainer.todoList[todoIndex].completed.toggle()
                                         }
                                         saveData()
                                     }) {

@@ -28,6 +28,7 @@ struct MainView: View {
             Color.white
         }
     }
+    
     var body: some View {
         ZStack {
             backgroundColor
