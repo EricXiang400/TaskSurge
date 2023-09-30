@@ -90,7 +90,6 @@ struct TodoListView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        UIApplication.shared.endEditing()
                         withAnimation(.easeInOut(duration: 0.23)) {
                             sideMenuOffset = -55
                             showSideMenu = true
@@ -102,7 +101,6 @@ struct TodoListView: View {
                     .padding(.leading)
                     Spacer()
                     Button {
-                        UIApplication.shared.endEditing()
                         selectedDateContainer.selectedDate = Date()
                     } label: {
                         Text("Today")
@@ -116,13 +114,12 @@ struct TodoListView: View {
                     .cornerRadius(5)
                     
                     Button (action: {
-                        UIApplication.shared.endEditing()
                         userSettings.sortOption.toggle()
                         if userSettings.sortOption {
                             sortTask()
                         }
                     }) {
-                        if userSettings.sortOption {
+                        if userSettings.sortOption == true {
                             Image(systemName: "line.horizontal.3.decrease.circle")
                                 .rotationEffect(.degrees(180))
                                 .font(.system(size: 25))
@@ -185,7 +182,7 @@ struct TodoListView: View {
                                     Button(action: {
                                         if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
                                             objectIndex = todoIndex
-                                            noCircularConfirmation = true
+                                            noCircularConfirmation.toggle()
                                         } else {
                                             if todoListContainer.todoList[todoIndex].completed {
                                                 todoListContainer.todoList[todoIndex].completed = false
@@ -212,6 +209,7 @@ struct TodoListView: View {
                                             primaryButton: .default(Text("Complete")) {
                                                 todoListContainer.todoList[objectIndex!].progress = 100.0
                                                 todoListContainer.todoList[objectIndex!].completed = true
+                                                noCircularConfirmation = false
                                                 sortTask()
                                                 todoListContainer.saveLocalData()
                                                 if curUserContainer.curUser != nil {
@@ -241,7 +239,6 @@ struct TodoListView: View {
                                                             showProgressEditView: $showProgressEditView)
                                     }
                                 }
-                                
                             }
                             .listRowBackground(backgroundColor)
                             .contentShape(Rectangle())
@@ -258,7 +255,6 @@ struct TodoListView: View {
                             }
                         }
                     }
-                    
                     .listStyle(.plain)
                     .onAppear {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser)
