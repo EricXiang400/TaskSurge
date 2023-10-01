@@ -170,9 +170,9 @@ struct TodoListView: View {
                             tempTodoContent = tempTodoContentCopy
                             todoListContainer.todoList.append(tempTodoContent)
                             if userSettings.sortOption {
-                                sortTask()
+                                
                             }
-                            
+                            sortTask()
                             saveData()
                         }
                     }
@@ -183,7 +183,6 @@ struct TodoListView: View {
                         if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
                             var todoIndex: Int {
                                 todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
-                                
                             }
                             
                             HStack {
@@ -319,6 +318,10 @@ struct TodoListView: View {
                     return $1.date < $0.date
                 }
                 return $0.progress < $1.progress
+            })
+        } else {
+            todoListContainer.todoList.sort(by: {
+                return $1.date < $0.date
             })
         }
     }

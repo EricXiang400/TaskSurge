@@ -81,6 +81,10 @@ struct TaskView: View {
                 }
                 return $0.progress < $1.progress
             })
+        } else {
+            todoListContainer.todoList.sort(by: {
+                return $1.date < $0.date
+            })
         }
     }
 }
