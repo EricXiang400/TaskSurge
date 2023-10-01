@@ -75,5 +75,4 @@ struct CircularProgressView: View {
             })
         }
     }
-    }
 }
