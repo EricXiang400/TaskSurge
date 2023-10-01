@@ -118,6 +118,10 @@ struct TodoListView: View {
                         if userSettings.sortOption {
                             sortTask()
                         }
+                        userSettings.saveLocalSettings()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
                     }) {
                         if userSettings.sortOption == true {
                             Image(systemName: "line.horizontal.3.decrease.circle")
@@ -165,7 +169,10 @@ struct TodoListView: View {
                         EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
                             tempTodoContent = tempTodoContentCopy
                             todoListContainer.todoList.append(tempTodoContent)
-                            sortTask()
+                            if userSettings.sortOption {
+                                sortTask()
+                            }
+                            
                             saveData()
                         }
                     }
@@ -176,7 +183,9 @@ struct TodoListView: View {
                         if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
                             var todoIndex: Int {
                                 todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
+                                
                             }
+                            
                             HStack {
                                 if !userSettings.circularProgressBar {
                                     Button(action: {
@@ -219,9 +228,7 @@ struct TodoListView: View {
                                             secondaryButton: .cancel()
                                         )
                                     }
-                                }
-                                
-                                if userSettings.showProgressBar && userSettings.circularProgressBar {
+                                } else if userSettings.showProgressBar && userSettings.circularProgressBar {
                                     ZStack {
                                         Text("\(Int(todoListContainer.todoList[todoIndex].progress))")
                                             .font(.system(size: 10))
