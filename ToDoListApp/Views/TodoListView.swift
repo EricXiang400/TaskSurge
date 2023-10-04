@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct TodoListView: View {
     @EnvironmentObject private var todoListContainer: TodoList
@@ -263,29 +264,79 @@ struct TodoListView: View {
                     }
                     .listStyle(.plain)
                     .onAppear {
-                        todoListContainer.loadLocalData(user: curUserContainer.curUser)
-                        userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                        categoryContainer.loadLocalCategories()
-                        let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
-                        if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                            todoListContainer.selectedCategory = curCategory
+                        if curUserContainer.curUser != nil {
+                            fetchFireStoreData()
+                            let db = Firestore.firestore()
+                            let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
+                            taskCollection.addSnapshotListener { snapshot, error in
+                                if let encodedData = snapshot?.data() {
+                                    let uid = curUserContainer.curUser!.uid
+                                    do {
+                                        let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                                        let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
+                                        let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
+                                        let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
+                                        let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
+                                        let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
+                                        
+                                        if let userJsonDictData = encodedData["user"] {
+                                            print(userJsonDictData)
+                                            let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
+                                            try userJsonData.write(to: userFileURL)
+                                        } else {
+                                            print("User field is empty")
+                                        }
+                                        
+                                        if let dataJsonDictData = encodedData["data"] {
+                                            let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
+                                            try dataJsonData.write(to: dataFileURL)
+                                            print("Content data download success")
+                                        } else {
+                                            "Content data field is empty"
+                                        }
+                        
+                                        if let settingsJsonDictData = encodedData["settings"] {
+                                            let settingsJsonData = try JSONSerialization.data(withJSONObject: settingsJsonDictData)
+                                            try settingsJsonData.write(to: settingsFileURL)
+                                            print("Settings data download success")
+                                        } else {
+                                            print("setting field is empty")
+                                        }
+                                        if let categoriesJsonDictData = encodedData["categories"] {
+                                            let categoriesJsonData = try JSONSerialization.data(withJSONObject: categoriesJsonDictData)
+                                            try categoriesJsonData.write(to: categoriesFileURL)
+                                            print("categories data download success")
+                                        } else {
+                                            print("categoreis field is empty")
+                                        }
+                                        if let categoryJsonDictData = encodedData["category"] {
+                                            let categoryJsonData = try JSONSerialization.data(withJSONObject: categoryJsonDictData)
+                                            try categoryJsonData.write(to: categoryFileURL)
+                                            print("category data download success")
+                                        } else {
+                                            print("category data field is empty")
+                                        }
+                                        todoListContainer.loadLocalData(user: curUserContainer.curUser)
+                                        userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                                        categoryContainer.loadLocalCategories()
+                                        let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
+                                        if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                                            todoListContainer.selectedCategory = curCategory
+                                        }
+                                        moveLayoverItems()
+                                        saveData()
+                                    } catch {
+                                        print("Error when working with encoded data from cloud")
+                                    }
+                                }
+                            }
                         }
-                        moveLayoverItems()
-                        saveData()
+                        
+                        
                     }
                     .onChange(of: scenePhase) { newValue in
                         if newValue == .active && curUserContainer.curUser != nil {
-                            FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
-                                todoListContainer.loadLocalData(user: curUserContainer.curUser)
-                                userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                                categoryContainer.loadLocalCategories()
-                                let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
-                                if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                                    todoListContainer.selectedCategory = curCategory
-                                }
-                                moveLayoverItems()
-                                saveData()
-                            }
+                            fetchFireStoreData()
                         }
                     }
                     Color.white.opacity(0.00000001)
@@ -309,6 +360,18 @@ struct TodoListView: View {
             }
         }
         .background(backgroundColor)
+    }
+    func fetchFireStoreData() {
+        FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
+            todoListContainer.loadLocalData(user: curUserContainer.curUser)
+            userSettings.loadLocalSettings(user: curUserContainer.curUser)
+            categoryContainer.loadLocalCategories()
+            let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
+            if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                todoListContainer.selectedCategory = curCategory
+            }
+            moveLayoverItems()
+        }
     }
     
     func sortTask() {
@@ -339,6 +402,16 @@ struct TodoListView: View {
             if taskLayoverExist(todoContent: todoListContainer.todoList[i]) {
                 todoListContainer.todoList[i].date = Date()
             }
+        }
+    }
+    
+    func decodeData(from document: QueryDocumentSnapshot) -> Data {
+        do {
+            let encodedData = try JSONSerialization.data(withJSONObject: document.data(), options: [])
+            return encodedData
+        } catch {
+            print("Error when dealing with category snapshot")
+            return Data()
         }
     }
 }
