@@ -22,7 +22,13 @@ class FireStoreManager: ObservableObject {
         let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
         let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
         let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
+        let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
         do {
+            let encodedLastModifiedTime = try Data(contentsOf: lastModifiedTimeFileURL)
+            guard let lastModifiedTimeDict = try? JSONSerialization.jsonObject(with: encodedLastModifiedTime, options: .mutableContainers) as? [String : Any] else {
+                print("Could not serialize LastModifiedTime")
+                return
+            }
             let encodedUser = try Data(contentsOf: userFileURL)
             guard let userDict = try? JSONSerialization.jsonObject(with: encodedUser, options: .mutableContainers) as? [String : Any] else {
                 print("Could not serialize user dict")
@@ -53,6 +59,7 @@ class FireStoreManager: ObservableObject {
                                      "data": dataDict,
                                      "settings": settingsDict,
                                      "categories": categoriesDict,
+                                     "lastModifiedTime": lastModifiedTimeDict,
                                      "category": categoryDict], merge: true) { error in
                 if error != nil {
                     print("Error transfering data")
@@ -84,6 +91,14 @@ class FireStoreManager: ObservableObject {
                     let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
                     let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
                     let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
+                    let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
+                    if let lastModifiedTimeJsonDictData = encodedData["lastModifiedTime"] {
+                        let lastModifiedTimeJsonData = try JSONSerialization.data(withJSONObject: lastModifiedTimeJsonDictData)
+                        try lastModifiedTimeJsonData.write(to: lastModifiedTimeFileURL)
+                        print("LastModifiedTime download success")
+                    } else {
+                        print("LastModifiedTime field is empty")
+                    }
                     if let userJsonDictData = encodedData["user"] {
                         let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
                         try userJsonData.write(to: userFileURL)
@@ -119,11 +134,12 @@ class FireStoreManager: ObservableObject {
                     } else {
                         print("category data field is empty")
                     }
+                    completion()
                 } catch {
                     print("Error when working with encoded data from cloud")
                 }
             }
-            completion()
+           
         }
     }
     

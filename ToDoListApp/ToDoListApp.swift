@@ -25,6 +25,7 @@ struct ToDoListApp: App {
     @StateObject private var curUser: AppUser = AppUser()
     @StateObject private var userSettings: UserSettings = UserSettings()
     @StateObject private var categories: CategoriesData = CategoriesData()
+    @StateObject private var lastModifiedTime: LastModifiedTime = LastModifiedTime()
     var body: some Scene {
         WindowGroup {
             MainView()
@@ -33,6 +34,7 @@ struct ToDoListApp: App {
                 .environmentObject(curUser)
                 .environmentObject(userSettings)
                 .environmentObject(categories)
+                .environmentObject(lastModifiedTime)
                 .preferredColorScheme(userSettings.darkMode ? .dark : .light)
         }
     }

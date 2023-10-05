@@ -57,7 +57,6 @@ struct ForgotPasswordView: View {
                         .background(Color.blue)
                         .cornerRadius(8)
                 }
-
             }
             .disabled(email == "")
             .padding()
