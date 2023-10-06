@@ -270,91 +270,8 @@ struct TodoListView: View {
                             let db = Firestore.firestore()
                             let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
                             taskCollection.addSnapshotListener { snapshot, error in
-                                if let encodedData = snapshot?.data() {
-                                    
-                                    let uid = curUserContainer.curUser!.uid
-                                    do {
-                                        let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                                        let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
-                                        let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
-                                        let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
-                                        let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
-                                        let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
-                                        let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
-                                        if let lastModifiedTimeJsonDictData = encodedData["lastModifiedTime"] {
-                                            let lastModifiedTimeData = try JSONSerialization.data(withJSONObject: lastModifiedTimeJsonDictData)
-                                            try lastModifiedTimeData.write(to: lastModifiedTimeFileURL)
-                                            let localLastModifiedTimeEncoded = try Data(contentsOf: lastModifiedTimeFileURL)
-                                            let decoder = JSONDecoder()
-                                            let localLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: localLastModifiedTimeEncoded)
-                                            let cloudLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: lastModifiedTimeData)
-                                            if localLastModifiedTimeData.lastModifiedTime < cloudLastModifiedTimeData.lastModifiedTime {
-                                                if let userJsonDictData = encodedData["user"] {
-                                                    let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
-                                                    try userJsonData.write(to: userFileURL)
-                                                    print("User data download success")
-                                                } else {
-                                                    print("User field is empty")
-                                                }
-                                                if let dataJsonDictData = encodedData["data"] {
-                                                    let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
-                                                    try dataJsonData.write(to: dataFileURL)
-                                                    print("Content data download success")
-                                                } else {
-                                                    "Content data field is empty"
-                                                }
-                                
-                                                if let settingsJsonDictData = encodedData["settings"] {
-                                                    let settingsJsonData = try JSONSerialization.data(withJSONObject: settingsJsonDictData)
-                                                    try settingsJsonData.write(to: settingsFileURL)
-                                                    print("Settings data download success")
-                                                } else {
-                                                    print("setting field is empty")
-                                                }
-                                                if let categoriesJsonDictData = encodedData["categories"] {
-                                                    let categoriesJsonData = try JSONSerialization.data(withJSONObject: categoriesJsonDictData)
-                                                    try categoriesJsonData.write(to: categoriesFileURL)
-                                                    print("categories data download success")
-                                                } else {
-                                                    print("categoreis field is empty")
-                                                }
-                                                if let categoryJsonDictData = encodedData["category"] {
-                                                    let categoryJsonData = try JSONSerialization.data(withJSONObject: categoryJsonDictData)
-                                                    try categoryJsonData.write(to: categoryFileURL)
-                                                    print("category data download success")
-                                                } else {
-                                                    print("category data field is empty")
-                                                }
-                                                todoListContainer.loadLocalData(user: curUserContainer.curUser)
-                                                userSettings.loadLocalSettings(user: curUserContainer.curUser)
-                                                categoryContainer.loadLocalCategories()
-                                                let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
-                                                if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
-                                                    todoListContainer.selectedCategory = curCategory
-                                                }
-                                                moveLayoverItems()
-                                                todoListContainer.saveLocalData()
-                                                userSettings.saveLocalSettings()
-                                                categoryContainer.saveLocalCategories()
-                                            }
-                                                
-                                        } else {
-                                            print("LastModifiedTime is empty")
-                                        }
-                                        
-                                        
-                                    } catch {
-                                        print("Error when working with encoded data from cloud")
-                                    }
-                                }
+                                loadDataFromSnapshot(snapshot: snapshot!)
                             }
-                        }
-                        
-                        
-                    }
-                    .onChange(of: scenePhase) { newValue in
-                        if newValue == .active && curUserContainer.curUser != nil {
-                            fetchFireStoreData()
                         }
                     }
                     Color.white.opacity(0.00000001)
@@ -380,6 +297,90 @@ struct TodoListView: View {
         }
         .background(backgroundColor)
     }
+    
+    func loadDataFromSnapshot(snapshot: DocumentSnapshot) {
+        if let encodedData = snapshot.data() {
+            let uid = curUserContainer.curUser!.uid
+            do {
+                let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
+                let userFileURL = documentDirectory.appendingPathComponent("\(uid)-user.json")
+                let settingsFileURL = documentDirectory.appendingPathComponent("\(uid)-settings.json")
+                let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
+                let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
+                let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
+                if let lastModifiedTimeJsonDictData = encodedData["lastModifiedTime"] {
+                    let lastModifiedTimeData = try JSONSerialization.data(withJSONObject: lastModifiedTimeJsonDictData)
+                    let localLastModifiedTimeEncoded = try Data(contentsOf: lastModifiedTimeFileURL)
+                    let decoder = JSONDecoder()
+                    let localLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: localLastModifiedTimeEncoded)
+                    let cloudLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: lastModifiedTimeData)
+                    print(localLastModifiedTimeData.lastModifiedTime)
+                    print(cloudLastModifiedTimeData.lastModifiedTime)
+                    if localLastModifiedTimeData.lastModifiedTime < cloudLastModifiedTimeData.lastModifiedTime {
+                        print("GOT HERE")
+                        if let userJsonDictData = encodedData["user"] {
+                            let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
+                            try userJsonData.write(to: userFileURL)
+                            print("User data download success")
+                        } else {
+                            print("User field is empty")
+                        }
+                        if let dataJsonDictData = encodedData["data"] {
+                            let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
+                            try dataJsonData.write(to: dataFileURL)
+                            print("Content data download success")
+                        } else {
+                            "Content data field is empty"
+                        }
+                        
+                        if let settingsJsonDictData = encodedData["settings"] {
+                            let settingsJsonData = try JSONSerialization.data(withJSONObject: settingsJsonDictData)
+                            try settingsJsonData.write(to: settingsFileURL)
+                            print("Settings data download success")
+                        } else {
+                            print("setting field is empty")
+                        }
+                        if let categoriesJsonDictData = encodedData["categories"] {
+                            let categoriesJsonData = try JSONSerialization.data(withJSONObject: categoriesJsonDictData)
+                            try categoriesJsonData.write(to: categoriesFileURL)
+                            print("categories data download success")
+                        } else {
+                            print("categoreis field is empty")
+                        }
+                        if let categoryJsonDictData = encodedData["category"] {
+                            let categoryJsonData = try JSONSerialization.data(withJSONObject: categoryJsonDictData)
+                            try categoryJsonData.write(to: categoryFileURL)
+                            print("category data download success")
+                        } else {
+                            print("category data field is empty")
+                        }
+                        todoListContainer.loadLocalData(user: curUserContainer.curUser)
+                        userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                        categoryContainer.loadLocalCategories()
+                        let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
+                        if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
+                            todoListContainer.selectedCategory = curCategory
+                        }
+                        moveLayoverItems()
+                        todoListContainer.saveLocalData()
+                        userSettings.saveLocalSettings()
+                        categoryContainer.saveLocalCategories()
+                        lastModifiedTimeContainer.lastModifiedTime = cloudLastModifiedTimeData.lastModifiedTime
+                        lastModifiedTimeContainer.saveData()
+                    }
+                    
+                } else {
+                    print("LastModifiedTime is empty")
+                }
+                
+                
+            } catch {
+                print("Error when working with encoded data from cloud")
+            }
+        }
+    }
+    
     func fetchFireStoreData() {
         FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
             todoListContainer.loadLocalData(user: curUserContainer.curUser)
