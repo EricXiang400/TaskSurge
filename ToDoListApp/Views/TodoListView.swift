@@ -315,10 +315,7 @@ struct TodoListView: View {
                     let decoder = JSONDecoder()
                     let localLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: localLastModifiedTimeEncoded)
                     let cloudLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: lastModifiedTimeData)
-                    print(localLastModifiedTimeData.lastModifiedTime)
-                    print(cloudLastModifiedTimeData.lastModifiedTime)
                     if localLastModifiedTimeData.lastModifiedTime < cloudLastModifiedTimeData.lastModifiedTime {
-                        print("GOT HERE")
                         if let userJsonDictData = encodedData["user"] {
                             let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
                             try userJsonData.write(to: userFileURL)
