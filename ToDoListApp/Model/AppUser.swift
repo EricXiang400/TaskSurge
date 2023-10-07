@@ -12,20 +12,24 @@ final class AppUser: ObservableObject, Codable {
     @Published var curUser: User? = Auth.auth().currentUser
     var uid: String
     var userName: String
+    var lastActiveDate: Date
     
     enum CodingKeys: String, CodingKey {
         case uid
         case userName
+        case lastActiveDate
     }
     
     init(uid: String, userName: String) {
         self.uid = uid
         self.userName = userName
+        self.lastActiveDate = Date()
     }
     
     func saveLocalUser(user: User, userName: String) {
         self.curUser = user
         self.userName = userName
+        self.lastActiveDate = Date()
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             if let curUser = curUser {
@@ -51,6 +55,7 @@ final class AppUser: ObservableObject, Codable {
                 let output = try decoder.decode(AppUser.self, from: data)
                 self.uid = output.uid
                 self.userName = output.userName
+                self.lastActiveDate = output.lastActiveDate
             }
         } catch {
             print("User is nil")

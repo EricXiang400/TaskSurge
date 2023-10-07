@@ -260,6 +260,8 @@ struct TodoListView: View {
                     .listStyle(.plain)
                     .onAppear {
                         if curUserContainer.curUser != nil {
+                            curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                            print(curUserContainer.lastActiveDate)
                             fetchFireStoreData()
                             let db = Firestore.firestore()
                             let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
@@ -271,6 +273,7 @@ struct TodoListView: View {
                                 loadDataFromSnapshot(snapshot: snapshot)
                             }
                         }
+                        moveLayoverItems()
                     }
                     Color.white.opacity(0.00000001)
                         .offset(y: CGFloat(offSetCount * offSetHeight))
@@ -292,9 +295,14 @@ struct TodoListView: View {
                 }
             }
         }
-//        .onChange(of: scenePhase) { newValue in
-//            <#code#>
-//        }
+        .onChange(of: scenePhase) { newValue in
+            if curUserContainer.curUser != nil {
+                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                updateLastModifiedTime()
+                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+            }
+            
+        }
         .background(backgroundColor)
     }
     
@@ -411,13 +419,13 @@ struct TodoListView: View {
         }
         let calendar = Calendar.current
         let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
-        return CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.createdDate) && !todoContent.completed
+        
+        return CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate) && !todoContent.completed
     }
     func moveLayoverItems() {
         for i in todoListContainer.todoList.indices {
             if taskLayoverExist(todoContent: todoListContainer.todoList[i]) {
                 todoListContainer.todoList[i].date = Date()
-                todoListContainer.todoList[i].createdDate = Date()
             }
         }
     }

@@ -103,7 +103,7 @@ struct SignUpView: View {
             UserSettings().saveLocalSettings()
             TodoList().saveLocalData()
             CategoriesData().saveLocalCategories()
-            FireStoreManager.firestoreToLocal(uid: user.uid) {}
+            FireStoreManager.localToFirestore(uid: user.uid)
         }
     }
 }
