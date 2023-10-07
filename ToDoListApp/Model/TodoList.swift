@@ -12,11 +12,13 @@ final class TodoList: ObservableObject, Codable {
     @Published var todoList: [TodoContent]
     @Published var selectedCategory: Category?
     @Published var editCategory: Category?
+    var taskSortID: Int
     
-    init(todoList: [TodoContent] = [], selectedCategory: Category? = nil, editCategory: Category? = nil) {
+    init(todoList: [TodoContent] = [], selectedCategory: Category? = nil, editCategory: Category? = nil, taskSortID: Int = 0) {
         self.todoList = todoList
         self.selectedCategory = selectedCategory
         self.editCategory = editCategory
+        self.taskSortID = taskSortID
     }
     
     convenience init(from decoder: Decoder) throws {
@@ -24,13 +26,15 @@ final class TodoList: ObservableObject, Codable {
         let todoList = try container.decode([TodoContent].self, forKey: .todoList)
         let selectedCategory = try container.decode(Category?.self, forKey: .selectedCategory)
         let editCategory = try container.decode(Category?.self, forKey: .editCategory)
-        self.init(todoList: todoList, selectedCategory: selectedCategory, editCategory: editCategory)
+        let taskSortID = try container.decode(Int.self, forKey: .taskSortID)
+        self.init(todoList: todoList, selectedCategory: selectedCategory, editCategory: editCategory, taskSortID: taskSortID)
     }
     
     enum CodingKeys: String, CodingKey {
         case todoList
         case selectedCategory
         case editCategory
+        case taskSortID
     }
     
     func encode(to encoder: Encoder) throws {
@@ -38,6 +42,7 @@ final class TodoList: ObservableObject, Codable {
         try container.encode(todoList, forKey: .todoList)
         try container.encode(selectedCategory, forKey: .selectedCategory)
         try container.encode(editCategory, forKey: .editCategory)
+        try container.encode(taskSortID, forKey: .taskSortID)
     }
     
     func loadLocalData(user: User?) {
@@ -53,6 +58,7 @@ final class TodoList: ObservableObject, Codable {
                 self.selectedCategory = output.selectedCategory
                 self.todoList = output.todoList
                 self.editCategory = output.editCategory
+                self.taskSortID = output.taskSortID
             } else {
                 let fileURL = documentDirectory.appendingPathComponent("data.json")
                 data = try Data(contentsOf: fileURL)
@@ -62,12 +68,14 @@ final class TodoList: ObservableObject, Codable {
                 self.selectedCategory = output.selectedCategory
                 self.todoList = output.todoList
                 self.editCategory = output.editCategory
+                self.taskSortID = output.taskSortID
             }
         } catch {
             print("No local Data so return []")
             self.selectedCategory = nil
             self.todoList = []
             self.editCategory = nil
+            taskSortID = 0
         }
     }
 

@@ -9,7 +9,6 @@ import Foundation
 
 struct TodoContent: Codable, Identifiable, Equatable {
     
-    static var lastAssignedID: Int = 0
     var id: UUID
     var content: String
     var completed: Bool
@@ -18,6 +17,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
     var progress: Float
     var category: Category
     var createdDate: Date
+    var taskSortID: Int
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -28,6 +28,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
         case progress
         case category
         case createdDate
+        case taskSortID
     }
     
     init(from decoder: Decoder) throws {
@@ -38,6 +39,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
         priority = try container.decode(Double.self, forKey: .priority)
         progress = try container.decode(Float.self, forKey: .progress)
         category = try container.decode(Category.self, forKey: .category)
+        taskSortID = try container.decode(Int.self, forKey: .taskSortID)
         let dateString = try container.decode(String.self, forKey: .date)
         let createdDateString = try container.decode(String.self, forKey: .createdDate)
         let dateFormatter = DateFormatter()
@@ -54,7 +56,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
         }
     }
     
-    init(content: String, completed: Bool, date: Date) {
+    init(content: String, completed: Bool, date: Date, taskSortID: Int) {
         self.id = UUID()
         self.content = content
         self.completed = completed
@@ -63,8 +65,9 @@ struct TodoContent: Codable, Identifiable, Equatable {
         self.progress = 0.0
         self.category = Category(name: "Untitled")
         self.createdDate = Date()
+        self.taskSortID = taskSortID
     }
-    init(content: String, completed: Bool, date: Date, category: Category) {
+    init(content: String, completed: Bool, date: Date, category: Category, taskSortID: Int) {
         self.id = UUID()
         self.content = content
         self.completed = completed
@@ -73,5 +76,6 @@ struct TodoContent: Codable, Identifiable, Equatable {
         self.progress = 0.0
         self.category = category
         self.createdDate = Date()
+        self.taskSortID = taskSortID
     }
 }

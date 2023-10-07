@@ -17,7 +17,7 @@ struct MainView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var userSettings: UserSettings
     @State var showProgressEditView: Bool = false
-    @State var selectedTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
+    @State var selectedTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0)
     @State var slideBarAmount: Float = 0
     @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
     @State var settingViewOffset: CGFloat = -440

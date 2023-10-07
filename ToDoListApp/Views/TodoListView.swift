@@ -29,8 +29,8 @@ struct TodoListView: View {
     @Binding var selectedTodoContent: TodoContent
     @Binding var showProgressEditView: Bool
     @State var showTaskDetails: Bool = false
-    @State var tempTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date())
-    @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date())
+    @State var tempTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0)
+    @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0)
     @State var presentSheet: Bool = false
     @State var isNewTask: Bool = true
     @Binding var sideMenuOffset: CGFloat
@@ -118,14 +118,11 @@ struct TodoListView: View {
                     
                     Button (action: {
                         userSettings.sortOption.toggle()
-                        sortTask()
                         userSettings.saveLocalSettings()
-                        updateLastModifiedTime()
-                        if curUserContainer.curUser != nil {
-                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                        }
+                        sortTask()
+                        saveData()
                     }) {
-                        if userSettings.sortOption == true {
+                        if userSettings.sortOption {
                             Image(systemName: "line.horizontal.3.decrease.circle")
                                 .rotationEffect(.degrees(180))
                                 .font(.system(size: 25))
@@ -139,7 +136,7 @@ struct TodoListView: View {
                         UIApplication.shared.endEditing()
                         if todoListContainer.selectedCategory != nil {
                             withAnimation(.easeInOut) {
-                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
+                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID)
                                 tempTodoContentCopy = tempTodoContent
                                 presentSheet = true
                             }
@@ -171,6 +168,7 @@ struct TodoListView: View {
                         EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
                             tempTodoContent = tempTodoContentCopy
                             todoListContainer.todoList.append(tempTodoContent)
+                            todoListContainer.taskSortID += 1
                             sortTask()
                             saveData()
                         }
@@ -200,9 +198,7 @@ struct TodoListView: View {
                                                 todoListContainer.todoList[todoIndex].completed = true
                                             }
                                         }
-                                        
                                         saveData()
-                                        
                                     }) {
                                         Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
                                             .resizable()
@@ -221,7 +217,6 @@ struct TodoListView: View {
                                                 noCircularConfirmation = false
                                                 sortTask()
                                                 todoListContainer.saveLocalData()
-                                                
                                                 if curUserContainer.curUser != nil {
                                                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                                                 }
@@ -251,7 +246,6 @@ struct TodoListView: View {
                             .listRowBackground(backgroundColor)
                             .contentShape(Rectangle())
                             .cornerRadius(5)
-                            
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(action: {
                                     todoListContainer.todoList.remove(at: todoIndex)
@@ -278,7 +272,7 @@ struct TodoListView: View {
                         .offset(y: CGFloat(offSetCount * offSetHeight))
                         .onTapGesture {
                             if todoListContainer.selectedCategory != nil {
-                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!)
+                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID)
                                 tempTodoContentCopy = tempTodoContent
                                 presentSheet = true
                             }
@@ -322,7 +316,6 @@ struct TodoListView: View {
                         } else {
                             print("User field is empty")
                         }
-                        print("GOT HERE")
                         if let dataJsonDictData = encodedData["data"] {
                             let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
                             try dataJsonData.write(to: dataFileURL)
@@ -360,7 +353,6 @@ struct TodoListView: View {
                             todoListContainer.selectedCategory = curCategory
                         }
                         moveLayoverItems()
-                        sortTask()
                         todoListContainer.saveLocalData()
                         userSettings.saveLocalSettings()
                         categoryContainer.saveLocalCategories()
@@ -393,13 +385,15 @@ struct TodoListView: View {
     }
     
     func sortTask() {
+        var previousList = todoListContainer.todoList
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
                 return $0.progress < $1.progress
             })
         } else {
             todoListContainer.todoList.sort(by: {
-                return $1.date < $0.date
+                print($0.taskSortID)
+                return $0.taskSortID < $1.taskSortID
             })
         }
     }
