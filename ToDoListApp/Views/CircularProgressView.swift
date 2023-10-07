@@ -60,16 +60,15 @@ struct CircularProgressView: View {
         
     }
     func sortTask() {
+        var previousList = todoListContainer.todoList
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
-                if $0.progress == $1.progress {
-                    return $1.date < $0.date
-                }
                 return $0.progress < $1.progress
             })
         } else {
             todoListContainer.todoList.sort(by: {
-                return $1.date < $0.date
+                print($0.taskSortID)
+                return $0.taskSortID < $1.taskSortID
             })
         }
     }

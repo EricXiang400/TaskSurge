@@ -75,7 +75,7 @@ struct PopOverContent: View {
     @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
     @Binding var slideBarAmount: Float
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -99,10 +99,10 @@ struct PopOverContent: View {
                 Slider(value: $slideBarAmount, in: 0...100)
                     .padding([.leading, .trailing], 20)
             }
-                .padding()
-                .onAppear {
-                    slideBarAmount = todoContent.progress
-                }
+            .padding()
+            .onAppear {
+                slideBarAmount = todoContent.progress
+            }
             HStack {
                 Spacer()
                 Button(action: {
@@ -181,13 +181,16 @@ struct PopOverContent: View {
     }
     
     func sortTask() {
+        var previousList = todoListContainer.todoList
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
                 return $0.progress < $1.progress
             })
         } else {
             todoListContainer.todoList.sort(by: {
-                return $1.date < $0.date
+                print($0.taskSortID)
+                return $0.taskSortID < $1.taskSortID
             })
         }
-    }}
+    }
+}

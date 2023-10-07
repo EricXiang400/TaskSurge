@@ -264,7 +264,11 @@ struct TodoListView: View {
                             let db = Firestore.firestore()
                             let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
                             taskCollection.addSnapshotListener { snapshot, error in
-                                loadDataFromSnapshot(snapshot: snapshot!)
+                                guard let snapshot = snapshot else {
+                                    print("snapshot is null")
+                                    return
+                                }
+                                loadDataFromSnapshot(snapshot: snapshot)
                             }
                         }
                     }
