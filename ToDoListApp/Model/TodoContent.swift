@@ -17,6 +17,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
     var priority: Double
     var progress: Float
     var category: Category
+    var createdDate: Date
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -26,6 +27,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
         case priority
         case progress
         case category
+        case createdDate
     }
     
     init(from decoder: Decoder) throws {
@@ -37,12 +39,18 @@ struct TodoContent: Codable, Identifiable, Equatable {
         progress = try container.decode(Float.self, forKey: .progress)
         category = try container.decode(Category.self, forKey: .category)
         let dateString = try container.decode(String.self, forKey: .date)
+        let createdDateString = try container.decode(String.self, forKey: .createdDate)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         if let date = dateFormatter.date(from: dateString) {
             self.date = date
         } else {
             throw fatalError("Invalid Date Format")
+        }
+        if let createdDate = dateFormatter.date(from: createdDateString) {
+            self.createdDate = createdDate
+        } else {
+            throw fatalError("Invalid created date format")
         }
     }
     
@@ -54,6 +62,7 @@ struct TodoContent: Codable, Identifiable, Equatable {
         self.priority = 0.0
         self.progress = 0.0
         self.category = Category(name: "Untitled")
+        self.createdDate = Date()
     }
     init(content: String, completed: Bool, date: Date, category: Category) {
         self.id = UUID()
@@ -63,5 +72,6 @@ struct TodoContent: Codable, Identifiable, Equatable {
         self.priority = 0.0
         self.progress = 0.0
         self.category = category
+        self.createdDate = Date()
     }
 }
