@@ -49,10 +49,9 @@
 		76A8F95C2A3128E300A3AA38 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F95B2A3128E300A3AA38 /* SignUpView.swift */; };
 		76A8F95F2A32592D00A3AA38 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 76A8F95E2A32592D00A3AA38 /* GoogleSignIn */; };
 		76A8F9612A32592D00A3AA38 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76A8F9602A32592D00A3AA38 /* GoogleSignInSwift */; };
-		76A8F9642A337D0100A3AA38 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9632A337D0100A3AA38 /* FirestoreManager.swift */; };
+		76A8F9642A337D0100A3AA38 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9632A337D0100A3AA38 /* FireStoreManager.swift */; };
 		76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9652A3381BD00A3AA38 /* AppUser.swift */; };
 		76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9672A33904900A3AA38 /* TodoList.swift */; };
-		76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */; };
 		76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */; };
 		76C907212AABC88000643E80 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C907202AABC88000643E80 /* EditTaskView.swift */; };
 		76F9C47B2A72C70D00A60E0D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C47A2A72C70D00A60E0D /* UserSettings.swift */; };
@@ -102,10 +101,9 @@
 		76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		76A8F9592A31227C00A3AA38 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		76A8F95B2A3128E300A3AA38 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		76A8F9632A337D0100A3AA38 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		76A8F9632A337D0100A3AA38 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		76A8F9652A3381BD00A3AA38 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		76A8F9672A33904900A3AA38 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
-		76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWrapper.swift; sourceTree = "<group>"; };
 		76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthenticationView.swift; sourceTree = "<group>"; };
 		76C907202AABC88000643E80 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 		76F9C47A2A72C70D00A60E0D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -207,7 +205,6 @@
 				76499E9B2A291A75000354F9 /* TodoContent.swift */,
 				76A8F9652A3381BD00A3AA38 /* AppUser.swift */,
 				76F9C47A2A72C70D00A60E0D /* UserSettings.swift */,
-				76A8F96B2A37BE9200A3AA38 /* UserWrapper.swift */,
 				76A8F9672A33904900A3AA38 /* TodoList.swift */,
 				76F9C4802A7B006D00A60E0D /* Category.swift */,
 				76898B9C2A8134A7002AD3CC /* CategoriesData.swift */,
@@ -220,7 +217,7 @@
 		76A8F9622A337CEC00A3AA38 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				76A8F9632A337D0100A3AA38 /* FirestoreManager.swift */,
+				76A8F9632A337D0100A3AA38 /* FireStoreManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -476,7 +473,7 @@
 			files = (
 				760EB1BE2ACE6E1A0080BAEE /* LastModifiedTime.swift in Sources */,
 				76FBAC782A265E7B00A86343 /* MainView.swift in Sources */,
-				76A8F9642A337D0100A3AA38 /* FirestoreManager.swift in Sources */,
+				76A8F9642A337D0100A3AA38 /* FireStoreManager.swift in Sources */,
 				76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */,
 				76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */,
 				76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */,
@@ -485,7 +482,6 @@
 				76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */,
 				76FBACA42A26649000A86343 /* CalendarView.swift in Sources */,
 				76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */,
-				76A8F96C2A37BE9200A3AA38 /* UserWrapper.swift in Sources */,
 				76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */,
 				76F9C4812A7B006D00A60E0D /* Category.swift in Sources */,
 				76A8F95A2A31227C00A3AA38 /* LogInView.swift in Sources */,

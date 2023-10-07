@@ -59,6 +59,5 @@ struct UserWrapper: Codable, Hashable {
         } catch {
             print("User save failed")
         }
-        
     }
 }

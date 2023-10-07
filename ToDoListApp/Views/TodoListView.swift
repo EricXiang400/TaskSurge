@@ -292,6 +292,9 @@ struct TodoListView: View {
                 }
             }
         }
+//        .onChange(of: scenePhase) { newValue in
+//            <#code#>
+//        }
         .background(backgroundColor)
     }
     

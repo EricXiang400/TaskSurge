@@ -99,11 +99,11 @@ struct SignUpView: View {
                 return
             }
             showLoginView = false
+            curUserContainer.saveLocalUser(user: user, userName: username)
             UserSettings().saveLocalSettings()
             TodoList().saveLocalData()
             CategoriesData().saveLocalCategories()
-            UserWrapper.saveLocalUser(user: user, userName: username)
-            curUserContainer.curUser = user
+            FireStoreManager.firestoreToLocal(uid: user.uid) {}
         }
     }
 }

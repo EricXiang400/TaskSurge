@@ -22,7 +22,7 @@ struct ToDoListApp: App {
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var selectedDate = SelectedDate()
     @StateObject private var todos: TodoList = TodoList()
-    @StateObject private var curUser: AppUser = AppUser()
+    @StateObject private var curUser: AppUser = AppUser(uid: "", userName: "")
     @StateObject private var userSettings: UserSettings = UserSettings()
     @StateObject private var categories: CategoriesData = CategoriesData()
     @StateObject private var lastModifiedTime: LastModifiedTime = LastModifiedTime()

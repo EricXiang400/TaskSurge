@@ -49,7 +49,7 @@ struct SettingsView: View {
                         .font(.system(size: 40))
                         .padding(.leading)
                     if curUserContainer.curUser != nil {
-                        Text("\(UserWrapper.loadLocalUser()?.userName ?? "")")
+                        Text("\(curUserContainer.userName)")
                             .bold()
                         Spacer()
                         Button {
@@ -78,6 +78,9 @@ struct SettingsView: View {
                         }
                         
                     }
+                }
+                .onAppear {
+                    curUserContainer.loadLocalUser()
                 }
                 
                 Divider()
