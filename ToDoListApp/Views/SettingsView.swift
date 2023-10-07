@@ -14,6 +14,7 @@ struct SettingsView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var categoryContainer: CategoriesData
+    @EnvironmentObject var lastModifiedTimeContainer: LastModifiedTime
     @Binding var isShowingSetting: Bool
     @State var showDeleteAccountAlert: Bool = false
     @State var showReauthenticationView: Bool = false
@@ -87,6 +88,7 @@ struct SettingsView: View {
                     }
                     .onChange(of: userSettings.darkMode) { newValue in
                         userSettings.darkMode = newValue
+                        updateLastModifiedTime()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -103,6 +105,7 @@ struct SettingsView: View {
                     }
                     .onChange(of: userSettings.showKeyboardOnStart) { newValue in
                         userSettings.showKeyboardOnStart = newValue
+                        updateLastModifiedTime()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -127,6 +130,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.taskLayover) { newValue in
                         userSettings.taskLayover = newValue
                         moveLayoverItems()
+                        updateLastModifiedTime()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -150,6 +154,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.showCalendarButton) { newValue in
                         userSettings.showCalendarButton = newValue
                         userSettings.saveLocalSettings()
+                        updateLastModifiedTime()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
@@ -174,6 +179,7 @@ struct SettingsView: View {
                                 userSettings.circularProgressBar = false
                             }
                         }
+                        updateLastModifiedTime()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -189,6 +195,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.circularProgressBar) { newValue in
                         userSettings.circularProgressBar = newValue
                         userSettings.saveLocalSettings()
+                        updateLastModifiedTime()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
@@ -243,6 +250,11 @@ struct SettingsView: View {
                 todoListContainer.todoList[i].date = Date()
             }
         }
+    }
+    
+    func updateLastModifiedTime() {
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
     
     func signOut() -> Bool {

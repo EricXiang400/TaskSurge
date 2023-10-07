@@ -81,8 +81,7 @@ struct TodoListView: View {
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
-            lastModifiedTimeContainer.lastModifiedTime = Date()
-            lastModifiedTimeContainer.saveData()
+            updateLastModifiedTime()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
@@ -123,6 +122,7 @@ struct TodoListView: View {
                             sortTask()
                         }
                         userSettings.saveLocalSettings()
+                        updateLastModifiedTime()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
@@ -287,7 +287,6 @@ struct TodoListView: View {
                             EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
                                 tempTodoContent = tempTodoContentCopy
                                 todoListContainer.todoList.append(tempTodoContent)
-                                
                                 sortTask()
                                 saveData()
                             }
@@ -323,6 +322,7 @@ struct TodoListView: View {
                         } else {
                             print("User field is empty")
                         }
+                        print("GOT HERE")
                         if let dataJsonDictData = encodedData["data"] {
                             let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
                             try dataJsonData.write(to: dataFileURL)
@@ -360,6 +360,7 @@ struct TodoListView: View {
                             todoListContainer.selectedCategory = curCategory
                         }
                         moveLayoverItems()
+                        sortTask()
                         todoListContainer.saveLocalData()
                         userSettings.saveLocalSettings()
                         categoryContainer.saveLocalCategories()
@@ -394,9 +395,6 @@ struct TodoListView: View {
     func sortTask() {
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
-                if $0.progress == $1.progress {
-                    return $1.date < $0.date
-                }
                 return $0.progress < $1.progress
             })
         } else {
@@ -421,6 +419,11 @@ struct TodoListView: View {
                 todoListContainer.todoList[i].createdDate = Date()
             }
         }
+    }
+    
+    func updateLastModifiedTime() {
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
     
     func decodeData(from document: QueryDocumentSnapshot) -> Data {
