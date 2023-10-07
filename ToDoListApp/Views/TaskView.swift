@@ -12,6 +12,7 @@ struct TaskView: View {
     @EnvironmentObject var curUserContainer: AppUser
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var lastModifiedTimeContainer: LastModifiedTime
     @Binding var todoContent: TodoContent
     @State var showTaskDetails: Bool = false
     @State var todoContentCopyPassIn: TodoContent
@@ -32,10 +33,7 @@ struct TaskView: View {
                 .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
-                        if userSettings.sortOption {
-                            sortTask()
-                        }
-                        
+                        sortTask()
                         saveData()
                     }
                 }
@@ -54,9 +52,7 @@ struct TaskView: View {
                 .sheet(isPresented: $showTaskDetails) {
                     EditTaskView(todoContentCopy: $todoContentCopyPassIn, todoContentOriginal: $todoContent, showTaskDetails: $showTaskDetails, isNewTask: $isNewTask) {
                         todoContent = todoContentCopyPassIn
-                        if userSettings.sortOption {
-                            sortTask()
-                        }
+                        sortTask()
                         saveData()
                     }
                 }
@@ -68,8 +64,14 @@ struct TaskView: View {
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
+            updateLastModifiedTime()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
+    }
+    
+    func updateLastModifiedTime() {
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
     
     func sortTask() {

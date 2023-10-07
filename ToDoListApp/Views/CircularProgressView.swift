@@ -85,4 +85,5 @@ struct CircularProgressView: View {
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
+    
 }
