@@ -65,7 +65,6 @@ struct TaskView: View {
         }
     }
     
-//    These are the same as the one in todolistview
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
@@ -76,9 +75,6 @@ struct TaskView: View {
     func sortTask() {
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
-                if $0.progress == $1.progress {
-                    return $1.date < $0.date
-                }
                 return $0.progress < $1.progress
             })
         } else {

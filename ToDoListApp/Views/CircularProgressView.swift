@@ -15,6 +15,8 @@ struct CircularProgressView: View {
     @EnvironmentObject private var curUserContainer: AppUser
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var categoryContainer: CategoriesData
+    @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
+
     @Binding var todoContent: TodoContent
     @State var showConfirmationSheet: Bool = false
     var body: some View {
@@ -50,11 +52,7 @@ struct CircularProgressView: View {
                     todoContent.progress = 100.0
                     todoContent.completed = true
                     sortTask()
-                    
-                    todoListContainer.saveLocalData()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                    }
+                    saveData()
                 },
                 secondaryButton: .cancel()
             )
@@ -73,6 +71,19 @@ struct CircularProgressView: View {
             todoListContainer.todoList.sort(by: {
                 return $1.date < $0.date
             })
+        }
+    }
+    
+    func updateLastModifiedTime() {
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
+    }
+    
+    func saveData() {
+        todoListContainer.saveLocalData()
+        if curUserContainer.curUser != nil {
+            updateLastModifiedTime()
+            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
 }

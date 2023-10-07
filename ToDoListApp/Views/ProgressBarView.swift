@@ -183,9 +183,6 @@ struct PopOverContent: View {
     func sortTask() {
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
-                if $0.progress == $1.progress {
-                    return $1.date < $0.date
-                }
                 return $0.progress < $1.progress
             })
         } else {
@@ -193,5 +190,4 @@ struct PopOverContent: View {
                 return $1.date < $0.date
             })
         }
-    }
-}
+    }}

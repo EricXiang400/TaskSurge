@@ -118,9 +118,7 @@ struct TodoListView: View {
                     
                     Button (action: {
                         userSettings.sortOption.toggle()
-                        if userSettings.sortOption {
-                            sortTask()
-                        }
+                        sortTask()
                         userSettings.saveLocalSettings()
                         updateLastModifiedTime()
                         if curUserContainer.curUser != nil {
@@ -202,7 +200,9 @@ struct TodoListView: View {
                                                 todoListContainer.todoList[todoIndex].completed = true
                                             }
                                         }
+                                        
                                         saveData()
+                                        
                                     }) {
                                         Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
                                             .resizable()
