@@ -120,7 +120,6 @@ struct EditTaskView: View {
                                 .cornerRadius(8)
                         }
                     }
-                    
                 }
                 .disabled(todoContentCopy.content == "")
             }

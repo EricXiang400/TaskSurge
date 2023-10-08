@@ -258,23 +258,7 @@ struct TodoListView: View {
                         }
                     }
                     .listStyle(.plain)
-                    .onAppear {
-                        if curUserContainer.curUser != nil {
-                            curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
-                            print(curUserContainer.lastActiveDate)
-                            fetchFireStoreData()
-                            let db = Firestore.firestore()
-                            let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
-                            taskCollection.addSnapshotListener { snapshot, error in
-                                guard let snapshot = snapshot else {
-                                    print("snapshot is null")
-                                    return
-                                }
-                                loadDataFromSnapshot(snapshot: snapshot)
-                            }
-                        }
-                        moveLayoverItems()
-                    }
+                    
                     Color.white.opacity(0.00000001)
                         .offset(y: CGFloat(offSetCount * offSetHeight))
                         .onTapGesture {
@@ -296,13 +280,30 @@ struct TodoListView: View {
             }
         }
         .onChange(of: scenePhase) { newValue in
-            if curUserContainer.curUser != nil {
-                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+            if curUserContainer.curUser != nil && newValue == .background {
+                moveLayoverItems()
                 updateLastModifiedTime()
+                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
             }
-            
         }
+        .onAppear {
+            if curUserContainer.curUser != nil {
+                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                let db = Firestore.firestore()
+                let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
+                taskCollection.addSnapshotListener { snapshot, error in
+                    guard let snapshot = snapshot else {
+                        print("snapshot is null")
+                        return
+                    }
+                    loadDataFromSnapshot(snapshot: snapshot)
+                }
+                fetchFireStoreData()
+            }
+            moveLayoverItems()
+        }
+        
         .background(backgroundColor)
     }
     
@@ -368,6 +369,7 @@ struct TodoListView: View {
                             todoListContainer.selectedCategory = curCategory
                         }
                         moveLayoverItems()
+                        curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                         todoListContainer.saveLocalData()
                         userSettings.saveLocalSettings()
                         categoryContainer.saveLocalCategories()
@@ -407,7 +409,6 @@ struct TodoListView: View {
             })
         } else {
             todoListContainer.todoList.sort(by: {
-                print($0.taskSortID)
                 return $0.taskSortID < $1.taskSortID
             })
         }
