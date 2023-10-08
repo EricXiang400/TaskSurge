@@ -36,6 +36,7 @@ struct TodoListView: View {
     @Binding var sideMenuOffset: CGFloat
     @Environment(\.colorScheme) var colorScheme
     @State var noCircularConfirmation: Bool = false
+    @State private var listenerRegistration: ListenerRegistration?
     
     var backgroundColor: Color {
         if userSettings.darkMode {
@@ -292,7 +293,7 @@ struct TodoListView: View {
                 curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                 let db = Firestore.firestore()
                 let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
-                taskCollection.addSnapshotListener { snapshot, error in
+                listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
                     guard let snapshot = snapshot else {
                         print("snapshot is null")
                         return
@@ -302,6 +303,9 @@ struct TodoListView: View {
                 fetchFireStoreData()
             }
             moveLayoverItems()
+        }
+        .onDisappear {
+            listenerRegistration?.remove()
         }
         
         .background(backgroundColor)
