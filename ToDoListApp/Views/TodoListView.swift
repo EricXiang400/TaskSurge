@@ -36,7 +36,7 @@ struct TodoListView: View {
     @Binding var sideMenuOffset: CGFloat
     @Environment(\.colorScheme) var colorScheme
     @State var noCircularConfirmation: Bool = false
-    @State private var listenerRegistration: ListenerRegistration?
+    @State private var listenerRegistration: ListenerRegistration? = nil
     
     var backgroundColor: Color {
         if userSettings.darkMode {
@@ -281,33 +281,27 @@ struct TodoListView: View {
             }
         }
         .onChange(of: scenePhase) { newValue in
-            if curUserContainer.curUser != nil && newValue == .background {
-                moveLayoverItems()
-                updateLastModifiedTime()
-                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
-                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-            }
-        }
-        .onAppear {
-            if curUserContainer.curUser != nil {
-                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
-                let db = Firestore.firestore()
-                let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
-                listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
-                    guard let snapshot = snapshot else {
-                        print("snapshot is null")
-                        return
+            if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
+                if listenerRegistration == nil {
+                    let db = Firestore.firestore()
+                    let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
+                    listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
+                        guard let snapshot = snapshot else {
+                            print("snapshot is null")
+                            return
+                        }
+                        loadDataFromSnapshot(snapshot: snapshot)
                     }
-                    loadDataFromSnapshot(snapshot: snapshot)
                 }
-                fetchFireStoreData()
+                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                fetchAndLoadFireStoreData() {
+                    moveLayoverItems()
+                    updateLastModifiedTime()
+                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                }
+                
             }
-            moveLayoverItems()
         }
-        .onDisappear {
-            listenerRegistration?.remove()
-        }
-        
         .background(backgroundColor)
     }
     
@@ -332,14 +326,14 @@ struct TodoListView: View {
                         if let userJsonDictData = encodedData["user"] {
                             let userJsonData = try JSONSerialization.data(withJSONObject: userJsonDictData)
                             try userJsonData.write(to: userFileURL)
-                            print("User data download success")
+                            print("User data download success snapshot")
                         } else {
                             print("User field is empty")
                         }
                         if let dataJsonDictData = encodedData["data"] {
                             let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
                             try dataJsonData.write(to: dataFileURL)
-                            print("Content data download success")
+                            print("Content data download success snapshot")
                         } else {
                             "Content data field is empty"
                         }
@@ -347,21 +341,21 @@ struct TodoListView: View {
                         if let settingsJsonDictData = encodedData["settings"] {
                             let settingsJsonData = try JSONSerialization.data(withJSONObject: settingsJsonDictData)
                             try settingsJsonData.write(to: settingsFileURL)
-                            print("Settings data download success")
+                            print("Settings data download success snapshot")
                         } else {
                             print("setting field is empty")
                         }
                         if let categoriesJsonDictData = encodedData["categories"] {
                             let categoriesJsonData = try JSONSerialization.data(withJSONObject: categoriesJsonDictData)
                             try categoriesJsonData.write(to: categoriesFileURL)
-                            print("categories data download success")
+                            print("categories data download success snapshot")
                         } else {
                             print("categoreis field is empty")
                         }
                         if let categoryJsonDictData = encodedData["category"] {
                             let categoryJsonData = try JSONSerialization.data(withJSONObject: categoryJsonDictData)
                             try categoryJsonData.write(to: categoryFileURL)
-                            print("category data download success")
+                            print("category data download success snapshot")
                         } else {
                             print("category data field is empty")
                         }
@@ -380,19 +374,16 @@ struct TodoListView: View {
                         lastModifiedTimeContainer.lastModifiedTime = cloudLastModifiedTimeData.lastModifiedTime
                         lastModifiedTimeContainer.saveData()
                     }
-                    
                 } else {
                     print("LastModifiedTime is empty")
                 }
-                
-                
             } catch {
                 print("Error when working with encoded data from cloud")
             }
         }
     }
     
-    func fetchFireStoreData() {
+    func fetchAndLoadFireStoreData(completion: @escaping () -> Void) {
         FireStoreManager.firestoreToLocal(uid: Auth.auth().currentUser!.uid) {
             todoListContainer.loadLocalData(user: curUserContainer.curUser)
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
@@ -401,7 +392,7 @@ struct TodoListView: View {
             if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                 todoListContainer.selectedCategory = curCategory
             }
-            moveLayoverItems()
+            completion()
         }
     }
     
@@ -425,8 +416,9 @@ struct TodoListView: View {
         let calendar = Calendar.current
         let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
         
-        return CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate) && !todoContent.completed
+        return (CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate)) && !todoContent.completed
     }
+    
     func moveLayoverItems() {
         for i in todoListContainer.todoList.indices {
             if taskLayoverExist(todoContent: todoListContainer.todoList[i]) {
