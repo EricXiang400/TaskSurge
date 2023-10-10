@@ -49,6 +49,7 @@ struct LogInView: View {
                 
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     login(completion: {
+                        curUserContainer.loadLocalUser()
                         todoListContainer.loadLocalData(user: curUserContainer.curUser!)
                         userSettings.loadLocalSettings(user: curUserContainer.curUser)
                         categoryContainer.loadLocalCategories()
