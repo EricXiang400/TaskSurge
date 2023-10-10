@@ -207,7 +207,22 @@ struct SettingsView: View {
                     
                 }
                 .padding(.horizontal)
-                
+                Divider()
+                VStack {
+                    Toggle(isOn: $userSettings.coloredProgressBar) {
+                        Text("High Contrast Progress bar")
+                    }
+                    .onChange(of: userSettings.coloredProgressBar) { newValue in
+                        userSettings.coloredProgressBar = newValue
+                        userSettings.saveLocalSettings()
+                        updateLastModifiedTime()
+                        if curUserContainer.curUser != nil {
+                            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                        }
+                    }
+                    .disabled(!userSettings.showProgressBar)
+                }
+                .padding(.horizontal)
                 Divider()
                 Spacer()
             }

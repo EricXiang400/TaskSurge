@@ -178,7 +178,7 @@ struct TodoListView: View {
                 
                 ZStack {
                     List(todoListContainer.todoList) { todo in
-                        if sameDate(date1: selectedDateContainer.selectedDate, date2: todo.date) && todoListContainer.selectedCategory == todo.category {
+                        if sameDate(date1: selectedDateContainer.selectedDate, date2: userSettings.taskLayover ? todo.date : todo.createdDate) && todoListContainer.selectedCategory == todo.category {
                             var todoIndex: Int {
                                 todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                             }

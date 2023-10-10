@@ -18,8 +18,9 @@ final class UserSettings: NSObject, ObservableObject, Codable {
     @Published var showCalendarButton: Bool
     @Published var showProgressBar: Bool
     @Published var circularProgressBar: Bool
+    @Published var coloredProgressBar: Bool
     
-    init(sortOption: Bool = false, darkMode: Bool = false, weekView: Bool = false, taskLayover: Bool = false, showKeyboardOnStart: Bool = true, showCalendarButton: Bool = true, showProgressBar: Bool = false, circularProgressBar: Bool = false) {
+    init(sortOption: Bool = false, darkMode: Bool = false, weekView: Bool = false, taskLayover: Bool = false, showKeyboardOnStart: Bool = true, showCalendarButton: Bool = true, showProgressBar: Bool = false, circularProgressBar: Bool = false, coloredProgressbar: Bool = false) {
         self.sortOption = sortOption
         self.darkMode = darkMode
         self.weekView = weekView
@@ -28,6 +29,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         self.showCalendarButton = showCalendarButton
         self.showProgressBar = showProgressBar
         self.circularProgressBar = circularProgressBar
+        self.coloredProgressBar = coloredProgressbar
     }
     
     enum CodingKeys: CodingKey {
@@ -39,6 +41,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         case showCalendarButton
         case showProgressBar
         case circularProgressBar
+        case coloredProgressBar
     }
     
     func encode(to encoder: Encoder) throws {
@@ -51,6 +54,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         try container.encode(showCalendarButton, forKey: .showCalendarButton)
         try container.encode(showProgressBar, forKey: .showProgressBar)
         try container.encode(circularProgressBar, forKey: .circularProgressBar)
+        try container.encode(coloredProgressBar, forKey: .coloredProgressBar)
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -63,7 +67,8 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         let showCalendarButton = try container.decode(Bool.self, forKey: .showCalendarButton)
         let showProgressbar = try container.decode(Bool.self, forKey: .showProgressBar)
         let circularProgressBar = try container.decode(Bool.self, forKey: .circularProgressBar)
-        self.init(sortOption: sortOption, darkMode: darkMode, weekView: weekView, taskLayover: taskLayover, showKeyboardOnStart: showKeyboardOnStart, showCalendarButton: showCalendarButton, showProgressBar: showProgressbar, circularProgressBar: circularProgressBar)
+        let coloredProgressBar = try container.decode(Bool.self, forKey: .coloredProgressBar)
+        self.init(sortOption: sortOption, darkMode: darkMode, weekView: weekView, taskLayover: taskLayover, showKeyboardOnStart: showKeyboardOnStart, showCalendarButton: showCalendarButton, showProgressBar: showProgressbar, circularProgressBar: circularProgressBar, coloredProgressbar: coloredProgressBar)
     }
     
     func loadLocalSettings(user: User?) {
@@ -87,6 +92,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
             self.showCalendarButton = output.showCalendarButton
             self.showProgressBar = output.showProgressBar
             self.circularProgressBar = output.circularProgressBar
+            self.coloredProgressBar = output.coloredProgressBar
         } catch {
             print("No local settings so return nil")
         }

@@ -181,7 +181,6 @@ struct PopOverContent: View {
     }
     
     func sortTask() {
-        var previousList = todoListContainer.todoList
         if userSettings.sortOption {
             todoListContainer.todoList.sort(by: {
                 return $0.progress < $1.progress
