@@ -25,6 +25,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject private var curUserContainer: AppUser
+    @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
     @Binding var todoContent: TodoContent
     @Binding var selectedTodoContent: TodoContent
@@ -32,8 +33,7 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     @State var slideBarAmount: Float = 0
     
     func makeBody(configuration: Configuration) -> some View {
-        let greenColor = Color(red: 0, green: 0.7, blue: 0)
-        let redColor = Color(red: 0.7, green: 0, blue: 0)
+
         return ZStack {
             GeometryReader { geometry in
                 VStack(spacing: 1) {
@@ -41,11 +41,15 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                     ZStack(alignment: .leading) {
                         Rectangle()
                             .frame(width: 75, height: 3.6)
-                            .foregroundColor(redColor)
+                            .foregroundColor(userSettings.coloredProgressBar ?
+                                             Color(red: 0.7, green: 0, blue: 0) : Color(red: 0.3, green: 0.3, blue: 0.3))
+                            .cornerRadius(25)
                         Rectangle()
                             .frame(width: CGFloat(configuration.fractionCompleted ?? 0) * 75, height: 3.6)
-                            .foregroundColor(greenColor)
+                            .foregroundColor(userSettings.coloredProgressBar ?
+                                             Color(red: 0, green: 0.7, blue: 0) : Color(red: 0, green: 0.4, blue: 1))
                             .animation(.easeInOut, value: todoContent.progress)
+                            .cornerRadius(25)
                     }
                     Text("\(Int(todoContent.progress))% ")
                         .font(.system(size: 13))
@@ -75,6 +79,7 @@ struct PopOverContent: View {
     @EnvironmentObject private var userSettings: UserSettings
     @Binding var presentPopOver: Bool
     @Binding var slideBarAmount: Float
+    @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
     
     var body: some View {
         VStack {
@@ -150,6 +155,7 @@ struct PopOverContent: View {
                         presentPopOver = false
                     }
                     todoListContainer.saveLocalData()
+                    updateLastModifiedTime()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
@@ -191,5 +197,10 @@ struct PopOverContent: View {
                 return $0.taskSortID < $1.taskSortID
             })
         }
+    }
+    
+    func updateLastModifiedTime() {
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
 }

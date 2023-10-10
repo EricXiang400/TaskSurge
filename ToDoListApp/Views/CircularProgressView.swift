@@ -21,15 +21,16 @@ struct CircularProgressView: View {
     @State var showConfirmationSheet: Bool = false
     var body: some View {
         ZStack {
+            
             Circle()
-                .stroke(
-                    Color(red: 0.7, green: 0, blue: 0),
+                .stroke(userSettings.coloredProgressBar ?
+                        Color(red: 0.7, green: 0, blue: 0) : Color(red: 0.3, green: 0.3, blue: 0.3),
                     lineWidth: 3
                 )
             Circle()
                 .trim(from: 0, to: CGFloat(todoContent.progress / 100))
-                .stroke(
-                    Color(red: 0, green: 0.7, blue: 0),
+                .stroke(userSettings.coloredProgressBar ?
+                        Color(red: 0, green: 0.7, blue: 0) : Color(red: 0, green: 0.4, blue: 1),
                     style: StrokeStyle(
                         lineWidth: 3,
                         lineCap: .round
