@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		760EB1BE2ACE6E1A0080BAEE /* LastModifiedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */; };
+		761244FD2AD67EF100C1C4AB /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */; };
 		76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9B2A291A75000354F9 /* TodoContent.swift */; };
 		76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9D2A291AD1000354F9 /* SelectedDate.swift */; };
 		765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DB5EE2AACF70F00E17C67 /* TaskView.swift */; };
@@ -88,6 +89,7 @@
 
 /* Begin PBXFileReference section */
 		760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastModifiedTime.swift; sourceTree = "<group>"; };
+		761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		76499E9B2A291A75000354F9 /* TodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContent.swift; sourceTree = "<group>"; };
 		76499E9D2A291AD1000354F9 /* SelectedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDate.swift; sourceTree = "<group>"; };
 		765DB5EE2AACF70F00E17C67 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				76F9C4842A7B769400A60E0D /* CategoryRow.swift */,
 				76F9C47C2A739A9700A60E0D /* SettingsView.swift */,
 				76FBACA32A26649000A86343 /* CalendarView.swift */,
+				761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */,
 				76C907202AABC88000643E80 /* EditTaskView.swift */,
 				766B3F752A5160A4005CA1FE /* ProgressBarView.swift */,
 			);
@@ -475,6 +478,7 @@
 				76FBAC782A265E7B00A86343 /* MainView.swift in Sources */,
 				76A8F9642A337D0100A3AA38 /* FireStoreManager.swift in Sources */,
 				76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */,
+				761244FD2AD67EF100C1C4AB /* CalendarDayView.swift in Sources */,
 				76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */,
 				76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */,
 				76F9C4852A7B769400A60E0D /* CategoryRow.swift in Sources */,

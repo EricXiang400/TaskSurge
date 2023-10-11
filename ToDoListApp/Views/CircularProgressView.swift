@@ -43,7 +43,6 @@ struct CircularProgressView: View {
             if !todoContent.completed {
                 showConfirmationSheet = true
             }
-            
         }
         .alert(isPresented: $showConfirmationSheet) {
             Alert(
