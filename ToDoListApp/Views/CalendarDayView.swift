@@ -25,7 +25,7 @@ struct CalendarDayView: View {
         ZStack {
             LazyVGrid(columns: columns) {
                 ForEach(userSettings.weekView ? getWeek(date: date) : getAllDatesWithRollOverDates(date: date), id: \.self) { day in
-                    if CalendarView.isSameDate(date1: date, date2: day) {
+                    if CalendarView.isSameDate(date1: selectedDate.selectedDate, date2: day) {
                         Text("\(calendar.component(.day, from: selectedDate.selectedDate))")
                             .frame(width: 30, height: 30)
                             .background(Color.blue)
@@ -52,41 +52,8 @@ struct CalendarDayView: View {
                 }
             }
         }
-//        .gesture(
-//            DragGesture()
-//                .onEnded({ value in
-//                    withAnimation(.interactiveSpring(duration: 0.23)) {
-//                        let verticalPercent = value.translation.height / (value.translation.width + value.translation.height)
-//                        let horizontalPercent = value.translation.width / (value.translation.width + value.translation.height)
-//                        if value.translation.width > 5 && horizontalPercent > 0.8 {
-//                            if userSettings.weekView {
-//                                previousWeek()
-//                            } else {
-//                                previousMonth()
-//                            }
-//                        } else if value.translation.width < -5 && horizontalPercent > 0.8{
-//                            if userSettings.weekView {
-//                                nextWeek()
-//                            } else {
-//                                nextMonth()
-//                            }
-//                        } else if value.translation.height > 5 && verticalPercent > 0.8 {
-//                            userSettings.weekView = false
-//                            userSettings.saveLocalSettings()
-//                            if curUserContainer.curUser != nil {
-//                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-//                            }
-//                        } else if value.translation.height < -5 && verticalPercent > 0.8 {
-//                            userSettings.weekView = true
-//                            userSettings.saveLocalSettings()
-//                            if curUserContainer.curUser != nil {
-//                                FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-//                            }
-//                        }
-//                    }
-//                })
-//        )
     }
+    
     func getWeek(date: Date) -> [Date] {
         let datesInLastMonth = getAllDates(date: calendar.date(byAdding: .month, value: -1, to: date)!)
         let datesInNextMonth = getAllDates(date: calendar.date(byAdding: .month, value: 1, to: date)!)

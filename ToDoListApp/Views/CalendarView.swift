@@ -33,6 +33,10 @@ struct CalendarView: View {
     
     @State var curDate: Date = Date()
     
+    @State var prevTabIndex: Int = 1
+    
+    @State var tabIndexChanged: Bool = false
+    
     private let monthArr: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     private let calendar = Calendar.current
     private var daysOfTheWeek: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -40,10 +44,11 @@ struct CalendarView: View {
     
     @State var weekArray: [Date] = [Calendar.current.date(byAdding: .day, value: -7, to: Date())!, Date(), Calendar.current.date(byAdding: .day, value: 7, to: Date())!]
     
+    
     var body: some View {
         VStack(spacing: 10) {
             HStack {
-                Text("\(monthArr[calendar.component(.month, from: dateContainer.selectedDate) - 1])-\(String(calendar.component(.year, from: dateContainer.selectedDate)))")
+                Text("\(monthArr[calendar.component(.month, from: curDate) - 1])-\(String(calendar.component(.year, from: curDate)))")
                     .bold()
                 Spacer()
                 if userSettings.showCalendarButton {
@@ -104,9 +109,30 @@ struct CalendarView: View {
                 if newValue == weekArray.count - 1 || newValue == monthArray.count {
                     weekArray.append(Calendar.current.date(byAdding: .day, value: 7, to: weekArray.last!)!)
                     monthArray.append(Calendar.current.date(byAdding: .month, value: 1, to: monthArray.last!)!)
-                } else if newValue == 1 {
+                } else if newValue == 0 {
                     weekArray.insert(Calendar.current.date(byAdding: .day, value: -7, to: weekArray.first!)!, at: 0)
                     monthArray.insert(Calendar.current.date(byAdding: .month, value: -1, to: monthArray.first!)!, at: 0)
+                    tabIndexChanged.toggle()
+                }
+
+                if newValue > prevTabIndex {
+                    if userSettings.weekView {
+                        curDate = Calendar.current.date(byAdding: .day, value: 7, to: curDate)!
+                    } else {
+                        curDate = Calendar.current.date(byAdding: .month, value: 1, to: curDate)!
+                    }
+                } else if newValue < prevTabIndex{
+                    if userSettings.weekView {
+                        curDate = Calendar.current.date(byAdding: .day, value: -7, to: curDate)!
+                    } else {
+                        curDate = Calendar.current.date(byAdding: .month, value: -1, to: curDate)!
+                    }
+                }
+                prevTabIndex = newValue
+                if tabIndexChanged {
+                    tabIndexChanged.toggle()
+                    prevTabIndex = 1
+                    tabViewIndex = 1
                 }
             }
         }
