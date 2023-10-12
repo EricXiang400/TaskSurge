@@ -135,6 +135,7 @@ struct CalendarView: View {
                     tabViewIndex = 1
                 }
             }
+            .frame(height: userSettings.weekView ? 32 : 185)
         }
         .onAppear {
             dateContainer.selectedDate = Date()
