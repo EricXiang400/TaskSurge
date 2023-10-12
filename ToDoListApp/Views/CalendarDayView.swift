@@ -17,6 +17,8 @@ struct CalendarDayView: View {
     @State var dragOffsetV = CGFloat.zero
     @State var dates: [Date] = []
     
+    @Binding var height: CGFloat
+    
     var date: Date
         
     let calendar = Calendar.current
@@ -98,6 +100,11 @@ struct CalendarDayView: View {
         let reverseDatesLastMonth = Array(datesInLastMonth.reversed())
         for i in 0..<firstWeekDay - 1 {
             output.insert(reverseDatesLastMonth[i], at: 0)
+        }
+        if output.count > 40 {
+            height = 200
+        } else {
+            height = 185
         }
         return output
     }

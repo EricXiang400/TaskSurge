@@ -16,7 +16,7 @@ struct CalendarView: View {
     @State private var dragOffsetH = CGFloat.zero
     @State private var dragOffsetV = CGFloat.zero
     @State var dates: [Date] = []
-    @State private var tabViewIndex: Int = 1
+    @State private var tabViewIndex: Int = 200
     @State var previousWeekDate: Date =
         Calendar.current.date(byAdding: .day, value: -7, to: Date())!
     
@@ -33,7 +33,7 @@ struct CalendarView: View {
     
     @State var curDate: Date = Date()
     
-    @State var prevTabIndex: Int = 1
+    @State var prevTabIndex: Int = 200
     
     @State var tabIndexChanged: Bool = false
     
@@ -43,6 +43,8 @@ struct CalendarView: View {
     @State var monthArray: [Date] = [Calendar.current.date(byAdding: .month, value: -1, to: Date())!, Date(), Calendar.current.date(byAdding: .month, value: 1, to: Date())!]
     
     @State var weekArray: [Date] = [Calendar.current.date(byAdding: .day, value: -7, to: Date())!, Date(), Calendar.current.date(byAdding: .day, value: 7, to: Date())!]
+    
+    @State var height: CGFloat = 215
     
     
     var body: some View {
@@ -94,12 +96,12 @@ struct CalendarView: View {
             TabView(selection: $tabViewIndex) {
                 if userSettings.weekView {
                     ForEach(0..<weekArray.count, id: \.self) { index in
-                        CalendarDayView(date: weekArray[index])
+                        CalendarDayView(height: $height, date: weekArray[index])
                             .tag(index)
                     }
                 } else {
                     ForEach(0..<monthArray.count, id: \.self) { index in
-                        CalendarDayView(date: monthArray[index])
+                        CalendarDayView(height: $height, date: monthArray[index])
                             .tag(index)
                     }
                 }
@@ -109,10 +111,6 @@ struct CalendarView: View {
                 if newValue == weekArray.count - 1 || newValue == monthArray.count {
                     weekArray.append(Calendar.current.date(byAdding: .day, value: 7, to: weekArray.last!)!)
                     monthArray.append(Calendar.current.date(byAdding: .month, value: 1, to: monthArray.last!)!)
-                } else if newValue == 0 {
-                    weekArray.insert(Calendar.current.date(byAdding: .day, value: -7, to: weekArray.first!)!, at: 0)
-                    monthArray.insert(Calendar.current.date(byAdding: .month, value: -1, to: monthArray.first!)!, at: 0)
-                    tabIndexChanged.toggle()
                 }
 
                 if newValue > prevTabIndex {
@@ -129,16 +127,13 @@ struct CalendarView: View {
                     }
                 }
                 prevTabIndex = newValue
-                if tabIndexChanged {
-                    tabIndexChanged.toggle()
-                    prevTabIndex = 1
-                    tabViewIndex = 1
-                }
+
             }
-            .frame(height: userSettings.weekView ? 32 : 185)
+            .frame(height: userSettings.weekView ? 32 : height)
         }
         .onAppear {
             dateContainer.selectedDate = Date()
+            loadThreeYearsOfWeeksAndMonths()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
         .padding()
@@ -185,6 +180,14 @@ struct CalendarView: View {
     func previousWeek() {
         if let newDate = calendar.date(byAdding: .day, value: -7, to: dateContainer.selectedDate) {
             dateContainer.selectedDate = newDate
+        }
+    }
+    
+    func loadThreeYearsOfWeeksAndMonths() {
+        let curDate = Date()
+        for i in 2...200 {
+            weekArray.insert(Calendar.current.date(byAdding: .day, value: -i * 7, to: Date())!, at: 0)
+            monthArray.insert(Calendar.current.date(byAdding: .month, value: -i, to: Date())!, at: 0)
         }
     }
     
