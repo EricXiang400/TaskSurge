@@ -182,13 +182,14 @@ struct TodoListView: View {
                             var todoIndex: Int {
                                 todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
                             }
-                            
                             HStack {
                                 if !userSettings.circularProgressBar {
                                     Button(action: {
                                         if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                            objectIndex = todoIndex
-                                            noCircularConfirmation.toggle()
+                                            todoListContainer.todoList[todoIndex].progress = 100.0
+                                            todoListContainer.todoList[todoIndex].completed = true
+                                            sortTask()
+                                            saveData()
                                         } else {
                                             if todoListContainer.todoList[todoIndex].completed {
                                                 todoListContainer.todoList[todoIndex].completed = false
@@ -208,23 +209,6 @@ struct TodoListView: View {
                                     }
                                     .padding(5)
                                     .buttonStyle(PlainButtonStyle())
-                                    .alert(isPresented: $noCircularConfirmation) {
-                                        Alert(
-                                            title: Text("Task Completion"),
-                                            message: Text("Are you sure you want to complete this task?"),
-                                            primaryButton: .default(Text("Complete")) {
-                                                todoListContainer.todoList[objectIndex!].progress = 100.0
-                                                todoListContainer.todoList[objectIndex!].completed = true
-                                                noCircularConfirmation = false
-                                                sortTask()
-                                                todoListContainer.saveLocalData()
-                                                if curUserContainer.curUser != nil {
-                                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                                                }
-                                            },
-                                            secondaryButton: .cancel()
-                                        )
-                                    }
                                 } else if userSettings.showProgressBar && userSettings.circularProgressBar {
                                     ZStack {
                                         Text("\(Int(todoListContainer.todoList[todoIndex].progress))")
@@ -233,6 +217,13 @@ struct TodoListView: View {
                                         CircularProgressView(todoContent: $todoListContainer.todoList[todoIndex])
                                             .frame(width: 25, height: 25)
                                             .padding(5)
+                                            .onTapGesture {
+                                                todoListContainer.todoList[todoIndex].progress = 100.0
+                                                todoListContainer.todoList[todoIndex].completed = true
+                                                sortTask()
+                                                saveData()
+                                            }
+                                        
                                     }
                                 }
                                 

@@ -39,24 +39,7 @@ struct CircularProgressView: View {
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut, value: todoContent.progress)
         }
-        .onTapGesture {
-            if !todoContent.completed {
-                showConfirmationSheet = true
-            }
-        }
-        .alert(isPresented: $showConfirmationSheet) {
-            Alert(
-                title: Text("Task Completion"),
-                message: Text("Are you sure you want to complete this task?"),
-                primaryButton: .default(Text("Complete")) {
-                    todoContent.progress = 100.0
-                    todoContent.completed = true
-                    sortTask()
-                    saveData()
-                },
-                secondaryButton: .cancel()
-            )
-        }
+        
         
     }
     func sortTask() {
