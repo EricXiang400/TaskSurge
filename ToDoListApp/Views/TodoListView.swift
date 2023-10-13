@@ -282,6 +282,7 @@ struct TodoListView: View {
         }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
+                
                 if listenerRegistration == nil {
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
@@ -297,6 +298,7 @@ struct TodoListView: View {
                 fetchAndLoadFireStoreData() {
                     moveLayoverItems()
                     updateLastModifiedTime()
+                    curUserContainer.loadLocalUser()
                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
                 

@@ -79,9 +79,6 @@ struct SettingsView: View {
                         
                     }
                 }
-                .onAppear {
-                    curUserContainer.loadLocalUser()
-                }
                 
                 Divider()
                 
