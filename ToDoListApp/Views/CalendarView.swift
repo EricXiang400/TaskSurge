@@ -106,6 +106,12 @@ struct CalendarView: View {
                     }
                 }
             }
+            .onChange(of: dateContainer.selectedDate) { newValue in
+                if CalendarView.isSameDate(date1: dateContainer.selectedDate, date2: Date()){
+                    prevTabIndex = 200
+                    tabViewIndex = 200
+                }
+            }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: tabViewIndex) { newValue in
                 if newValue == weekArray.count - 1 || newValue == monthArray.count {
@@ -137,6 +143,7 @@ struct CalendarView: View {
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
         .padding()
+        
     }
     
     func recomputeDates(offset: Int) {
@@ -190,5 +197,4 @@ struct CalendarView: View {
             monthArray.insert(Calendar.current.date(byAdding: .month, value: -i, to: Date())!, at: 0)
         }
     }
-    
 }
