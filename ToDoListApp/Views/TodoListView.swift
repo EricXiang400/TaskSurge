@@ -297,11 +297,8 @@ struct TodoListView: View {
                 curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                 fetchAndLoadFireStoreData() {
                     moveLayoverItems()
-                    updateLastModifiedTime()
                     curUserContainer.loadLocalUser()
-                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                 }
-                
             }
         }
         .background(backgroundColor)
