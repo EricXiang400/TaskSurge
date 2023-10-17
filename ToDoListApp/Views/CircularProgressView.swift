@@ -21,7 +21,6 @@ struct CircularProgressView: View {
     @State var showConfirmationSheet: Bool = false
     var body: some View {
         ZStack {
-            
             Circle()
                 .stroke(userSettings.coloredProgressBar ?
                         Color(red: 0.7, green: 0, blue: 0) : Color(red: 0.3, green: 0.3, blue: 0.3),
@@ -39,9 +38,8 @@ struct CircularProgressView: View {
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut, value: todoContent.progress)
         }
-        
-        
     }
+    
     func sortTask() {
         var previousList = todoListContainer.todoList
         if userSettings.sortOption {
@@ -68,5 +66,4 @@ struct CircularProgressView: View {
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
-    
 }

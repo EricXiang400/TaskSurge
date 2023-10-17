@@ -10,8 +10,8 @@ import Firebase
 
 final class AppUser: ObservableObject, Codable {
     @Published var curUser: User? = Auth.auth().currentUser
+    @Published var userName: String
     var uid: String
-    var userName: String
     var lastActiveDate: Date
     
     enum CodingKeys: String, CodingKey {
@@ -20,10 +20,27 @@ final class AppUser: ObservableObject, Codable {
         case lastActiveDate
     }
     
-    init(uid: String, userName: String) {
+    init(uid: String, userName: String, lastActiveDate: Date = Date()) {
         self.uid = uid
         self.userName = userName
-        self.lastActiveDate = Date()
+        self.lastActiveDate = lastActiveDate
+    }
+    
+    
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(uid, forKey: .uid)
+        try container.encode(userName, forKey: .userName)
+        try container.encode(lastActiveDate, forKey: .lastActiveDate)
+    }
+    
+    required convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let userName = try container.decode(String.self, forKey: .userName)
+        let uid = try container.decode(String.self, forKey: .uid)
+        let lastActiveDate = try container.decode(Date.self, forKey: .lastActiveDate)
+        self.init(uid: uid, userName: userName, lastActiveDate: lastActiveDate)
     }
     
     func saveLocalUser(user: User, userName: String) {
