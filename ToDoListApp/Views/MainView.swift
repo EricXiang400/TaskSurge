@@ -21,6 +21,7 @@ struct MainView: View {
     @State var slideBarAmount: Float = 0
     @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
     @State var settingViewOffset: CGFloat = -440
+    @State var tabViewIndex: Int = 200
     var backgroundColor: Color {
         if userSettings.darkMode {
             Color(red: 0.1, green: 0.1, blue: 0.1)

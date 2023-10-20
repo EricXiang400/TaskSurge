@@ -61,6 +61,7 @@ struct CalendarView: View {
                             } else {
                                 previousMonth()
                             }
+                            tabViewIndex -= 1
                         }) {
                             Image(systemName: "arrow.left.circle.fill")
                         }
@@ -77,6 +78,7 @@ struct CalendarView: View {
                             } else {
                                 nextMonth()
                             }
+                            tabViewIndex += 1
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
                         }
@@ -137,6 +139,9 @@ struct CalendarView: View {
             }
             .frame(height: userSettings.weekView ? 32 : height)
         }
+        .onChange(of: dateContainer.selectedDate, perform: { value in
+            curDate = dateContainer.selectedDate
+        })
         .onAppear {
             dateContainer.selectedDate = Date()
             loadThreeYearsOfWeeksAndMonths()
