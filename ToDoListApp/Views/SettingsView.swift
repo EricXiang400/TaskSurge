@@ -257,7 +257,7 @@ struct SettingsView: View {
         }
         let calendar = Calendar.current
         let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
-        return CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) && !todoContent.completed
+        return CalendarWeekView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) && !todoContent.completed
     }
     func moveLayoverItems() {
         for i in todoListContainer.todoList.indices {

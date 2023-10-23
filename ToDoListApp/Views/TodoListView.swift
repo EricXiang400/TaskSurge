@@ -405,7 +405,7 @@ struct TodoListView: View {
         }
         let calendar = Calendar.current
         let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
-        return (CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate)) && !todoContent.completed
+        return (CalendarWeekView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarWeekView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate)) && !todoContent.completed
     }
     
     func updateToCurrentDate() {

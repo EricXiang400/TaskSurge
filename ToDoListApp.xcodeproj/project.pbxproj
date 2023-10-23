@@ -11,6 +11,7 @@
 		761244FD2AD67EF100C1C4AB /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */; };
 		76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9B2A291A75000354F9 /* TodoContent.swift */; };
 		76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9D2A291AD1000354F9 /* SelectedDate.swift */; };
+		7652AE2C2AE61D5B00577656 /* CalendarMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7652AE2B2AE61D5B00577656 /* CalendarMonthView.swift */; };
 		765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DB5EE2AACF70F00E17C67 /* TaskView.swift */; };
 		766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766B3F752A5160A4005CA1FE /* ProgressBarView.swift */; };
 		766BA56E2ABFEB7C00C6B171 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 766BA56D2ABFEB7C00C6B171 /* Launch Screen.storyboard */; };
@@ -67,7 +68,7 @@
 		76FBAC912A265E7B00A86343 /* ToDoListAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC902A265E7B00A86343 /* ToDoListAppUITests.swift */; };
 		76FBAC932A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC922A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift */; };
 		76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBAC9F2A2663CE00A86343 /* TodoListView.swift */; };
-		76FBACA42A26649000A86343 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBACA32A26649000A86343 /* CalendarView.swift */; };
+		76FBACA42A26649000A86343 /* CalendarWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBACA32A26649000A86343 /* CalendarWeekView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		76499E9B2A291A75000354F9 /* TodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContent.swift; sourceTree = "<group>"; };
 		76499E9D2A291AD1000354F9 /* SelectedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDate.swift; sourceTree = "<group>"; };
+		7652AE2B2AE61D5B00577656 /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
 		765DB5EE2AACF70F00E17C67 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		766B3F752A5160A4005CA1FE /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		766BA56C2ABFE9ED00C6B171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -123,7 +125,7 @@
 		76FBAC902A265E7B00A86343 /* ToDoListAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppUITests.swift; sourceTree = "<group>"; };
 		76FBAC922A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		76FBAC9F2A2663CE00A86343 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
-		76FBACA32A26649000A86343 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		76FBACA32A26649000A86343 /* CalendarWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeekView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,7 +196,8 @@
 				766C759A2A5D0ECD007F1A2E /* MenuContentView.swift */,
 				76F9C4842A7B769400A60E0D /* CategoryRow.swift */,
 				76F9C47C2A739A9700A60E0D /* SettingsView.swift */,
-				76FBACA32A26649000A86343 /* CalendarView.swift */,
+				76FBACA32A26649000A86343 /* CalendarWeekView.swift */,
+				7652AE2B2AE61D5B00577656 /* CalendarMonthView.swift */,
 				761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */,
 				76C907202AABC88000643E80 /* EditTaskView.swift */,
 				766B3F752A5160A4005CA1FE /* ProgressBarView.swift */,
@@ -484,7 +487,7 @@
 				76F9C4852A7B769400A60E0D /* CategoryRow.swift in Sources */,
 				76898B9D2A8134A7002AD3CC /* CategoriesData.swift in Sources */,
 				76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */,
-				76FBACA42A26649000A86343 /* CalendarView.swift in Sources */,
+				76FBACA42A26649000A86343 /* CalendarWeekView.swift in Sources */,
 				76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */,
 				76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */,
 				76F9C4812A7B006D00A60E0D /* Category.swift in Sources */,
@@ -499,6 +502,7 @@
 				76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */,
 				767E02C72ABF76290003F0C4 /* CircularProgressView.swift in Sources */,
 				76F9C47D2A739A9700A60E0D /* SettingsView.swift in Sources */,
+				7652AE2C2AE61D5B00577656 /* CalendarMonthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

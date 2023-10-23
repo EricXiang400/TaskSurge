@@ -27,13 +27,13 @@ struct CalendarDayView: View {
         ZStack {
             LazyVGrid(columns: columns) {
                 ForEach(userSettings.weekView ? CalendarDayView.getWeek(date: date) : getAllDatesWithRollOverDates(date: date), id: \.self) { day in
-                    if CalendarView.isSameDate(date1: selectedDate.selectedDate, date2: day) {
+                    if CalendarWeekView.isSameDate(date1: selectedDate.selectedDate, date2: day) {
                         Text("\(calendar.component(.day, from: selectedDate.selectedDate))")
                             .frame(width: 30, height: 30)
                             .background(Color.blue)
                             .clipShape(Circle())
                             .foregroundColor(.white)
-                    } else if CalendarView.isSameDate(date1: Date(), date2: day) {
+                    } else if CalendarWeekView.isSameDate(date1: Date(), date2: day) {
                         Text("\(calendar.component(.day, from: Date()))")
                             .frame(width: 30, height: 30)
                             .background(Color.blue.opacity(0.5))

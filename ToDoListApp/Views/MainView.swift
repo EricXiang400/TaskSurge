@@ -37,8 +37,14 @@ struct MainView: View {
                 .ignoresSafeArea(.all)
             
             VStack {
-                CalendarView()
-                    .background(backgroundColor)
+                if userSettings.weekView {
+                    CalendarWeekView()
+                        .background(backgroundColor)
+                } else {
+                    CalendarMonthView()
+                        .background(backgroundColor)
+                }
+                
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(Color.primaryColor(for: colorScheme))
                 }
