@@ -96,17 +96,9 @@ struct CalendarMonthView: View {
                     addOneMonth(date: monthArray.last!)
                 }
                 if newValue > prevMonthTabIndex {
-                    if userSettings.weekView {
-                        curDate = Calendar.current.date(byAdding: .day, value: 7, to: curDate)!
-                    } else {
-                        curDate = Calendar.current.date(byAdding: .month, value: 1, to: curDate)!
-                    }
+                    curDate = Calendar.current.date(byAdding: .month, value: 1, to: curDate)!
                 } else if newValue < prevMonthTabIndex{
-                    if userSettings.weekView {
-                        curDate = Calendar.current.date(byAdding: .day, value: -7, to: curDate)!
-                    } else {
-                        curDate = Calendar.current.date(byAdding: .month, value: -1, to: curDate)!
-                    }
+                    curDate = Calendar.current.date(byAdding: .month, value: -1, to: curDate)!
                 }
                 prevMonthTabIndex = newValue
 
