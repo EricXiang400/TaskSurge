@@ -32,7 +32,7 @@ struct SettingsView: View {
                     Image(systemName: "chevron.left")
                         .imageScale(.large)
                 }
-                .padding(.leading)
+                .padding([.top, .leading])
                 Spacer()
             }
             HStack {
@@ -247,6 +247,7 @@ struct SettingsView: View {
                 .sheet(isPresented: $showReauthenticationView) {
                     ReAuthenticationView(showReauthenticationView: $showReauthenticationView, isShowingSetting: $isShowingSetting)
                 }
+                .padding(.vertical)
             }
         }
         

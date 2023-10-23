@@ -82,13 +82,13 @@ struct CalendarMonthView: View {
                     CalendarDayView(height: $height, date: monthArray[index])
                         .tag(index)
                 }
-                
             }
             .onChange(of: dateContainer.selectedDate) { newValue in
                 if CalendarWeekView.isSameDate(date1: dateContainer.selectedDate, date2: Date()) {
                     prevMonthTabIndex = getMonthTabIndex(date: Date())
                     monthTabIndex = getMonthTabIndex(date: Date())
                 }
+                curDate = dateContainer.selectedDate
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: monthTabIndex) { newValue in
@@ -105,9 +105,6 @@ struct CalendarMonthView: View {
             }
             .frame(height: userSettings.weekView ? 32 : height)
         }
-        .onChange(of: dateContainer.selectedDate, perform: { value in
-            curDate = dateContainer.selectedDate
-        })
         .onAppear {
             dateContainer.selectedDate = Date()
             loadThreeYearsOfMonths()
@@ -146,7 +143,6 @@ struct CalendarMonthView: View {
     }
     
     func loadThreeYearsOfMonths() {
-        let curDate = Date()
         for i in 2...200 {
             monthArray.insert(Calendar.current.date(byAdding: .month, value: -i, to: Date())!, at: 0)
         }

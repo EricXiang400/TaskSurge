@@ -36,6 +36,7 @@ struct MenuContentView: View {
                         .imageScale(.large)
                 }
                 .padding(.leading, 6.5)
+                .padding(.top)
                 Spacer()
             }
             .padding(.leading)

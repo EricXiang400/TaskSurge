@@ -139,7 +139,7 @@ struct MainView: View {
                         .onAppear {
                             slideBarAmount = selectedTodoContent.progress
                         }
-                        .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 3, alignment: .bottom)
+                        .frame(maxWidth: .infinity, maxHeight: 350, alignment: .bottom)
                         .background(backgroundColor.ignoresSafeArea(.all))
                         .cornerRadius(15)
                         .offset(y: UIScreen.main.bounds.height / 3)
