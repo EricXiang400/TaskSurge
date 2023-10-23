@@ -273,7 +273,6 @@ struct TodoListView: View {
         }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
-                
                 if listenerRegistration == nil {
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
@@ -289,6 +288,7 @@ struct TodoListView: View {
                 fetchAndLoadFireStoreData() {
                     moveLayoverItems()
                     curUserContainer.loadLocalUser()
+                    updateToCurrentDate()
                 }
             }
         }
@@ -406,6 +406,13 @@ struct TodoListView: View {
         let calendar = Calendar.current
         let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
         return (CalendarView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate)) && !todoContent.completed
+    }
+    
+    func updateToCurrentDate() {
+        if curUserContainer.lastActiveDate != Date() {
+            curUserContainer.lastActiveDate = Date()
+            selectedDateContainer.selectedDate = Date()
+        }
     }
     
     func moveLayoverItems() {

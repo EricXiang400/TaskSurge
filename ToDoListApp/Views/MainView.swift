@@ -22,6 +22,7 @@ struct MainView: View {
     @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
     @State var settingViewOffset: CGFloat = -440
     @State var tabViewIndex: Int = 200
+    
     var backgroundColor: Color {
         if userSettings.darkMode {
             Color(red: 0.1, green: 0.1, blue: 0.1)
@@ -133,10 +134,9 @@ struct MainView: View {
                             slideBarAmount = selectedTodoContent.progress
                         }
                         .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height / 3, alignment: .bottom)
-
                         .background(backgroundColor.ignoresSafeArea(.all))
                         .cornerRadius(15)
-                        .offset(y: 300)
+                        .offset(y: UIScreen.main.bounds.height / 3)
                         .transition(.move(edge: .bottom))
                         .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                         .zIndex(2)

@@ -110,8 +110,8 @@ struct CalendarView: View {
             }
             .onChange(of: dateContainer.selectedDate) { newValue in
                 if CalendarView.isSameDate(date1: dateContainer.selectedDate, date2: Date()){
-                    prevTabIndex = 200
-                    tabViewIndex = 200
+                    prevTabIndex = getTabIndex(date: Date())
+                    tabViewIndex = getTabIndex(date: Date())
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -148,7 +148,6 @@ struct CalendarView: View {
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
         .padding()
-        
     }
     
     func recomputeDates(offset: Int) {
@@ -201,5 +200,17 @@ struct CalendarView: View {
             weekArray.insert(Calendar.current.date(byAdding: .day, value: -i * 7, to: Date())!, at: 0)
             monthArray.insert(Calendar.current.date(byAdding: .month, value: -i, to: Date())!, at: 0)
         }
+    }
+    
+    func getTabIndex(date: Date) -> Int {
+        for i in 195...weekArray.count - 1 {
+            if CalendarDayView.getWeek(date: weekArray[i]).contains(where: {CalendarView.isSameDate(date1: $0, date2: Date())}) {
+                return i
+            }
+        }
+        /// if the current date is not rendered which would happen if user did not manually click next date.
+        weekArray.append(Calendar.current.date(byAdding: .day, value: 7, to: weekArray.last!)!)
+        monthArray.append(Calendar.current.date(byAdding: .month, value: 1, to: monthArray.last!)!)
+        return monthArray.count - 1
     }
 }

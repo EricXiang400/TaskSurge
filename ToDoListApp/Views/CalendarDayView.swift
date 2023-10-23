@@ -26,7 +26,7 @@ struct CalendarDayView: View {
         let columns = Array(repeating: GridItem(.flexible()), count: 7)
         ZStack {
             LazyVGrid(columns: columns) {
-                ForEach(userSettings.weekView ? getWeek(date: date) : getAllDatesWithRollOverDates(date: date), id: \.self) { day in
+                ForEach(userSettings.weekView ? CalendarDayView.getWeek(date: date) : getAllDatesWithRollOverDates(date: date), id: \.self) { day in
                     if CalendarView.isSameDate(date1: selectedDate.selectedDate, date2: day) {
                         Text("\(calendar.component(.day, from: selectedDate.selectedDate))")
                             .frame(width: 30, height: 30)
@@ -56,10 +56,11 @@ struct CalendarDayView: View {
         }
     }
     
-    func getWeek(date: Date) -> [Date] {
-        let datesInLastMonth = getAllDates(date: calendar.date(byAdding: .month, value: -1, to: date)!)
-        let datesInNextMonth = getAllDates(date: calendar.date(byAdding: .month, value: 1, to: date)!)
-        let datesInMonth = datesInLastMonth + getAllDates(date: date) + datesInNextMonth
+    static func getWeek(date: Date) -> [Date] {
+        let calendar = Calendar.current
+        let datesInLastMonth = CalendarDayView.getAllDates(date: calendar.date(byAdding: .month, value: -1, to: date)!)
+        let datesInNextMonth = CalendarDayView.getAllDates(date: calendar.date(byAdding: .month, value: 1, to: date)!)
+        let datesInMonth = datesInLastMonth + CalendarDayView.getAllDates(date: date) + datesInNextMonth
         let index = datesInMonth.firstIndex(where: {
             let component1 = calendar.dateComponents([.month, .day], from: $0)
             let component2 = calendar.dateComponents([.month, .day], from: date)
@@ -78,7 +79,7 @@ struct CalendarDayView: View {
     }
 
     
-    func getAllDates(date: Date) -> [Date] {
+    static func getAllDates(date: Date) -> [Date] {
         let calendar = Calendar.current
         guard let range = calendar.range(of: .day, in: .month, for: date) else { return [] }
         
@@ -95,8 +96,8 @@ struct CalendarDayView: View {
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date))!
         let firstWeekDay = calendar.component(.weekday, from: startOfMonth)
         let lastMonth = calendar.date(byAdding: .month, value: -1, to: date)
-        var output = getAllDates(date: date)
-        let datesInLastMonth : [Date] = getAllDates(date: lastMonth!)
+        var output = CalendarDayView.getAllDates(date: date)
+        let datesInLastMonth : [Date] = CalendarDayView.getAllDates(date: lastMonth!)
         let reverseDatesLastMonth = Array(datesInLastMonth.reversed())
         for i in 0..<firstWeekDay - 1 {
             output.insert(reverseDatesLastMonth[i], at: 0)

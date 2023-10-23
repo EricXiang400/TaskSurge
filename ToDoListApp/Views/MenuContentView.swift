@@ -82,8 +82,6 @@ struct MenuContentView: View {
                     }
                 }
             }
-            
-            
             Spacer()
             ZStack {
                 if colorScheme == .light {
@@ -99,7 +97,6 @@ struct MenuContentView: View {
                 }
                 
                 HStack {
-                    
                     // Settings button
                     Button (action: {
                         UIApplication.shared.endEditing()
@@ -118,7 +115,6 @@ struct MenuContentView: View {
                 }
                 
             }
-            
         }
         .onAppear {
             categoryContainer.loadLocalCategories()

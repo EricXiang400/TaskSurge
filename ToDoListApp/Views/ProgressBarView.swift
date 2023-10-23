@@ -33,7 +33,6 @@ struct CustomProgressViewStyle: ProgressViewStyle {
     @State var slideBarAmount: Float = 0
     
     func makeBody(configuration: Configuration) -> some View {
-
         return ZStack {
             GeometryReader { geometry in
                 VStack(spacing: 1) {
@@ -173,10 +172,8 @@ struct PopOverContent: View {
             }
             Spacer()
         }
-        
-        
-        
     }
+    
     private func updateProgress(increment: Float) {
         let newProgress = todoContent.progress + increment
         todoContent.progress = max(min(newProgress, 100), 0)
