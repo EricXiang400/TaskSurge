@@ -421,6 +421,7 @@ struct TodoListView: View {
                 todoListContainer.todoList[i].date = Date()
             }
         }
+        saveData()
     }
     
     func updateLastModifiedTime() {

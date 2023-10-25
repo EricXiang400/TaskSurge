@@ -32,8 +32,11 @@ struct CalendarMonthView: View {
     @State var tabIndexChanged: Bool = false
     
     private let monthArr: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    
     private let calendar = Calendar.current
+    
     private var daysOfTheWeek: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    
     @State var monthArray: [Date] = [Calendar.current.date(byAdding: .month, value: -1, to: Date())!, Date(), Calendar.current.date(byAdding: .month, value: 1, to: Date())!]
     
     @State var height: CGFloat = 215
