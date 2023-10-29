@@ -280,6 +280,7 @@ struct TodoListView: View {
                     updateToCurrentDate()
                 }
                 if listenerRegistration == nil {
+                    print("GOT HERE BUT MAYBE SHOUOLD NOT")
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
                     listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
@@ -357,7 +358,6 @@ struct TodoListView: View {
                         if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                             todoListContainer.selectedCategory = curCategory
                         }
-                        moveLayoverItems()
                         curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                         todoListContainer.saveLocalData()
                         userSettings.saveLocalSettings()
@@ -410,7 +410,7 @@ struct TodoListView: View {
     }
     
     func updateToCurrentDate() {
-        if curUserContainer.lastActiveDate != Date() {
+        if !sameDate(date1: curUserContainer.lastActiveDate, date2: Date()) {
             curUserContainer.lastActiveDate = Date()
             selectedDateContainer.selectedDate = Date()
         }

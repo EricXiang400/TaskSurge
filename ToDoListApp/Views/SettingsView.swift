@@ -266,6 +266,15 @@ struct SettingsView: View {
                 todoListContainer.todoList[i].date = Date()
             }
         }
+        saveData()
+    }
+    
+    func saveData() {
+        todoListContainer.saveLocalData()
+        if curUserContainer.curUser != nil {
+            updateLastModifiedTime()
+            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        }
     }
     
     func updateLastModifiedTime() {
