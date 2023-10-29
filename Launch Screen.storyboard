@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,17 +22,25 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TodoListAppIconWhite" translatesAutoresizingMaskIntoConstraints="NO" id="4Xg-r6-tBi">
-                                <rect key="frame" x="16" y="263" width="361" height="327"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TodoListAppIconWhite" translatesAutoresizingMaskIntoConstraints="NO" id="4Xg-r6-tBi">
+                                <rect key="frame" x="16" y="262.66666666666669" width="361" height="327.00000000000006"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="327" id="H4b-Ym-NGx"/>
+                                    <constraint firstAttribute="width" secondItem="4Xg-r6-tBi" secondAttribute="height" multiplier="361:327" id="Wxb-DU-xR9"/>
+                                    <constraint firstAttribute="width" constant="361" id="ntW-JK-hRQ"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="4Xg-r6-tBi" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="20m-ob-ljm"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
                             <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="SfN-ll-jLj"/>
                             <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
+                            <constraint firstItem="4Xg-r6-tBi" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="dP1-fm-G9t"/>
+                            <constraint firstItem="4Xg-r6-tBi" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="iK7-E1-3Qy"/>
+                            <constraint firstItem="4Xg-r6-tBi" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wcU-8J-Elf"/>
                         </constraints>
                     </view>
                 </viewController>

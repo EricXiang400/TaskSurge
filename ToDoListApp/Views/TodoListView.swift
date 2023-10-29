@@ -273,6 +273,12 @@ struct TodoListView: View {
         }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
+                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                fetchAndLoadFireStoreData() {
+                    moveLayoverItems()
+                    curUserContainer.loadLocalUser()
+                    updateToCurrentDate()
+                }
                 if listenerRegistration == nil {
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
@@ -284,12 +290,7 @@ struct TodoListView: View {
                         loadDataFromSnapshot(snapshot: snapshot)
                     }
                 }
-                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
-                fetchAndLoadFireStoreData() {
-                    moveLayoverItems()
-                    curUserContainer.loadLocalUser()
-                    updateToCurrentDate()
-                }
+                
             }
         }
         .background(backgroundColor)
