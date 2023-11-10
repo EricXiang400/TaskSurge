@@ -101,7 +101,4 @@ final class TodoList: ObservableObject, Codable {
             fatalError("Error encoding or writing")
         }
     }
-    
-    
-    
 }

@@ -42,12 +42,15 @@ struct EditTaskView: View {
                 }
                 Spacer()
             }
+            .padding(.top, 20)
             TextEditor(text: $todoContentCopy.content)
-                .frame(height: 200)
+                .frame(height: 100)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
                 .padding()
                 .focused($focusField, equals: .details)
+            
+            Spacer()
             if userSettings.showProgressBar {
                 VStack {
                     Text("\(Int(todoContentCopy.progress))%")

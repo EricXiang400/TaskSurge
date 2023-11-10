@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		760EB1BE2ACE6E1A0080BAEE /* LastModifiedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */; };
 		761244FD2AD67EF100C1C4AB /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */; };
+		764516902AF9BE83008A6ADA /* SubTaskTodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645168F2AF9BE83008A6ADA /* SubTaskTodoContent.swift */; };
+		764516942AF9C37B008A6ADA /* SubTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764516932AF9C37B008A6ADA /* SubTaskListView.swift */; };
 		76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9B2A291A75000354F9 /* TodoContent.swift */; };
 		76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9D2A291AD1000354F9 /* SelectedDate.swift */; };
 		7652AE2C2AE61D5B00577656 /* CalendarMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7652AE2B2AE61D5B00577656 /* CalendarMonthView.swift */; };
@@ -91,6 +93,8 @@
 /* Begin PBXFileReference section */
 		760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastModifiedTime.swift; sourceTree = "<group>"; };
 		761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
+		7645168F2AF9BE83008A6ADA /* SubTaskTodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTaskTodoContent.swift; sourceTree = "<group>"; };
+		764516932AF9C37B008A6ADA /* SubTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTaskListView.swift; sourceTree = "<group>"; };
 		76499E9B2A291A75000354F9 /* TodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContent.swift; sourceTree = "<group>"; };
 		76499E9D2A291AD1000354F9 /* SelectedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDate.swift; sourceTree = "<group>"; };
 		7652AE2B2AE61D5B00577656 /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				7652AE2B2AE61D5B00577656 /* CalendarMonthView.swift */,
 				761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */,
 				76C907202AABC88000643E80 /* EditTaskView.swift */,
+				764516932AF9C37B008A6ADA /* SubTaskListView.swift */,
 				766B3F752A5160A4005CA1FE /* ProgressBarView.swift */,
 			);
 			path = Views;
@@ -209,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				76499E9B2A291A75000354F9 /* TodoContent.swift */,
+				7645168F2AF9BE83008A6ADA /* SubTaskTodoContent.swift */,
 				76A8F9652A3381BD00A3AA38 /* AppUser.swift */,
 				76F9C47A2A72C70D00A60E0D /* UserSettings.swift */,
 				76A8F9672A33904900A3AA38 /* TodoList.swift */,
@@ -481,6 +487,7 @@
 				76FBAC782A265E7B00A86343 /* MainView.swift in Sources */,
 				76A8F9642A337D0100A3AA38 /* FireStoreManager.swift in Sources */,
 				76FBAC762A265E7B00A86343 /* ToDoListApp.swift in Sources */,
+				764516942AF9C37B008A6ADA /* SubTaskListView.swift in Sources */,
 				761244FD2AD67EF100C1C4AB /* CalendarDayView.swift in Sources */,
 				76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */,
 				76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */,
@@ -497,6 +504,7 @@
 				76F9C47B2A72C70D00A60E0D /* UserSettings.swift in Sources */,
 				76499E9E2A291AD1000354F9 /* SelectedDate.swift in Sources */,
 				76C907212AABC88000643E80 /* EditTaskView.swift in Sources */,
+				764516902AF9BE83008A6ADA /* SubTaskTodoContent.swift in Sources */,
 				766B3F762A5160A4005CA1FE /* ProgressBarView.swift in Sources */,
 				766C759B2A5D0ECD007F1A2E /* MenuContentView.swift in Sources */,
 				76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */,

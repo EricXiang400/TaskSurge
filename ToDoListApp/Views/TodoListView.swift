@@ -29,8 +29,8 @@ struct TodoListView: View {
     @Binding var selectedTodoContent: TodoContent
     @Binding var showProgressEditView: Bool
     @State var showTaskDetails: Bool = false
-    @State var tempTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0)
-    @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0)
+    @State var tempTodoContent: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0, subTaskList: [])
+    @State var tempTodoContentCopy: TodoContent = TodoContent(content: "", completed: false, date: Date(), taskSortID: 0, subTaskList: [])
     @State var presentSheet: Bool = false
     @State var isNewTask: Bool = true
     @Binding var sideMenuOffset: CGFloat
@@ -137,7 +137,7 @@ struct TodoListView: View {
                         UIApplication.shared.endEditing()
                         if todoListContainer.selectedCategory != nil {
                             withAnimation(.easeInOut) {
-                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID)
+                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
                                 tempTodoContentCopy = tempTodoContent
                                 presentSheet = true
                             }
@@ -255,7 +255,7 @@ struct TodoListView: View {
                         .offset(y: CGFloat(offSetCount * offSetHeight))
                         .onTapGesture {
                             if todoListContainer.selectedCategory != nil {
-                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID)
+                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
                                 tempTodoContentCopy = tempTodoContent
                                 presentSheet = true
                             }
@@ -273,14 +273,13 @@ struct TodoListView: View {
         }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
-                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+//                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                 fetchAndLoadFireStoreData() {
                     moveLayoverItems()
                     curUserContainer.loadLocalUser()
                     updateToCurrentDate()
                 }
                 if listenerRegistration == nil {
-                    print("GOT HERE BUT MAYBE SHOUOLD NOT")
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
                     listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in

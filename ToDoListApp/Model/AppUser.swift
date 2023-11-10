@@ -45,6 +45,7 @@ final class AppUser: ObservableObject, Codable {
     
     func saveLocalUser(user: User, userName: String) {
         self.curUser = user
+        self.uid = user.uid
         self.userName = userName
         self.lastActiveDate = Date()
         do {
