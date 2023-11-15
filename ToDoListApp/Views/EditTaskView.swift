@@ -33,24 +33,23 @@ struct EditTaskView: View {
                     Text("New Task")
                         .font(.title)
                         .bold()
-                        .padding()
+                        .padding(.horizontal)
                 } else {
-                    Text("Edit Task")
+                    Text("Task Description")
                         .font(.title)
                         .bold()
-                        .padding()
+                        .padding(.horizontal)
                 }
                 Spacer()
             }
-            .padding(.top, 20)
+            .padding(.top, 25)
             TextEditor(text: $todoContentCopy.content)
                 .frame(height: 100)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
-                .padding()
+                .padding(.horizontal)
                 .focused($focusField, equals: .details)
             
-            Spacer()
             if userSettings.showProgressBar {
                 VStack {
                     Text("\(Int(todoContentCopy.progress))%")
@@ -61,6 +60,8 @@ struct EditTaskView: View {
                         .padding(.bottom)
                 }
             }
+            SubTaskListView(todoContent: $todoContentCopy)
+            Spacer()
             
             HStack {
                 Button {
@@ -106,7 +107,7 @@ struct EditTaskView: View {
                                 .cornerRadius(8)
                         }
                     } else {
-                        if todoContentCopy.content == "" || (todoContentCopy.content == todoContentOriginal.content && todoContentCopy.progress == todoContentOriginal.progress) {
+                        if todoContentCopy.content == "" || todoContentCopy == todoContentOriginal {
                             Text("Confirm")
                                 .font(.headline)
                                 .foregroundColor(.blue.opacity(0.5))
