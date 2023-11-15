@@ -273,7 +273,6 @@ struct TodoListView: View {
         }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
-//                curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                 fetchAndLoadFireStoreData() {
                     moveLayoverItems()
                     curUserContainer.loadLocalUser()
@@ -403,9 +402,7 @@ struct TodoListView: View {
         if !userSettings.taskLayover {
             return false
         }
-        let calendar = Calendar.current
-        let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
-        return (CalendarWeekView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) || CalendarWeekView.isSameDate(date1: todoContent.date, date2: curUserContainer.lastActiveDate)) && !todoContent.completed
+        return sameDate(date1: curUserContainer.lastActiveDate, date2: todoContent.date) && !sameDate(date1: Date(), date2: curUserContainer.lastActiveDate) && !todoContent.completed
     }
     
     func updateToCurrentDate() {
@@ -416,12 +413,16 @@ struct TodoListView: View {
     }
     
     func moveLayoverItems() {
+        var saveRequired: Bool = false
         for i in todoListContainer.todoList.indices {
             if taskLayoverExist(todoContent: todoListContainer.todoList[i]) {
                 todoListContainer.todoList[i].date = Date()
+                saveRequired = true
             }
         }
-        saveData()
+        if saveRequired {
+            saveData()
+        }
     }
     
     func updateLastModifiedTime() {

@@ -26,8 +26,6 @@ final class AppUser: ObservableObject, Codable {
         self.lastActiveDate = lastActiveDate
     }
     
-    
-    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(uid, forKey: .uid)
