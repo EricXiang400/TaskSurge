@@ -44,6 +44,18 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         case coloredProgressBar
     }
     
+    func initData() {
+        self.sortOption = false
+        self.darkMode = false
+        self.weekView = true
+        self.taskLayover = false
+        self.showKeyboardOnStart = false
+        self.showCalendarButton = true
+        self.showProgressBar = false
+        self.circularProgressBar = false
+        self.coloredProgressBar = false
+    }
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(sortOption, forKey: .sortOption)

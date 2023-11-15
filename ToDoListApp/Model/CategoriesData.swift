@@ -25,6 +25,10 @@ final class CategoriesData: ObservableObject, Codable {
         try container.encode(categories, forKey: .categories)
     }
     
+    func initData() {
+        self.categories = []
+    }
+    
     convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let categories = try container.decode([Category].self, forKey: .categories)

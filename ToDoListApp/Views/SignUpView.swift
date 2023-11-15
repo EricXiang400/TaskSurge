@@ -99,12 +99,23 @@ struct SignUpView: View {
                 return
             }
             showLoginView = false
+            saveLocalData()
             curUserContainer.saveLocalUser(user: user, userName: username)
-            UserSettings().saveLocalSettings()
-            TodoList().saveLocalData()
-            CategoriesData().saveLocalCategories()
-            FireStoreManager.localToFirestore(uid: user.uid)
+            initAllData()
+            saveLocalData()
         }
+    }
+    
+    func saveLocalData() {
+        userSettings.saveLocalSettings()
+        todoListContainer.saveLocalData()
+        categoryContainer.saveLocalCategories()
+    }
+    
+    func initAllData() {
+        todoListContainer.initData()
+        userSettings.initData()
+        categoryContainer.initData()
     }
 }
 

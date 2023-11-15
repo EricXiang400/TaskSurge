@@ -223,7 +223,6 @@ struct TodoListView: View {
                                                 sortTask()
                                                 saveData()
                                             }
-                                        
                                     }
                                 }
                                 

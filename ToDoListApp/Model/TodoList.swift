@@ -45,6 +45,13 @@ final class TodoList: ObservableObject, Codable {
         try container.encode(taskSortID, forKey: .taskSortID)
     }
     
+    func initData() {
+        self.todoList = []
+        self.selectedCategory = nil
+        self.taskSortID = 0
+        self.editCategory = nil
+    }
+    
     func loadLocalData(user: User?) {
         let data: Data
         do {
@@ -71,11 +78,7 @@ final class TodoList: ObservableObject, Codable {
                 self.taskSortID = output.taskSortID
             }
         } catch {
-            print("No local Data so return []")
-            self.selectedCategory = nil
-            self.todoList = []
-            self.editCategory = nil
-            taskSortID = 0
+            print("Error loading local data")
         }
     }
 
