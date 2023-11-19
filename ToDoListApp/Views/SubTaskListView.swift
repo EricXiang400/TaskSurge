@@ -27,7 +27,6 @@ struct SubTaskListView: View {
                 var newTask = SubTaskTodoContent(content: "", completed: false)
                 todoContent.subTaskList.append(newTask)
                 focusReference = newTask.id
-                
             }, label: {
                 Image(systemName: "plus")
             })
@@ -64,7 +63,7 @@ struct SubTaskListView: View {
                 .tint(.red)
             }
         }
-        
+        .listStyle(PlainListStyle())
     }
     
     func updateLastModifiedTime() {

@@ -62,7 +62,6 @@ struct EditTaskView: View {
             }
             SubTaskListView(todoContent: $todoContentCopy)
             Spacer()
-            
             HStack {
                 Button {
                     showTaskDetails = false

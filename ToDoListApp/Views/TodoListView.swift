@@ -406,8 +406,9 @@ struct TodoListView: View {
     
     func updateToCurrentDate() {
         if !sameDate(date1: curUserContainer.lastActiveDate, date2: Date()) {
-            curUserContainer.lastActiveDate = Date()
             selectedDateContainer.selectedDate = Date()
+            // This function saves the lastActiveDate
+            curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
         }
     }
     
