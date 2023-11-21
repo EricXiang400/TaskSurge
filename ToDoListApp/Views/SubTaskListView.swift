@@ -41,6 +41,9 @@ struct SubTaskListView: View {
             HStack {
                 Button(action: {
                     todoContent.subTaskList[subTaskIndex].completed.toggle()
+                    withAnimation(.easeInOut) {
+                        updateProgress()
+                    }
                 }) {
                     Image(systemName: todoContent.subTaskList[subTaskIndex].completed ?  "checkmark.circle.fill" : "circle")
                         .resizable()
@@ -64,6 +67,16 @@ struct SubTaskListView: View {
             }
         }
         .listStyle(PlainListStyle())
+    }
+    
+    func updateProgress() {
+        var count: Int = 0
+        for subTask in todoContent.subTaskList {
+            if subTask.completed {
+                count += 1
+            }
+        }
+        todoContent.progress = Float(count) / Float(todoContent.subTaskList.count) * 100.0
     }
     
     func updateLastModifiedTime() {
