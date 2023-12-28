@@ -188,6 +188,7 @@ struct TodoListView: View {
                                         if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
                                             todoListContainer.todoList[todoIndex].progress = 100.0
                                             todoListContainer.todoList[todoIndex].completed = true
+                                            completeSubtasks(index: todoIndex)
                                             sortTask()
                                             saveData()
                                         } else {
@@ -406,9 +407,9 @@ struct TodoListView: View {
     
     func updateToCurrentDate() {
         if !sameDate(date1: curUserContainer.lastActiveDate, date2: Date()) {
-            selectedDateContainer.selectedDate = Date()
             // This function saves the lastActiveDate
             curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+            FireStoreManager.localToFirestore(uid: curUserContainer.uid)
         }
     }
     
@@ -439,6 +440,13 @@ struct TodoListView: View {
             return Data()
         }
     }
+    
+    func completeSubtasks(index: Int) {
+        for i in todoListContainer.todoList[index].subTaskList.indices {
+            todoListContainer.todoList[index].subTaskList[i].completed = true
+        }
+    }
+    
 }
 
 extension UIApplication {

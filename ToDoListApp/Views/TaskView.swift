@@ -65,7 +65,6 @@ struct TaskView: View {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
             updateLastModifiedTime()
-            print("GOT HERE")
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }

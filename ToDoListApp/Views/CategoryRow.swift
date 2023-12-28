@@ -76,6 +76,17 @@ struct CategoryRow: View {
                         .foregroundColor(Color(red: 0.9, green: 0, blue: 0))
                 }
             }
+            if (getNumUnfinished() != 0) {
+                Circle()
+                    .foregroundColor(Color(red: 0.9, green: 0.1, blue: 0.1))
+                    .frame(width: 25, height: 25)
+                    .overlay(
+                        Text("\(getNumUnfinished())")
+                            .font(.system(size: 15))
+                            .foregroundColor(.white)
+                            .fontWeight(.heavy)
+                    )
+            }
         }
         .foregroundColor(.black)
         .padding(.horizontal, 10)
@@ -90,6 +101,12 @@ struct CategoryRow: View {
                 FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
             }
         }
+    }
+    
+    func getNumUnfinished() -> Int {
+        return todoListContainer.todoList.filter { todoContent in
+            todoContent.category == category && !todoContent.completed
+        }.count
     }
 }
 

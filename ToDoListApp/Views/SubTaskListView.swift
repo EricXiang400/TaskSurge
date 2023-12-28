@@ -13,6 +13,7 @@ struct SubTaskListView: View {
     @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
     @EnvironmentObject private var curUserContainer: AppUser
     @FocusState private var focusReference: UUID?
+    
     enum Field: Hashable {
         case details
     }

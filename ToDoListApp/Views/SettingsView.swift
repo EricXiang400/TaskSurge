@@ -252,14 +252,18 @@ struct SettingsView: View {
         }
         
     }
+    
     func taskLayoverExist(todoContent: TodoContent) -> Bool {
         if !userSettings.taskLayover {
             return false
         }
-        let calendar = Calendar.current
-        let yesterDateAndTime = calendar.date(byAdding: .day, value: -1, to: Date())!
-        return CalendarWeekView.isSameDate(date1: yesterDateAndTime, date2: todoContent.date) && !todoContent.completed
+        return sameDate(date1: curUserContainer.lastActiveDate, date2: todoContent.date) && !sameDate(date1: Date(), date2: curUserContainer.lastActiveDate) && !todoContent.completed
     }
+    
+    func sameDate(date1: Date, date2: Date) -> Bool {
+        return Calendar.current.compare(date1, to: date2, toGranularity: .day) == .orderedSame
+    }
+    
     func moveLayoverItems() {
         for i in todoListContainer.todoList.indices {
             if taskLayoverExist(todoContent: todoListContainer.todoList[i]) {
