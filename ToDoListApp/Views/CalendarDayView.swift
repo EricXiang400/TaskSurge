@@ -33,6 +33,7 @@ struct CalendarDayView: View {
                             .background(Color.blue)
                             .clipShape(Circle())
                             .foregroundColor(.white)
+                            .bold()
                     } else if CalendarWeekView.isSameDate(date1: Date(), date2: day) {
                         Text("\(calendar.component(.day, from: Date()))")
                             .frame(width: 30, height: 30)

@@ -135,34 +135,28 @@ struct TodoListView: View {
                     
                     Button(action:{
                         UIApplication.shared.endEditing()
-                        if todoListContainer.selectedCategory != nil {
-                            withAnimation(.easeInOut) {
-                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
-                                tempTodoContentCopy = tempTodoContent
-                                presentSheet = true
+                        withAnimation(.easeInOut) {
+                            if todoListContainer.selectedCategory == nil {
+                                todoListContainer.selectedCategory = Category(name: "Untitled")
+                                categoryContainer.categories.append(todoListContainer.selectedCategory!)
+                                categoryContainer.saveLocalCategories()
+                                if curUserContainer.curUser != nil {
+                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                                }
                             }
+                            tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
+                            tempTodoContentCopy = tempTodoContent
+                            presentSheet = true
                         }
                     }) {
-                        if todoListContainer.selectedCategory == nil {
-                            Circle()
-                                .foregroundColor(.blue)
-                                .frame(width: 25, height: 25)
-                                .overlay(
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(.white)
-                                        .opacity(0.5)
-                                )
-                        } else {
-                            Circle()
-                                .foregroundColor(.blue)
-                                .frame(width: 25, height: 25)
-                                .overlay(
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(.white)
-                                )
-                        }
+                        Circle()
+                            .foregroundColor(.blue)
+                            .frame(width: 25, height: 25)
+                            .overlay(
+                                Image(systemName: "plus")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                        )
                     }
                     .padding(.trailing, 10)
                     .sheet(isPresented: $presentSheet) {
@@ -189,8 +183,6 @@ struct TodoListView: View {
                             Spacer()
                             Spacer()
                         }
-                        
-                        
                     }
                     else {
                         List(todoListContainer.todoList) { todo in
@@ -270,11 +262,18 @@ struct TodoListView: View {
                     Color.white.opacity(0.00000001)
                         .offset(y: CGFloat(offSetCount * offSetHeight))
                         .onTapGesture {
-                            if todoListContainer.selectedCategory != nil {
-                                tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
-                                tempTodoContentCopy = tempTodoContent
-                                presentSheet = true
+                            if todoListContainer.selectedCategory == nil {
+                                todoListContainer.selectedCategory = Category(name: "Untitled")
+                                categoryContainer.categories.append(todoListContainer.selectedCategory!)
+                                categoryContainer.saveLocalCategories()
+                                if curUserContainer.curUser != nil {
+                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+                                }
                             }
+                            tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
+                            tempTodoContentCopy = tempTodoContent
+                            presentSheet = true
+                            
                         }
                         .sheet(isPresented: $presentSheet) {
                             EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
