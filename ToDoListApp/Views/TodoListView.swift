@@ -108,8 +108,8 @@ struct TodoListView: View {
                         selectedDateContainer.selectedDate = Date()
                     } label: {
                         Text("Today")
-                            .font(.system(size: 13))
-                            .bold()
+                            .font(.system(size: 14))
+                            .fontWeight(.heavy)
                     }
                     .padding(.vertical,4.5)
                     .padding(.horizontal, 4)
@@ -175,82 +175,100 @@ struct TodoListView: View {
                         }
                     }
                 }
-                
                 ZStack {
-                    List(todoListContainer.todoList) { todo in
-                        if sameDate(date1: selectedDateContainer.selectedDate, date2: userSettings.taskLayover ? todo.date : todo.createdDate) && todoListContainer.selectedCategory == todo.category {
-                            var todoIndex: Int {
-                                todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
-                            }
+                    if (noTodoForCategoryToday()) {
+                        VStack {
+                            Spacer()
                             HStack {
-                                if !userSettings.circularProgressBar {
-                                    Button(action: {
-                                        if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
-                                            todoListContainer.todoList[todoIndex].progress = 100.0
-                                            todoListContainer.todoList[todoIndex].completed = true
-                                            completeSubtasks(index: todoIndex)
-                                            sortTask()
-                                            saveData()
-                                        } else {
-                                            if todoListContainer.todoList[todoIndex].completed {
-                                                todoListContainer.todoList[todoIndex].completed = false
-                                                if !userSettings.showProgressBar {
-                                                    todoListContainer.todoList[todoIndex].progress = 0
-                                                }
-                                            } else {
-                                                todoListContainer.todoList[todoIndex].completed = true
-                                            }
-                                        }
-                                        saveData()
-                                    }) {
-                                        Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
-                                            .resizable()
-                                            .frame(width: 25, height: 25)
-                                            .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
-                                    }
-                                    .padding(5)
-                                    .buttonStyle(PlainButtonStyle())
-                                } else if userSettings.showProgressBar && userSettings.circularProgressBar {
-                                    ZStack {
-                                        Text("\(Int(todoListContainer.todoList[todoIndex].progress))")
-                                            .font(.system(size: 10))
-                                            .bold()
-                                        CircularProgressView(todoContent: $todoListContainer.todoList[todoIndex])
-                                            .frame(width: 25, height: 25)
-                                            .padding(5)
-                                            .onTapGesture {
+                                Spacer()
+                                Text("+ Tap here to add todos")
+                                    .opacity(0.6)
+                                    .bold()
+                                Spacer()
+                            }
+                            Spacer()
+                            Spacer()
+                        }
+                        
+                        
+                    }
+                    else {
+                        List(todoListContainer.todoList) { todo in
+                            if sameDate(date1: selectedDateContainer.selectedDate, date2: userSettings.taskLayover ? todo.date : todo.createdDate) && todoListContainer.selectedCategory == todo.category {
+                                var todoIndex: Int {
+                                    todoListContainer.todoList.firstIndex(where: {$0.id == todo.id})!
+                                }
+                                HStack {
+                                    if !userSettings.circularProgressBar {
+                                        Button(action: {
+                                            if todoListContainer.todoList[todoIndex].progress != 100.0 && !todoListContainer.todoList[todoIndex].completed {
                                                 todoListContainer.todoList[todoIndex].progress = 100.0
                                                 todoListContainer.todoList[todoIndex].completed = true
+                                                completeSubtasks(index: todoIndex)
                                                 sortTask()
                                                 saveData()
+                                            } else {
+                                                if todoListContainer.todoList[todoIndex].completed {
+                                                    todoListContainer.todoList[todoIndex].completed = false
+                                                    if !userSettings.showProgressBar {
+                                                        todoListContainer.todoList[todoIndex].progress = 0
+                                                    }
+                                                } else {
+                                                    todoListContainer.todoList[todoIndex].completed = true
+                                                }
                                             }
+                                            saveData()
+                                        }) {
+                                            Image(systemName: todoListContainer.todoList[todoIndex].completed ?  "checkmark.circle.fill" : "circle")
+                                                .resizable()
+                                                .frame(width: 25, height: 25)
+                                                .foregroundColor(todoListContainer.todoList[todoIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
+                                        }
+                                        .padding(5)
+                                        .buttonStyle(PlainButtonStyle())
+                                    } else if userSettings.showProgressBar && userSettings.circularProgressBar {
+                                        ZStack {
+                                            Text("\(Int(todoListContainer.todoList[todoIndex].progress))")
+                                                .font(.system(size: 10))
+                                                .bold()
+                                            CircularProgressView(todoContent: $todoListContainer.todoList[todoIndex])
+                                                .frame(width: 25, height: 25)
+                                                .padding(5)
+                                                .onTapGesture {
+                                                    todoListContainer.todoList[todoIndex].progress = 100.0
+                                                    todoListContainer.todoList[todoIndex].completed = true
+                                                    sortTask()
+                                                    saveData()
+                                                }
+                                        }
+                                    }
+                                    
+                                    TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
+                                    if userSettings.showProgressBar {
+                                        if !userSettings.circularProgressBar {
+                                            ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
+                                                                showProgressEditView: $showProgressEditView)
+                                        }
                                     }
                                 }
-                                
-                                TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
-                                if userSettings.showProgressBar {
-                                    if !userSettings.circularProgressBar {
-                                        ProgressBarView(todoContent: $todoListContainer.todoList[todoIndex], selectedTodoContent: $selectedTodoContent,
-                                                            showProgressEditView: $showProgressEditView)
+                                .listRowBackground(backgroundColor)
+                                .contentShape(Rectangle())
+                                .cornerRadius(5)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(action: {
+                                        todoListContainer.todoList.remove(at: todoIndex)
+                                        saveData()
+                                    }) {
+                                        Label("Delete", systemImage: "trash")
                                     }
+                                    .tint(.red)
                                 }
-                            }
-                            .listRowBackground(backgroundColor)
-                            .contentShape(Rectangle())
-                            .cornerRadius(5)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(action: {
-                                    todoListContainer.todoList.remove(at: todoIndex)
-                                    saveData()
-                                }) {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                                .tint(.red)
                             }
                         }
+                        .listStyle(.plain)
+                        
+                        
                     }
-                    .listStyle(.plain)
-                    
                     Color.white.opacity(0.00000001)
                         .offset(y: CGFloat(offSetCount * offSetHeight))
                         .onTapGesture {
@@ -269,6 +287,7 @@ struct TodoListView: View {
                             }
                         }
                 }
+                
             }
         }
         .onChange(of: scenePhase) { newValue in
@@ -370,6 +389,12 @@ struct TodoListView: View {
                 print("Error when working with encoded data from cloud")
             }
         }
+    }
+    
+    func noTodoForCategoryToday()-> Bool {
+        return todoListContainer.todoList.filter { todoContent in
+            sameDate(date1: todoContent.date, date2: Date()) && todoContent.category == todoListContainer.selectedCategory
+        }.count == 0
     }
     
     func fetchAndLoadFireStoreData(completion: @escaping () -> Void) {

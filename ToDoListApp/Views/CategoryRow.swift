@@ -83,7 +83,7 @@ struct CategoryRow: View {
                     .overlay(
                         Text("\(getNumUnfinished())")
                             .font(.system(size: 15))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(red: 0.9, green: 0.9, blue: 0.9))
                             .fontWeight(.heavy)
                     )
             }
