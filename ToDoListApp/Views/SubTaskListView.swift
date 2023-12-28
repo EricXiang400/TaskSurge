@@ -35,39 +35,54 @@ struct SubTaskListView: View {
         .padding(.horizontal)
         .padding(.vertical, 3)
         
-        List(todoContent.subTaskList) { subTask in
-            var subTaskIndex: Int {
-                todoContent.subTaskList.firstIndex(where: {$0.id == subTask.id})!
+        if (todoContent.subTaskList.isEmpty) {
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Text("No subtasks added yet")
+                        .opacity(0.6)
+                        .bold()
+                    Spacer()
+                }
+                Spacer()
+                Spacer()
             }
-            HStack {
-                Button(action: {
-                    todoContent.subTaskList[subTaskIndex].completed.toggle()
-                    withAnimation(.easeInOut) {
-                        updateProgress()
+        } else {
+            List(todoContent.subTaskList) { subTask in
+                var subTaskIndex: Int {
+                    todoContent.subTaskList.firstIndex(where: {$0.id == subTask.id})!
+                }
+                HStack {
+                    Button(action: {
+                        todoContent.subTaskList[subTaskIndex].completed.toggle()
+                        withAnimation(.easeInOut) {
+                            updateProgress()
+                        }
+                    }) {
+                        Image(systemName: todoContent.subTaskList[subTaskIndex].completed ?  "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .frame(width: 22, height: 22)
+                            .foregroundColor(todoContent.subTaskList[subTaskIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
                     }
-                }) {
-                    Image(systemName: todoContent.subTaskList[subTaskIndex].completed ?  "checkmark.circle.fill" : "circle")
-                        .resizable()
-                        .frame(width: 22, height: 22)
-                        .foregroundColor(todoContent.subTaskList[subTaskIndex].completed ? Color(red: 0, green: 0.7, blue: 0) : .primary)
+                    .padding(5)
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(todoContent.subTaskList[subTaskIndex].content == "")
+                    TextField("Sub-Task Details Here", text: $todoContent.subTaskList[subTaskIndex].content)
+                        .focused($focusReference, equals: todoContent.subTaskList[subTaskIndex].id)
+                        .padding(.vertical, 3)
                 }
-                .padding(5)
-                .buttonStyle(PlainButtonStyle())
-                .disabled(todoContent.subTaskList[subTaskIndex].content == "")
-                TextField("Sub-Task Details Here", text: $todoContent.subTaskList[subTaskIndex].content)
-                    .focused($focusReference, equals: todoContent.subTaskList[subTaskIndex].id)
-                    .padding(.vertical, 3)
-            }
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(action: {
-                    todoContent.subTaskList.remove(at: subTaskIndex)
-                }) {
-                    Label("Delete", systemImage: "trash")
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(action: {
+                        todoContent.subTaskList.remove(at: subTaskIndex)
+                    }) {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
                 }
-                .tint(.red)
             }
+            .listStyle(PlainListStyle())
         }
-        .listStyle(PlainListStyle())
     }
     
     func updateProgress() {

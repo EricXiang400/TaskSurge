@@ -266,8 +266,6 @@ struct TodoListView: View {
                             }
                         }
                         .listStyle(.plain)
-                        
-                        
                     }
                     Color.white.opacity(0.00000001)
                         .offset(y: CGFloat(offSetCount * offSetHeight))
