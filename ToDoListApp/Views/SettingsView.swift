@@ -45,12 +45,16 @@ struct SettingsView: View {
             Spacer()
             VStack {
                 HStack {
-                    Image(systemName: "person.circle")
-                        .font(.system(size: 40))
-                        .padding(.leading)
+                    if curUserContainer.curUser == nil {
+                        Image(systemName: "person.circle")
+                            .font(.system(size: 40))
+                            .padding(.leading)
+                    }
                     if curUserContainer.curUser != nil {
                         Text("\(curUserContainer.userName)")
+                            .font(.system(size: 25))
                             .bold()
+                            .padding(.leading)
                         Spacer()
                         Button {
                             if signOut() {
