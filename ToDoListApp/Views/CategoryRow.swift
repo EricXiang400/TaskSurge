@@ -44,10 +44,6 @@ struct CategoryRow: View {
                             .resizable()
                             .frame(width: 25, height: 25)
                             .foregroundColor(.blue)
-                    } else {
-                        Image(systemName: "")
-                            .resizable()
-                            .frame(width: 25, height: 25)
                     }
                 }
             }
