@@ -14,6 +14,7 @@ struct CategoryRow: View {
     @EnvironmentObject var curUserContainer: AppUser
     @Binding var category: Category
     @State var toggleUIUpdate: Bool = false
+    @State var showDeleteCategoryAlert: Bool = false
     var delete: () -> Void
     var body: some View {
         HStack {
@@ -62,14 +63,24 @@ struct CategoryRow: View {
                         .frame(width: 18, height: 18)
                 }
                 Button {
-                    delete()
-                    UIApplication.shared.endEditing()
-                    toggleUIUpdate.toggle()
+                    showDeleteCategoryAlert.toggle()
                 } label: {
                     Image(systemName: "trash")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color(red: 0.9, green: 0, blue: 0))
+                }
+                .alert(isPresented: $showDeleteCategoryAlert) {
+                    Alert(title: Text("Are you sure you want to delete this category?"),
+                          message: Text("Deleting this category will delete all todos created under this category"),
+                          primaryButton: .default(Text("Confirm")) {
+                        delete()
+                        UIApplication.shared.endEditing()
+                        toggleUIUpdate.toggle()
+                        showDeleteCategoryAlert.toggle()
+                    },
+                          secondaryButton: .cancel()
+                    )
                 }
             }
             if (getNumUnfinished() != 0) {
