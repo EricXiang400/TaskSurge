@@ -75,6 +75,7 @@ struct MenuContentView: View {
                                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                                 }
                             })
+                            
                             Spacer()
                         }
                         .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15))

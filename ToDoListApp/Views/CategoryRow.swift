@@ -12,12 +12,22 @@ struct CategoryRow: View {
     @EnvironmentObject var categoryContainer: CategoriesData
     @EnvironmentObject var todoListContainer: TodoList
     @EnvironmentObject var curUserContainer: AppUser
+    @Environment(\.colorScheme) var colorScheme
     @Binding var category: Category
     @State var toggleUIUpdate: Bool = false
     @State var showDeleteCategoryAlert: Bool = false
     var delete: () -> Void
     var body: some View {
         HStack {
+            if (getNumUnfinished() != 0) {
+                Circle()
+                    .foregroundColor(Color(red: 0.9, green: 0.1, blue: 0.1))
+                    .frame(width: 15, height: 15)
+            } else {
+                Circle()
+                    .foregroundColor(Color(red: 0.2, green: 0.9, blue: 0.2))
+                    .frame(width: 15, height: 15)
+            }
             if category.isEditing {
                 TextField("Category", text: $category.name, onCommit: {
                     if category.name != "" {
@@ -90,15 +100,16 @@ struct CategoryRow: View {
                     .overlay(
                         Text("\(getNumUnfinished())")
                             .font(.system(size: 15))
-                            .foregroundColor(Color(red: 0.9, green: 0.9, blue: 0.9))
+                            .foregroundColor(colorScheme == .dark ? Color(red: 0.9, green: 0.9, blue: 0.9) : .white)
                             .fontWeight(.heavy)
                     )
             }
         }
-        .foregroundColor(.black)
+        .foregroundColor(colorScheme == .dark ? .white : .black)
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
-        .background(category.color)
+        .background(colorScheme == .dark ? Color(red: 0.2, green: 0.2, blue: 0.2).opacity(0.5) : Color(red: 0.95, green: 0.95, blue: 0.95)
+            .opacity(0.7))
         .cornerRadius(10)
         .onTapGesture {
             UIApplication.shared.endEditing()
