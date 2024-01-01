@@ -108,7 +108,8 @@ struct CategoryRow: View {
         .foregroundColor(colorScheme == .dark ? .white : .black)
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
-        .background(colorScheme == .dark ? Color(red: 0.2, green: 0.2, blue: 0.2).opacity(0.5) : Color(red: 0.925, green: 0.925, blue: 0.925))
+        .background(colorScheme == .dark ? Color(red: 0.2, green: 0.2, blue: 0.2).opacity(0.5) : Color(red: 0.93, green: 0.93, blue: 0.93)
+            .opacity(0.8))
         .cornerRadius(10)
         .onTapGesture {
             UIApplication.shared.endEditing()
