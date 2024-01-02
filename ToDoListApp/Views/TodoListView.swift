@@ -42,7 +42,7 @@ struct TodoListView: View {
         if userSettings.darkMode {
             Color(red: 0.1, green: 0.1, blue: 0.1)
         } else {
-            Color.white
+            Color(red: 0.95, green: 0.95, blue: 0.95)
         }
     }
     

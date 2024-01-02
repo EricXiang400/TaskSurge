@@ -20,6 +20,7 @@ struct EditTaskView: View {
     @Binding var showTaskDetails: Bool
     @Binding var isNewTask: Bool
     @FocusState private var focusField: Field?
+    @Environment(\.colorScheme) var colorScheme
     var confirmClosure: () -> Void
     
     enum Field: Hashable {
@@ -43,10 +44,14 @@ struct EditTaskView: View {
                 Spacer()
             }
             .padding(.top, 25)
+            
             TextEditor(text: $todoContentCopy.content)
+                .scrollContentBackground(.hidden)
                 .frame(height: 100)
                 .padding()
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
+                
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                )
                 .padding(.horizontal)
                 .focused($focusField, equals: .details)
             
@@ -134,6 +139,7 @@ struct EditTaskView: View {
                 focusField = .details
             }
         }
+        .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color(red: 0.95, green: 0.95, blue: 0.95))
     }
 }
 

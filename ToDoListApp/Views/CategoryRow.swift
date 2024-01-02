@@ -71,6 +71,7 @@ struct CategoryRow: View {
                     Image(systemName: "checkmark")
                         .resizable()
                         .frame(width: 18, height: 18)
+                        .foregroundColor(Color(red: 0, green: 0.9, blue: 0))
                 }
                 Button {
                     showDeleteCategoryAlert.toggle()
@@ -108,8 +109,7 @@ struct CategoryRow: View {
         .foregroundColor(colorScheme == .dark ? .white : .black)
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
-        .background(colorScheme == .dark ? Color(red: 0.2, green: 0.2, blue: 0.2).opacity(0.5) : Color(red: 0.93, green: 0.93, blue: 0.93)
-            .opacity(0.8))
+        .background(colorScheme == .dark ? Color(red: 0.2, green: 0.2, blue: 0.2).opacity(0.5) : .white)
         .cornerRadius(10)
         .onTapGesture {
             UIApplication.shared.endEditing()

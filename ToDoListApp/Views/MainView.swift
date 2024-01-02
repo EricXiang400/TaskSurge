@@ -27,7 +27,7 @@ struct MainView: View {
         if userSettings.darkMode {
             Color(red: 0.1, green: 0.1, blue: 0.1)
         } else {
-            Color.white
+            Color(red: 0.95, green: 0.95, blue: 0.95)
         }
     }
     
@@ -46,7 +46,7 @@ struct MainView: View {
                 }
                 
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
-                    .background(Color.primaryColor(for: colorScheme))
+                    .background(backgroundColor)
                 }
                 if showSideMenu {
                     Color.black.opacity(0.5)
