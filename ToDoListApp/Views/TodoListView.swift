@@ -42,7 +42,6 @@ struct TodoListView: View {
     @State var fetchingData: Bool = false
     @State var isConnected: Bool = false
     @State var prevConnectionState: Bool = false
-    @State var dataSentByThisDevice: Bool = false
     var minLoadingTime: TimeInterval = 2
     var backgroundColor: Color {
         if userSettings.darkMode {
@@ -316,12 +315,16 @@ struct TodoListView: View {
                             print("snapshot is null")
                             return
                         }
+                        print(FireStoreManager.dataJustSent)
                         if !FireStoreManager.dataJustSent {
-                            withAnimation(.easeOut(duration: 0.25)) {
+                            withAnimation(.easeIn(duration: 0.25)) {
                                 fetchingData = true
                             }
                         }
-                        loadDataFromSnapshot(snapshot: snapshot)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                            loadDataFromSnapshot(snapshot: snapshot)
+                        }
+                        
                     }
                 }
                 
@@ -414,21 +417,19 @@ struct TodoListView: View {
                         lastModifiedTimeContainer.lastModifiedTime = cloudLastModifiedTimeData.lastModifiedTime
                         lastModifiedTimeContainer.saveData()
                     }
-                } else {
-                    dataSentByThisDevice = true
                 }
             } catch {
                 print("Error when working with encoded data from cloud")
             }
+            
             if !FireStoreManager.dataJustSent {
-                dataSentByThisDevice = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     withAnimation(.easeOut(duration: 0.25)) {
                         fetchingData = false
                     }
                 }
             }
-            
+            FireStoreManager.dataJustSent = false
         }
     }
     
