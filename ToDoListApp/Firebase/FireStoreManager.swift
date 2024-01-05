@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 
 class FireStoreManager: ObservableObject {
+    static var dataJustSent: Bool = false
     
     static func localToFirestore(uid: String) {
         guard let currentUser = Auth.auth().currentUser else {
@@ -67,6 +68,7 @@ class FireStoreManager: ObservableObject {
                     print("Data upload success")
                 }
             }
+            dataJustSent = true
         } catch {
             print("Error writing data into firestore")
         }

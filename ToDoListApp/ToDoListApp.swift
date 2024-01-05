@@ -26,6 +26,7 @@ struct ToDoListApp: App {
     @StateObject private var userSettings: UserSettings = UserSettings()
     @StateObject private var categories: CategoriesData = CategoriesData()
     @StateObject private var lastModifiedTime: LastModifiedTime = LastModifiedTime()
+    @State private var dataJustSent: Bool = false
     var body: some Scene {
         WindowGroup {
             MainView()

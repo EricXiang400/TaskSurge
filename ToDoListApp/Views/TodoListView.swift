@@ -9,8 +9,10 @@ import Foundation
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import Network
 
 struct TodoListView: View {
+    @EnvironmentObject var dateContainer: SelectedDate
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject private var selectedDateContainer: SelectedDate
     @EnvironmentObject var selectedDate: SelectedDate
@@ -37,7 +39,11 @@ struct TodoListView: View {
     @Environment(\.colorScheme) var colorScheme
     @State var noCircularConfirmation: Bool = false
     @State private var listenerRegistration: ListenerRegistration? = nil
-    
+    @State var fetchingData: Bool = false
+    @State var isConnected: Bool = false
+    @State var prevConnectionState: Bool = false
+    @State var dataSentByThisDevice: Bool = false
+    var minLoadingTime: TimeInterval = 2
     var backgroundColor: Color {
         if userSettings.darkMode {
             Color(red: 0.1, green: 0.1, blue: 0.1)
@@ -169,6 +175,15 @@ struct TodoListView: View {
                         }
                     }
                 }
+                if (fetchingData && isConnected) {
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .scaleEffect(1, anchor: .center)
+                            Spacer()
+                        }
+                }
                 ZStack {
                     if (noTodoForCategoryToday()) {
                         VStack {
@@ -287,20 +302,24 @@ struct TodoListView: View {
                 
             }
         }
+        .onAppear() {
+            checkInternetConnection()
+        }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
-                fetchAndLoadFireStoreData() {
-                    moveLayoverItems()
-                    curUserContainer.loadLocalUser()
-                    updateToCurrentDate()
-                }
                 if listenerRegistration == nil {
+                    fetchDataWithAnimation()
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
                     listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
                         guard let snapshot = snapshot else {
                             print("snapshot is null")
                             return
+                        }
+                        if !FireStoreManager.dataJustSent {
+                            withAnimation(.easeOut(duration: 0.25)) {
+                                fetchingData = true
+                            }
                         }
                         loadDataFromSnapshot(snapshot: snapshot)
                     }
@@ -309,6 +328,22 @@ struct TodoListView: View {
             }
         }
         .background(backgroundColor)
+    }
+    
+    func fetchDataWithAnimation() {
+        withAnimation(.easeOut(duration: 0.25)) {
+            fetchingData = true
+        }
+        fetchAndLoadFireStoreData() {
+            moveLayoverItems()
+            curUserContainer.loadLocalUser()
+            updateToCurrentDate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation(.easeOut(duration: 0.25)) {
+                    fetchingData = false
+                }
+            }
+        }
     }
     
     func loadDataFromSnapshot(snapshot: DocumentSnapshot) {
@@ -380,17 +415,46 @@ struct TodoListView: View {
                         lastModifiedTimeContainer.saveData()
                     }
                 } else {
-                    print("LastModifiedTime is empty")
+                    dataSentByThisDevice = true
                 }
             } catch {
                 print("Error when working with encoded data from cloud")
             }
+            if !FireStoreManager.dataJustSent {
+                dataSentByThisDevice = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        fetchingData = false
+                    }
+                }
+            }
+            
         }
+    }
+    
+    func checkInternetConnection() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                if !prevConnectionState {
+                    fetchDataWithAnimation()
+                }
+                prevConnectionState = isConnected
+                isConnected = true
+                print("Internet Detected")
+            } else {
+                prevConnectionState = isConnected
+                isConnected = false
+                print("Internet Down")
+            }
+        }
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
     }
     
     func noTodoForCategoryToday()-> Bool {
         return todoListContainer.todoList.filter { todoContent in
-            sameDate(date1: todoContent.date, date2: Date()) && todoContent.category == todoListContainer.selectedCategory
+            sameDate(date1: todoContent.date, date2: dateContainer.selectedDate) && todoContent.category == todoListContainer.selectedCategory
         }.count == 0
     }
     
