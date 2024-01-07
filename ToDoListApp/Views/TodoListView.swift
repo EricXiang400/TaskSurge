@@ -320,10 +320,11 @@ struct TodoListView: View {
                             withAnimation(.easeIn(duration: 0.25)) {
                                 fetchingData = true
                             }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                loadDataFromSnapshot(snapshot: snapshot)
+                            }
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                            loadDataFromSnapshot(snapshot: snapshot)
-                        }
+                        
                         
                     }
                 }
