@@ -324,8 +324,7 @@ struct TodoListView: View {
                                 loadDataFromSnapshot(snapshot: snapshot)
                             }
                         }
-                        
-                        
+                        FireStoreManager.dataJustSent = false
                     }
                 }
                 
