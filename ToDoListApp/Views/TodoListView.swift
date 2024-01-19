@@ -302,7 +302,9 @@ struct TodoListView: View {
             }
         }
         .onAppear() {
-            checkInternetConnection()
+            if curUserContainer.curUser != nil {
+                checkInternetConnection()
+            }
         }
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
