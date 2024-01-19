@@ -183,6 +183,7 @@ struct TodoListView: View {
                             Spacer()
                         }
                 }
+
                 ZStack {
                     if (noTodoForCategoryToday()) {
                         VStack {
@@ -325,6 +326,7 @@ struct TodoListView: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                                 loadDataFromSnapshot(snapshot: snapshot)
                             }
+                            moveLayoverItems()
                         }
                         FireStoreManager.dataJustSent = false
                     }
