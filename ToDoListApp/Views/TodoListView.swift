@@ -318,7 +318,6 @@ struct TodoListView: View {
                             print("snapshot is null")
                             return
                         }
-                        print(FireStoreManager.dataJustSent)
                         if !FireStoreManager.dataJustSent {
                             withAnimation(.easeIn(duration: 0.25)) {
                                 fetchingData = true
@@ -329,8 +328,10 @@ struct TodoListView: View {
                         }
                         FireStoreManager.dataJustSent = false
                     }
+                } else if curUserContainer.curUser != nil{
+                    moveLayoverItems()
+                    curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                 }
-                
             }
         }
         .background(backgroundColor)
