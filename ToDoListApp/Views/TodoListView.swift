@@ -326,7 +326,6 @@ struct TodoListView: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                                 loadDataFromSnapshot(snapshot: snapshot)
                             }
-                            moveLayoverItems()
                         }
                         FireStoreManager.dataJustSent = false
                     }
@@ -414,12 +413,15 @@ struct TodoListView: View {
                         if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                             todoListContainer.selectedCategory = curCategory
                         }
-                        curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                        moveLayoverItems()
                         todoListContainer.saveLocalData()
                         userSettings.saveLocalSettings()
                         categoryContainer.saveLocalCategories()
+                        curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                         lastModifiedTimeContainer.lastModifiedTime = cloudLastModifiedTimeData.lastModifiedTime
                         lastModifiedTimeContainer.saveData()
+                    } else {
+                        curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                     }
                 }
             } catch {
