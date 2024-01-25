@@ -55,6 +55,7 @@ class FireStoreManager: ObservableObject {
                 print("Could not serialize category dict")
                 return
             }
+            dataJustSent = true
             let userDocumentRef = db.collection("uid").document(uid)
             userDocumentRef.setData(["user": userDict,
                                      "data": dataDict,
@@ -68,7 +69,7 @@ class FireStoreManager: ObservableObject {
                     print("Data upload success")
                 }
             }
-            dataJustSent = true
+            
         } catch {
             print("Error writing data into firestore")
         }
