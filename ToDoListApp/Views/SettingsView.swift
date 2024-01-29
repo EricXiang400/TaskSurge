@@ -164,7 +164,7 @@ struct SettingsView: View {
                         }
                     }
                     HStack {
-                        Text("Show calendar movement buttons")
+                        Text("Show Calendar Movement Buttons")
                             .font(.system(size: 12))
                             .foregroundColor(.gray)
                         Spacer()
@@ -194,7 +194,7 @@ struct SettingsView: View {
                 Divider()
                 VStack {
                     Toggle(isOn: $userSettings.circularProgressBar) {
-                        Text("Circular Progress bar")
+                        Text("Circular Progress Bar")
                     }
                     .onChange(of: userSettings.circularProgressBar) { newValue in
                         userSettings.circularProgressBar = newValue
@@ -211,7 +211,7 @@ struct SettingsView: View {
                 Divider()
                 VStack {
                     Toggle(isOn: $userSettings.coloredProgressBar) {
-                        Text("High Contrast Progress bar")
+                        Text("High Contrast Progress Bar")
                     }
                     .onChange(of: userSettings.coloredProgressBar) { newValue in
                         userSettings.coloredProgressBar = newValue

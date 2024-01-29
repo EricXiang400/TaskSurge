@@ -310,6 +310,7 @@ struct TodoListView: View {
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
                 if listenerRegistration == nil {
+                    print("GOT HERE")
                     fetchDataWithAnimation()
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
@@ -328,9 +329,10 @@ struct TodoListView: View {
                         }
                         FireStoreManager.dataJustSent = false
                     }
-                } else if curUserContainer.curUser != nil{
+                } else {
+                    print("GOT HERE2")
                     moveLayoverItems()
-                    curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
+                    updateToCurrentDate()
                 }
             }
         }
@@ -343,7 +345,6 @@ struct TodoListView: View {
         }
         fetchAndLoadFireStoreData() {
             moveLayoverItems()
-            curUserContainer.loadLocalUser()
             updateToCurrentDate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation(.easeOut(duration: 0.25)) {
@@ -410,6 +411,7 @@ struct TodoListView: View {
                         todoListContainer.loadLocalData(user: curUserContainer.curUser)
                         userSettings.loadLocalSettings(user: curUserContainer.curUser)
                         categoryContainer.loadLocalCategories()
+                        curUserContainer.loadLocalUser()
                         let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
                         if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                             todoListContainer.selectedCategory = curCategory
@@ -471,6 +473,7 @@ struct TodoListView: View {
             todoListContainer.loadLocalData(user: curUserContainer.curUser)
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
             categoryContainer.loadLocalCategories()
+            curUserContainer.loadLocalUser()
             let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
             if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                 todoListContainer.selectedCategory = curCategory
@@ -502,6 +505,7 @@ struct TodoListView: View {
     func updateToCurrentDate() {
         if !sameDate(date1: curUserContainer.lastActiveDate, date2: Date()) {
             // This function saves the lastActiveDate
+            print("GOT TO UPDATE")
             curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
             FireStoreManager.localToFirestore(uid: curUserContainer.uid)
         }
