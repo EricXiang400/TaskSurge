@@ -64,8 +64,7 @@ class FireStoreManager: ObservableObject {
                                      "lastModifiedTime": lastModifiedTimeDict,
                                      "category": categoryDict], merge: true) { error in
                 if error != nil {
-                    print("Error transfering data")
-                    fatalError()
+                    fatalError("Error transfering data")
                 } else {
                     print("Data upload success")
                 }
@@ -80,7 +79,7 @@ class FireStoreManager: ObservableObject {
         let documentRef = collectionReference.document("\(uid)")
         documentRef.getDocument { document, error in
             if error != nil {
-                print("Error listening for doc changes")
+                fatalError("Error listening for doc changes")
             }
             guard let document = document else {
                 print("Doc does not exist")
