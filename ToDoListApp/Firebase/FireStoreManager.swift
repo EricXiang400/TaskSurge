@@ -65,13 +65,13 @@ class FireStoreManager: ObservableObject {
                                      "category": categoryDict], merge: true) { error in
                 if error != nil {
                     print("Error transfering data")
+                    fatalError()
                 } else {
                     print("Data upload success")
                 }
             }
-            
         } catch {
-            print("Error writing data into firestore")
+            fatalError("Error writing data into firestore")
         }
     }
     
@@ -139,12 +139,9 @@ class FireStoreManager: ObservableObject {
                     }
                     completion()
                 } catch {
-                    print("Error when working with encoded data from cloud")
+                    fatalError("Error when working with encoded data from cloud")
                 }
             }
-           
         }
     }
-    
-    
 }

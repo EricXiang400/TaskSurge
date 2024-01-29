@@ -310,7 +310,6 @@ struct TodoListView: View {
         .onChange(of: scenePhase) { newValue in
             if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
                 if listenerRegistration == nil {
-                    print("GOT HERE")
                     fetchDataWithAnimation()
                     let db = Firestore.firestore()
                     let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
@@ -330,7 +329,6 @@ struct TodoListView: View {
                         FireStoreManager.dataJustSent = false
                     }
                 } else {
-                    print("GOT HERE2")
                     moveLayoverItems()
                     updateToCurrentDate()
                 }
@@ -505,7 +503,6 @@ struct TodoListView: View {
     func updateToCurrentDate() {
         if !sameDate(date1: curUserContainer.lastActiveDate, date2: Date()) {
             // This function saves the lastActiveDate
-            print("GOT TO UPDATE")
             curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
             FireStoreManager.localToFirestore(uid: curUserContainer.uid)
         }
