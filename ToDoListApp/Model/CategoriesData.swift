@@ -49,7 +49,7 @@ final class CategoriesData: ObservableObject, Codable {
             try encodedData.write(to: fileURL)
             print("categories saved success")
         } catch {
-            print("categories saved failed")
+            fatalError("categories saved failed")
         }
     }
     func loadLocalCategories() {
@@ -70,8 +70,7 @@ final class CategoriesData: ObservableObject, Codable {
                 self.categories = output.categories
             }
         } catch {
-            print("No local categories to return")
-            self.categories = []
+            fatalError("No categories to return")
         }
     }
 }

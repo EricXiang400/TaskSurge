@@ -71,6 +71,7 @@ struct MenuContentView: View {
                                 todoListContainer.selectedCategory = nil
                                 categoryContainer.categories.remove(at: index)
                                 categoryContainer.saveLocalCategories()
+                                todoListContainer.saveLocalData()
                                 if curUserContainer.curUser != nil {
                                     FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                                 }

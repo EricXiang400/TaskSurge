@@ -106,7 +106,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
             self.circularProgressBar = output.circularProgressBar
             self.coloredProgressBar = output.coloredProgressBar
         } catch {
-            print("No local settings so return nil")
+            fatalError("No local settings so return nil")
         }
     }
     

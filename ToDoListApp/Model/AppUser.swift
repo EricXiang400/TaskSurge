@@ -74,7 +74,7 @@ final class AppUser: ObservableObject, Codable {
                 self.lastActiveDate = output.lastActiveDate
             }
         } catch {
-            print("User is nil")
+            fatalError("User is nil")
         }
     }
     

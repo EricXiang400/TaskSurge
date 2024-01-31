@@ -78,7 +78,7 @@ final class TodoList: ObservableObject, Codable {
                 self.taskSortID = output.taskSortID
             }
         } catch {
-            print("Error loading local data")
+            fatalError("Error loading local data")
         }
     }
 
