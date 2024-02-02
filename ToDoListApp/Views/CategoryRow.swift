@@ -14,6 +14,7 @@ struct CategoryRow: View {
     @EnvironmentObject var curUserContainer: AppUser
     @Environment(\.colorScheme) var colorScheme
     @Binding var category: Category
+    // This variable is used to force view update becuase toggling category.isEditing alone won't update view
     @State var toggleUIUpdate: Bool = false
     @State var showDeleteCategoryAlert: Bool = false
     var delete: () -> Void
