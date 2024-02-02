@@ -46,8 +46,11 @@ struct CategoryRow: View {
             }
             Spacer()
             Button {
-                category.isEditing.toggle()
-                toggleUIUpdate.toggle()
+                withAnimation(.easeInOut(duration: 0.005)) {
+                    category.isEditing.toggle()
+                    toggleUIUpdate.toggle()
+                }
+                
             } label: {
                 HStack {
                     if todoListContainer.selectedCategory == category && !category.isEditing {
@@ -58,6 +61,7 @@ struct CategoryRow: View {
                     }
                 }
             }
+            
             if category.isEditing {
                 Button {
                     category.isEditing = false
@@ -67,12 +71,15 @@ struct CategoryRow: View {
                     }
                     UIApplication.shared.endEditing()
                     toggleUIUpdate.toggle()
+                    
                 } label: {
                     Image(systemName: "checkmark")
                         .resizable()
                         .frame(width: 18, height: 18)
                         .foregroundColor(Color(red: 0, green: 0.9, blue: 0))
                 }
+                
+                .transition(.asymmetric(insertion: .offset(x: 10, y: 0), removal: .offset(x: 10, y: 0)).combined(with: .opacity))
                 Button {
                     showDeleteCategoryAlert.toggle()
                 } label: {
