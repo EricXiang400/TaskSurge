@@ -35,7 +35,6 @@ struct MainView: View {
         ZStack {
             backgroundColor
                 .ignoresSafeArea(.all)
-            
             VStack {
                 if userSettings.weekView {
                     CalendarWeekView()

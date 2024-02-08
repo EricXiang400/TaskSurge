@@ -304,6 +304,9 @@ struct TodoListView: View {
         }
         .onAppear() {
             if curUserContainer.curUser != nil {
+                if !hasLaunchedBefore() {
+                    initAllData()
+                }
                 checkInternetConnection()
             }
         }
@@ -335,6 +338,23 @@ struct TodoListView: View {
             }
         }
         .background(backgroundColor)
+    }
+    
+    func hasLaunchedBefore() -> Bool {
+        return UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+    }
+    
+    func initAllData() {
+        UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+        todoListContainer.initData()
+        todoListContainer.saveLocalData()
+        categoryContainer.initData()
+        categoryContainer.saveLocalCategories()
+        userSettings.initData()
+        userSettings.saveLocalSettings()
+        selectedDateContainer.selectedDate = Date()
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
     
     func fetchDataWithAnimation() {

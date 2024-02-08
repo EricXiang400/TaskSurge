@@ -12,6 +12,10 @@ struct CalendarMonthView: View {
     @EnvironmentObject var dateContainer: SelectedDate
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var curUserContainer: AppUser
+    @EnvironmentObject var todoListContainer: TodoList
+    @EnvironmentObject var categoryContainer: CategoriesData
+    @EnvironmentObject var selectedDateContainer: SelectedDate
+    @EnvironmentObject var lastModifiedTimeContainer: LastModifiedTime
     @State private var offset = CGFloat.zero
     @State private var dragOffsetH = CGFloat.zero
     @State private var dragOffsetV = CGFloat.zero
@@ -109,11 +113,31 @@ struct CalendarMonthView: View {
             .frame(height: userSettings.weekView ? 32 : height)
         }
         .onAppear {
+            if !hasLaunchedBefore() {
+                initAllData()
+            }
             dateContainer.selectedDate = Date()
             loadThreeYearsOfMonths()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
         .padding()
+    }
+    
+    func hasLaunchedBefore() -> Bool {
+        return UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+    }
+    
+    func initAllData() {
+        UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+        todoListContainer.initData()
+        todoListContainer.saveLocalData()
+        categoryContainer.initData()
+        categoryContainer.saveLocalCategories()
+        userSettings.initData()
+        userSettings.saveLocalSettings()
+        selectedDateContainer.selectedDate = Date()
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
     
     func recomputeDates(offset: Int) {

@@ -14,6 +14,8 @@ struct MenuContentView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var categoryContainer: CategoriesData
+    @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
+    @EnvironmentObject var selectedDateContainer: SelectedDate
     @Binding var isShowingSetting: Bool
     @Environment(\.colorScheme) var colorScheme
     @Binding var showSideMenu: Bool
@@ -120,12 +122,32 @@ struct MenuContentView: View {
             }
         }
         .onAppear {
+            if !hasLaunchedBefore() {
+                initAllData()
+            }
             categoryContainer.loadLocalCategories()
             var curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
             if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                 todoListContainer.selectedCategory = curCategory
             }
         }
+    }
+    
+    func hasLaunchedBefore() -> Bool {
+        return UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+    }
+    
+    func initAllData() {
+        UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+        todoListContainer.initData()
+        todoListContainer.saveLocalData()
+        categoryContainer.initData()
+        categoryContainer.saveLocalCategories()
+        userSettings.initData()
+        userSettings.saveLocalSettings()
+        selectedDateContainer.selectedDate = Date()
+        lastModifiedTimeContainer.lastModifiedTime = Date()
+        lastModifiedTimeContainer.saveData()
     }
     
     func removeRelatedTodos(category: Category) {
