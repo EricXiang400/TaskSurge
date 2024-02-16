@@ -16,6 +16,7 @@ struct CircularProgressView: View {
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var categoryContainer: CategoriesData
     @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
+    @EnvironmentObject private var lastModifiedByContainer: LastModifiedBy
 
     @Binding var todoContent: TodoContent
     @State var showConfirmationSheet: Bool = false
@@ -54,15 +55,16 @@ struct CircularProgressView: View {
         }
     }
     
-    func updateLastModifiedTime() {
+    func updateLastModifiedTimeAndBy() {
         lastModifiedTimeContainer.lastModifiedTime = Date()
         lastModifiedTimeContainer.saveData()
+        lastModifiedByContainer.saveData()
     }
     
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
-            updateLastModifiedTime()
+            updateLastModifiedTimeAndBy()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }

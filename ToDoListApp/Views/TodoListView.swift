@@ -20,6 +20,7 @@ struct TodoListView: View {
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var categoryContainer: CategoriesData
     @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
+    @EnvironmentObject private var lastModifiedByContainer: LastModifiedBy
     @Environment(\.scenePhase) var scenePhase
     @State var showConfirmationSheet: Bool = false
     @State var objectIndex: Int? = nil
@@ -87,7 +88,7 @@ struct TodoListView: View {
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
-            updateLastModifiedTime()
+            updateLastModifiedTimeAndBy()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
@@ -249,7 +250,6 @@ struct TodoListView: View {
                                                 }
                                         }
                                     }
-                                    
                                     TaskView(todoContent: $todoListContainer.todoList[todoIndex], todoContentCopyPassIn: todoListContainer.todoList[todoIndex])
                                     if userSettings.showProgressBar {
                                         if !userSettings.circularProgressBar {
@@ -299,14 +299,10 @@ struct TodoListView: View {
                             }
                         }
                 }
-                
             }
         }
         .onAppear() {
             if curUserContainer.curUser != nil {
-                if !hasLaunchedBefore() {
-                    initAllData()
-                }
                 checkInternetConnection()
             }
         }
@@ -321,7 +317,8 @@ struct TodoListView: View {
                             print("snapshot is null")
                             return
                         }
-                        if !FireStoreManager.dataJustSent {
+                        loadLastModifiedByFromSnapshot(snapshot: snapshot)
+                        if UserDefaults.standard.string(forKey: "DeviceUUID") != lastModifiedByContainer.lastModifiedBy {
                             withAnimation(.easeIn(duration: 0.25)) {
                                 fetchingData = true
                             }
@@ -329,7 +326,6 @@ struct TodoListView: View {
                                 loadDataFromSnapshot(snapshot: snapshot)
                             }
                         }
-                        FireStoreManager.dataJustSent = false
                     }
                 } else {
                     moveLayoverItems()
@@ -342,19 +338,6 @@ struct TodoListView: View {
     
     func hasLaunchedBefore() -> Bool {
         return UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
-    }
-    
-    func initAllData() {
-        UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
-        todoListContainer.initData()
-        todoListContainer.saveLocalData()
-        categoryContainer.initData()
-        categoryContainer.saveLocalCategories()
-        userSettings.initData()
-        userSettings.saveLocalSettings()
-        selectedDateContainer.selectedDate = Date()
-        lastModifiedTimeContainer.lastModifiedTime = Date()
-        lastModifiedTimeContainer.saveData()
     }
     
     func fetchDataWithAnimation() {
@@ -372,6 +355,36 @@ struct TodoListView: View {
         }
     }
     
+    func loadLastModifiedByFromSnapshot(snapshot: DocumentSnapshot) {
+        if let encodedData = snapshot.data() {
+            let uid = curUserContainer.curUser!.uid
+            do {
+                let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
+                let lastModifiedByFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedBy.json")
+                if let lastModifiedTimeJsonDictData = encodedData["lastModifiedTime"] {
+                    let lastModifiedTimeData = try JSONSerialization.data(withJSONObject: lastModifiedTimeJsonDictData)
+                    let localLastModifiedTimeEncoded = try Data(contentsOf: lastModifiedTimeFileURL)
+                    let decoder = JSONDecoder()
+                    let localLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: localLastModifiedTimeEncoded)
+                    let cloudLastModifiedTimeData = try decoder.decode(LastModifiedTime.self, from: lastModifiedTimeData)
+                    if localLastModifiedTimeData.lastModifiedTime < cloudLastModifiedTimeData.lastModifiedTime {
+                        if let lastModifiedByDictData = encodedData["lastModifiedBy"] {
+                            let lastModifiedByData = try JSONSerialization.data(withJSONObject: lastModifiedByDictData)
+                            try lastModifiedByData.write(to: lastModifiedByFileURL)
+                            print("LastModifiedBy download success snapshot")
+                        } else {
+                            print("LastModifiedBy field is empty")
+                        }
+                        lastModifiedByContainer.loadData()
+                    }
+                }
+            } catch {
+                print("Error when working with encoded data from cloud")
+            }
+        }
+    }
+    
     func loadDataFromSnapshot(snapshot: DocumentSnapshot) {
         if let encodedData = snapshot.data() {
             let uid = curUserContainer.curUser!.uid
@@ -383,6 +396,7 @@ struct TodoListView: View {
                 let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
                 let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
                 let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
+                let lastModifiedByFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedBy.json")
                 if let lastModifiedTimeJsonDictData = encodedData["lastModifiedTime"] {
                     let lastModifiedTimeData = try JSONSerialization.data(withJSONObject: lastModifiedTimeJsonDictData)
                     let localLastModifiedTimeEncoded = try Data(contentsOf: lastModifiedTimeFileURL)
@@ -397,12 +411,19 @@ struct TodoListView: View {
                         } else {
                             print("User field is empty")
                         }
+                        if let lastModifiedByDictData = encodedData["lastModifiedBy"] {
+                            let lastModifiedByData = try JSONSerialization.data(withJSONObject: lastModifiedByDictData)
+                            try lastModifiedByData.write(to: lastModifiedByFileURL)
+                            print("LastModifiedBy download success snapshot")
+                        } else {
+                            print("LastModifiedBy field is empty")
+                        }
                         if let dataJsonDictData = encodedData["data"] {
                             let dataJsonData = try JSONSerialization.data(withJSONObject: dataJsonDictData)
                             try dataJsonData.write(to: dataFileURL)
                             print("Content data download success snapshot")
                         } else {
-                            "Content data field is empty"
+                            print("Content data field is empty")
                         }
                         
                         if let settingsJsonDictData = encodedData["settings"] {
@@ -430,6 +451,7 @@ struct TodoListView: View {
                         userSettings.loadLocalSettings(user: curUserContainer.curUser)
                         categoryContainer.loadLocalCategories()
                         curUserContainer.loadLocalUser()
+                        lastModifiedByContainer.loadData()
                         let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
                         if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
                             todoListContainer.selectedCategory = curCategory
@@ -441,6 +463,7 @@ struct TodoListView: View {
                         curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                         lastModifiedTimeContainer.lastModifiedTime = cloudLastModifiedTimeData.lastModifiedTime
                         lastModifiedTimeContainer.saveData()
+                        lastModifiedByContainer.saveData()
                     } else {
                         curUserContainer.saveLocalUser(user: curUserContainer.curUser!, userName: curUserContainer.userName)
                     }
@@ -449,14 +472,12 @@ struct TodoListView: View {
                 print("Error when working with encoded data from cloud")
             }
             
-            if !FireStoreManager.dataJustSent {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation(.easeOut(duration: 0.25)) {
-                        fetchingData = false
-                    }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation(.easeOut(duration: 0.25)) {
+                    fetchingData = false
                 }
+                
             }
-            FireStoreManager.dataJustSent = false
         }
     }
     
@@ -491,6 +512,7 @@ struct TodoListView: View {
             todoListContainer.loadLocalData(user: curUserContainer.curUser)
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
             categoryContainer.loadLocalCategories()
+            lastModifiedByContainer.loadData()
             curUserContainer.loadLocalUser()
             let curCategory = Category.loadLocalCategory(user: curUserContainer.curUser)
             if curCategory != nil && categoryContainer.categories.contains(curCategory!) {
@@ -541,9 +563,10 @@ struct TodoListView: View {
         }
     }
     
-    func updateLastModifiedTime() {
+    func updateLastModifiedTimeAndBy() {
         lastModifiedTimeContainer.lastModifiedTime = Date()
         lastModifiedTimeContainer.saveData()
+        lastModifiedByContainer.saveData()
     }
     
     func decodeData(from document: QueryDocumentSnapshot) -> Data {

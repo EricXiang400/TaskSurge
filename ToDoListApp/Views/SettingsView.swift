@@ -15,6 +15,7 @@ struct SettingsView: View {
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var categoryContainer: CategoriesData
     @EnvironmentObject var lastModifiedTimeContainer: LastModifiedTime
+    @EnvironmentObject var lastModifiedByContainer: LastModifiedBy
     @Binding var isShowingSetting: Bool
     @State var showDeleteAccountAlert: Bool = false
     @State var showReauthenticationView: Bool = false
@@ -92,7 +93,7 @@ struct SettingsView: View {
                     }
                     .onChange(of: userSettings.darkMode) { newValue in
                         userSettings.darkMode = newValue
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -109,7 +110,7 @@ struct SettingsView: View {
                     }
                     .onChange(of: userSettings.showKeyboardOnStart) { newValue in
                         userSettings.showKeyboardOnStart = newValue
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -134,7 +135,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.taskLayover) { newValue in
                         userSettings.taskLayover = newValue
                         moveLayoverItems()
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -158,7 +159,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.showCalendarButton) { newValue in
                         userSettings.showCalendarButton = newValue
                         userSettings.saveLocalSettings()
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
@@ -183,7 +184,7 @@ struct SettingsView: View {
                                 userSettings.circularProgressBar = false
                             }
                         }
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         userSettings.saveLocalSettings()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
@@ -199,7 +200,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.circularProgressBar) { newValue in
                         userSettings.circularProgressBar = newValue
                         userSettings.saveLocalSettings()
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
@@ -216,7 +217,7 @@ struct SettingsView: View {
                     .onChange(of: userSettings.coloredProgressBar) { newValue in
                         userSettings.coloredProgressBar = newValue
                         userSettings.saveLocalSettings()
-                        updateLastModifiedTime()
+                        updateLastModifiedTimeAndBy()
                         if curUserContainer.curUser != nil {
                             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                         }
@@ -280,14 +281,15 @@ struct SettingsView: View {
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
-            updateLastModifiedTime()
+            updateLastModifiedTimeAndBy()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
     
-    func updateLastModifiedTime() {
+    func updateLastModifiedTimeAndBy() {
         lastModifiedTimeContainer.lastModifiedTime = Date()
         lastModifiedTimeContainer.saveData()
+        lastModifiedByContainer.saveData()
     }
     
     func signOut() -> Bool {

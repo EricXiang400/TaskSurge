@@ -8,35 +8,54 @@
 import SwiftUI
 import Firebase
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
-}
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//    func application(_ application: UIApplication,
+//                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//        FirebaseApp.configure()
+//        return true
+//    }
+//}
 
 @main
 struct ToDoListApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @Environment(\.colorScheme) var colorScheme
-    @StateObject private var selectedDate = SelectedDate()
-    @StateObject private var todos: TodoList = TodoList()
-    @StateObject private var curUser: AppUser = AppUser(uid: "", userName: "")
-    @StateObject private var userSettings: UserSettings = UserSettings()
-    @StateObject private var categories: CategoriesData = CategoriesData()
-    @StateObject private var lastModifiedTime: LastModifiedTime = LastModifiedTime()
-    @State private var dataJustSent: Bool = false
+    @StateObject private var selectedDateContainer = SelectedDate()
+    @StateObject private var todoListContainer: TodoList = TodoList()
+    @StateObject private var curUserContainer: AppUser = AppUser(uid: "", userName: "")
+    @StateObject private var userSettingsContainer: UserSettings = UserSettings()
+    @StateObject private var categoriesContainer: CategoriesData = CategoriesData()
+    @StateObject private var lastModifiedTimeContainer: LastModifiedTime = LastModifiedTime()
+    @StateObject private var lastModifiedByContainer: LastModifiedBy = LastModifiedBy(lastModifiedBy: "")
+    @State private var dataJustSentContainer: Bool = false
+    init() {
+        FirebaseApp.configure()
+        if UserDefaults.standard.object(forKey: "hasLaunchedBefore") == nil {
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+            todoListContainer.initData()
+            todoListContainer.saveLocalData()
+            categoriesContainer.initData()
+            categoriesContainer.saveLocalCategories()
+            userSettingsContainer.initData()
+            userSettingsContainer.saveLocalSettings()
+            selectedDateContainer.selectedDate = Date()
+            lastModifiedTimeContainer.lastModifiedTime = Date()
+            lastModifiedTimeContainer.saveData()
+            lastModifiedByContainer.changeDeviceUUID()
+            lastModifiedByContainer.saveData()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environmentObject(selectedDate)
-                .environmentObject(todos)
-                .environmentObject(curUser)
-                .environmentObject(userSettings)
-                .environmentObject(categories)
-                .environmentObject(lastModifiedTime)
-                .preferredColorScheme(userSettings.darkMode ? .dark : .light)
+                .environmentObject(selectedDateContainer)
+                .environmentObject(todoListContainer)
+                .environmentObject(curUserContainer)
+                .environmentObject(userSettingsContainer)
+                .environmentObject(categoriesContainer)
+                .environmentObject(lastModifiedTimeContainer)
+                .environmentObject(lastModifiedByContainer)
+                .preferredColorScheme(userSettingsContainer.darkMode ? .dark : .light)
         }
     }
 }

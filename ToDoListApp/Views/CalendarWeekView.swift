@@ -15,6 +15,7 @@ struct CalendarWeekView: View {
     @EnvironmentObject var todoListContainer: TodoList
     @EnvironmentObject var categoryContainer: CategoriesData
     @EnvironmentObject var selectedDateContainer: SelectedDate
+    @EnvironmentObject var lastModifiedByContainer: LastModifiedBy
     @EnvironmentObject var lastModifiedTimeContainer: LastModifiedTime
     @State private var offset = CGFloat.zero
     @State private var dragOffsetH = CGFloat.zero
@@ -128,6 +129,7 @@ struct CalendarWeekView: View {
     
     func initAllData() {
         UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+        lastModifiedByContainer.saveData()
         todoListContainer.initData()
         todoListContainer.saveLocalData()
         categoryContainer.initData()
@@ -137,6 +139,8 @@ struct CalendarWeekView: View {
         selectedDateContainer.selectedDate = Date()
         lastModifiedTimeContainer.lastModifiedTime = Date()
         lastModifiedTimeContainer.saveData()
+        lastModifiedByContainer.changeDeviceUUID()
+        lastModifiedByContainer.saveData()
     }
     
     func recomputeDates(offset: Int) {

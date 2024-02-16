@@ -79,6 +79,7 @@ struct PopOverContent: View {
     @Binding var presentPopOver: Bool
     @Binding var slideBarAmount: Float
     @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
+    @EnvironmentObject private var lastModifiedByContainer: LastModifiedBy
     
     var body: some View {
         VStack {
@@ -124,6 +125,7 @@ struct PopOverContent: View {
                         presentPopOver = false
                     }
                     todoListContainer.saveLocalData()
+                    updateLastModifiedTimeAndBy()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
@@ -148,13 +150,11 @@ struct PopOverContent: View {
                         todoListContainer.todoList[index].completed = true
                     }
                     sortTask()
-                    
-                    
                     withAnimation(.easeInOut(duration: 0.25)) {
                         presentPopOver = false
                     }
                     todoListContainer.saveLocalData()
-                    updateLastModifiedTime()
+                    updateLastModifiedTimeAndBy()
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
@@ -196,8 +196,9 @@ struct PopOverContent: View {
         }
     }
     
-    func updateLastModifiedTime() {
+    func updateLastModifiedTimeAndBy() {
         lastModifiedTimeContainer.lastModifiedTime = Date()
         lastModifiedTimeContainer.saveData()
+        lastModifiedByContainer.saveData()
     }
 }

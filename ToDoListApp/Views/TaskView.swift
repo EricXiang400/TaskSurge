@@ -13,6 +13,7 @@ struct TaskView: View {
     @EnvironmentObject private var todoListContainer: TodoList
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var lastModifiedTimeContainer: LastModifiedTime
+    @EnvironmentObject var lastModifiedByContainer: LastModifiedBy
     @Binding var todoContent: TodoContent
     @State var showTaskDetails: Bool = false
     @State var todoContentCopyPassIn: TodoContent
@@ -64,14 +65,15 @@ struct TaskView: View {
     func saveData() {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
-            updateLastModifiedTime()
+            updateLastModifiedTimeAndBy()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
     
-    func updateLastModifiedTime() {
+    func updateLastModifiedTimeAndBy() {
         lastModifiedTimeContainer.lastModifiedTime = Date()
         lastModifiedTimeContainer.saveData()
+        lastModifiedByContainer.saveData()
     }
     
     func sortTask() {
@@ -82,7 +84,6 @@ struct TaskView: View {
             })
         } else {
             todoListContainer.todoList.sort(by: {
-                print($0.taskSortID)
                 return $0.taskSortID < $1.taskSortID
             })
         }

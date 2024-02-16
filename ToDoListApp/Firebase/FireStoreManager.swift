@@ -9,13 +9,13 @@ import Foundation
 import Firebase
 
 class FireStoreManager: ObservableObject {
-    static var dataJustSent: Bool = false
     
     static func localToFirestore(uid: String) {
         guard let currentUser = Auth.auth().currentUser else {
             print("Need to be logged in")
             return
         }
+        UserDefaults.standard.string(forKey: "DeviceUUID")
         let db = Firestore.firestore()
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let dataFileURL = documentDirectory.appendingPathComponent("\(uid)-data.json")
@@ -24,7 +24,13 @@ class FireStoreManager: ObservableObject {
         let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
         let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
         let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
+        let lastModifiedByFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedBy.json")
         do {
+            let encodedLastModifiedBy = try Data(contentsOf: lastModifiedByFileURL)
+            guard let lastModifiedByDict = try? JSONSerialization.jsonObject(with: encodedLastModifiedBy, options: .mutableContainers) as? [String: Any] else {
+                print("Could not serialize LastModifiedBy")
+                return
+            }
             let encodedLastModifiedTime = try Data(contentsOf: lastModifiedTimeFileURL)
             guard let lastModifiedTimeDict = try? JSONSerialization.jsonObject(with: encodedLastModifiedTime, options: .mutableContainers) as? [String : Any] else {
                 print("Could not serialize LastModifiedTime")
@@ -55,13 +61,14 @@ class FireStoreManager: ObservableObject {
                 print("Could not serialize category dict")
                 return
             }
-            dataJustSent = true
+            
             let userDocumentRef = db.collection("uid").document(uid)
             userDocumentRef.setData(["user": userDict,
                                      "data": dataDict,
                                      "settings": settingsDict,
                                      "categories": categoriesDict,
                                      "lastModifiedTime": lastModifiedTimeDict,
+                                     "lastModifiedBy": lastModifiedByDict,
                                      "category": categoryDict], merge: true) { error in
                 if error != nil {
                     fatalError("Error transfering data")
@@ -94,6 +101,16 @@ class FireStoreManager: ObservableObject {
                     let categoriesFileURL = documentDirectory.appendingPathComponent("\(uid)-categories.json")
                     let categoryFileURL = documentDirectory.appendingPathComponent("\(uid)-category.json")
                     let lastModifiedTimeFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedTime.json")
+                    let lastModifiedByFileURL = documentDirectory.appendingPathComponent("\(uid)-lastModifiedBy.json")
+                    
+                    if let lastModifiedByJsonDictData = encodedData["lastModifiedBy"] {
+                        let lastModifiedByJsonData = try JSONSerialization.data(withJSONObject: lastModifiedByJsonDictData)
+                        try lastModifiedByJsonData.write(to: lastModifiedByFileURL)
+                        print("LastModifiedBy download success")
+                    } else {
+                        print("LastModifiedBy field is empty")
+                    }
+
                     if let lastModifiedTimeJsonDictData = encodedData["lastModifiedTime"] {
                         let lastModifiedTimeJsonData = try JSONSerialization.data(withJSONObject: lastModifiedTimeJsonDictData)
                         try lastModifiedTimeJsonData.write(to: lastModifiedTimeFileURL)

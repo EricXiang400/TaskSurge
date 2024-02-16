@@ -94,9 +94,5 @@ struct SubTaskListView: View {
         }
         todoContent.progress = Float(count) / Float(todoContent.subTaskList.count) * 100.0
     }
-    
-    func updateLastModifiedTime() {
-        lastModifiedTimeContainer.lastModifiedTime = Date()
-        lastModifiedTimeContainer.saveData()
-    }
+
 }

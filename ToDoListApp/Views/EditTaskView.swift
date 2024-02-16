@@ -87,10 +87,7 @@ struct EditTaskView: View {
                     } else {
                         todoContentCopy.completed = false
                     }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.123) {
                         confirmClosure()
-                    }
                 } label: {
                     if isNewTask {
                         if todoContentCopy.content == "" {
