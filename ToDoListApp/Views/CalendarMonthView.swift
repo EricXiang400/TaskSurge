@@ -114,34 +114,11 @@ struct CalendarMonthView: View {
             .frame(height: userSettings.weekView ? 32 : height)
         }
         .onAppear {
-            if !hasLaunchedBefore() {
-                initAllData()
-            }
             dateContainer.selectedDate = Date()
             loadThreeYearsOfMonths()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
-        .padding()
-    }
-    
-    func hasLaunchedBefore() -> Bool {
-        return UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
-    }
-    
-    func initAllData() {
-        UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
-        lastModifiedByContainer.saveData()
-        todoListContainer.initData()
-        todoListContainer.saveLocalData()
-        categoryContainer.initData()
-        categoryContainer.saveLocalCategories()
-        userSettings.initData()
-        userSettings.saveLocalSettings()
-        selectedDateContainer.selectedDate = Date()
-        lastModifiedTimeContainer.lastModifiedTime = Date()
-        lastModifiedTimeContainer.saveData()
-        lastModifiedByContainer.changeDeviceUUID()
-        lastModifiedByContainer.saveData()
+        .padding(.horizontal)
     }
     
     func recomputeDates(offset: Int) {

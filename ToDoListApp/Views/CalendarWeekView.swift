@@ -73,7 +73,7 @@ struct CalendarWeekView: View {
                     }
                 }
             }
-            .padding()
+            .padding(.vertical)
             .font(.title)
             HStack(spacing: 15) {
                 ForEach(daysOfTheWeek, id: \.self) { day in

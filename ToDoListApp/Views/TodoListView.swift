@@ -331,6 +331,11 @@ struct TodoListView: View {
                     moveLayoverItems()
                     updateToCurrentDate()
                 }
+            } else {
+                todoListContainer.loadLocalData(user: curUserContainer.curUser)
+                userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                categoryContainer.loadLocalCategories()
+                moveLayoverItems()
             }
         }
         .background(backgroundColor)
