@@ -25,6 +25,7 @@ struct ToDoListApp: App {
             UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
             todoListContainer.initData()
             todoListContainer.saveLocalData()
+            curUserContainer.initUser()
             categoriesContainer.initData()
             categoriesContainer.saveLocalCategories()
             userSettingsContainer.initData()

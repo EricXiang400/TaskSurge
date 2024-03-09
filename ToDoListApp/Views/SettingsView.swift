@@ -45,46 +45,46 @@ struct SettingsView: View {
             }
             Spacer()
             VStack {
-                HStack {
-                    if curUserContainer.curUser == nil {
-                        Image(systemName: "person.circle")
-                            .font(.system(size: 40))
-                            .padding(.leading)
-                    }
-                    if curUserContainer.curUser != nil {
-                        Text("\(curUserContainer.userName)")
-                            .font(.system(size: 25))
-                            .bold()
-                            .padding(.leading)
-                        Spacer()
-                        Button {
-                            if signOut() {
-                                curUserContainer.curUser = nil
-                                todoListContainer.loadLocalData(user: nil)
-                                userSettings.loadLocalSettings(user: nil)
-                                categoryContainer.loadLocalCategories()
-                            }
-                        } label: {
-                            Text("Sign Out")
-                                .bold()
-                        }
-                        .padding()
-                    } else {
-                        Spacer()
-                        Button {
-                            showLoginView = true
-                        } label: {
-                            Text("Log In")
-                                .bold()
-                                .padding()
-                        }
-                        .sheet(isPresented: $showLoginView) {
-                            LogInView(showLoginView: $showLoginView)
-                        }
-                        
-                    }
-                }
-                
+//                HStack {
+//                    if curUserContainer.curUser == nil {
+//                        Image(systemName: "person.circle")
+//                            .font(.system(size: 40))
+//                            .padding(.leading)
+//                    }
+//                    if curUserContainer.curUser != nil {
+//                        Text("\(curUserContainer.userName)")
+//                            .font(.system(size: 25))
+//                            .bold()
+//                            .padding(.leading)
+//                        Spacer()
+//                        Button {
+//                            if signOut() {
+//                                curUserContainer.curUser = nil
+//                                todoListContainer.loadLocalData(user: nil)
+//                                userSettings.loadLocalSettings(user: nil)
+//                                categoryContainer.loadLocalCategories()
+//                            }
+//                        } label: {
+//                            Text("Sign Out")
+//                                .bold()
+//                        }
+//                        .padding()
+//                    } else {
+//                        Spacer()
+//                        Button {
+//                            showLoginView = true
+//                        } label: {
+//                            Text("Log In")
+//                                .bold()
+//                                .padding()
+//                        }
+//                        .sheet(isPresented: $showLoginView) {
+//                            LogInView(showLoginView: $showLoginView)
+//                        }
+//                        
+//                    }
+//                }
+//                
                 Divider()
                 
                 VStack {

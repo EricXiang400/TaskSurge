@@ -90,6 +90,8 @@ struct TodoListView: View {
         if curUserContainer.curUser != nil {
             updateLastModifiedTimeAndBy()
             FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+        } else {
+            curUserContainer.saveLocalUser(user: nil, userName: "")
         }
     }
     
@@ -176,13 +178,13 @@ struct TodoListView: View {
                     }
                 }
                 if (fetchingData && isConnected) {
-                        HStack {
-                            Spacer()
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .scaleEffect(1, anchor: .center)
-                            Spacer()
-                        }
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1, anchor: .center)
+                        Spacer()
+                    }
                 }
 
                 ZStack {
@@ -288,7 +290,6 @@ struct TodoListView: View {
                             tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
                             tempTodoContentCopy = tempTodoContent
                             presentSheet = true
-                            
                         }
                         .sheet(isPresented: $presentSheet) {
                             EditTaskView(todoContentCopy: $tempTodoContentCopy, todoContentOriginal: $tempTodoContent, showTaskDetails: $presentSheet, isNewTask: $isNewTask) {
@@ -334,8 +335,10 @@ struct TodoListView: View {
             } else {
                 todoListContainer.loadLocalData(user: curUserContainer.curUser)
                 userSettings.loadLocalSettings(user: curUserContainer.curUser)
+                curUserContainer.loadLocalUser()
                 categoryContainer.loadLocalCategories()
                 moveLayoverItems()
+                curUserContainer.saveLocalUser(user: nil, userName: "")
             }
         }
         .background(backgroundColor)

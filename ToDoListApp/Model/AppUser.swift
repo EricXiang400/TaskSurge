@@ -41,15 +41,21 @@ final class AppUser: ObservableObject, Codable {
         self.init(uid: uid, userName: userName, lastActiveDate: lastActiveDate)
     }
     
-    func saveLocalUser(user: User, userName: String) {
-        self.curUser = user
-        self.uid = user.uid
-        self.userName = userName
+    func saveLocalUser(user: User?, userName: String) {
         self.lastActiveDate = Date()
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            if let curUser = curUser {
-                let fileURL = documentDirectory.appendingPathComponent("\(user.uid)-user.json")
+            if let newUser = user {
+                self.curUser = newUser
+                self.uid = newUser.uid
+                self.userName = userName
+                let fileURL = documentDirectory.appendingPathComponent("\(newUser.uid)-user.json")
+                let encoder = JSONEncoder()
+                let encodedDate = try encoder.encode(self)
+                try encodedDate.write(to: fileURL)
+                print("User saved succcess")
+            } else {
+                let fileURL = documentDirectory.appendingPathComponent("user.json")
                 let encoder = JSONEncoder()
                 let encodedDate = try encoder.encode(self)
                 try encodedDate.write(to: fileURL)
@@ -72,10 +78,21 @@ final class AppUser: ObservableObject, Codable {
                 self.uid = output.uid
                 self.userName = output.userName
                 self.lastActiveDate = output.lastActiveDate
+            } else {
+                let fileURL = documentDirectory.appendingPathComponent("user.json")
+                data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                let output = try decoder.decode(AppUser.self, from: data)
+                self.lastActiveDate = output.lastActiveDate
             }
         } catch {
             fatalError("User is nil")
         }
+    }
+    
+    func initUser() {
+        self.lastActiveDate = Date()
+        saveLocalUser(user: nil, userName: "")
     }
     
 }

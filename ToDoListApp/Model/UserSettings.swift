@@ -20,7 +20,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
     @Published var circularProgressBar: Bool
     @Published var coloredProgressBar: Bool
     
-    init(sortOption: Bool = false, darkMode: Bool = false, weekView: Bool = false, taskLayover: Bool = false, showKeyboardOnStart: Bool = true, showCalendarButton: Bool = true, showProgressBar: Bool = false, circularProgressBar: Bool = false, coloredProgressbar: Bool = false) {
+    init(sortOption: Bool = false, darkMode: Bool = false, weekView: Bool = true, taskLayover: Bool = true, showKeyboardOnStart: Bool = true, showCalendarButton: Bool = true, showProgressBar: Bool = true, circularProgressBar: Bool = true, coloredProgressbar: Bool = true) {
         self.sortOption = sortOption
         self.darkMode = darkMode
         self.weekView = weekView
@@ -48,12 +48,12 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         self.sortOption = false
         self.darkMode = false
         self.weekView = true
-        self.taskLayover = false
+        self.taskLayover = true
         self.showKeyboardOnStart = false
         self.showCalendarButton = true
-        self.showProgressBar = false
+        self.showProgressBar = true
         self.circularProgressBar = false
-        self.coloredProgressBar = false
+        self.coloredProgressBar = true
     }
     
     func encode(to encoder: Encoder) throws {

@@ -76,7 +76,7 @@ struct CalendarMonthView: View {
                     }
                 }
             }
-            .padding()
+            .padding(.vertical)
             .font(.title)
             HStack(spacing: 15) {
                 ForEach(daysOfTheWeek, id: \.self) { day in
@@ -118,7 +118,7 @@ struct CalendarMonthView: View {
             loadThreeYearsOfMonths()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
-        .padding(.horizontal)
+        .padding()
     }
     
     func recomputeDates(offset: Int) {

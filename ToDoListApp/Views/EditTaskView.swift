@@ -81,13 +81,15 @@ struct EditTaskView: View {
                 }
                 .padding()
                 Button {
-                    showTaskDetails = false
                     if todoContentCopy.progress == 100 {
                         todoContentCopy.completed = true
                     } else {
                         todoContentCopy.completed = false
                     }
-                        confirmClosure()
+                    confirmClosure()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.123) {
+                        showTaskDetails = false
+                    }
                 } label: {
                     if isNewTask {
                         if todoContentCopy.content == "" {
