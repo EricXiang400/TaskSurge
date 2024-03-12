@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 struct CategoryRow: View {
     @EnvironmentObject var categoryContainer: CategoriesData
@@ -17,6 +18,12 @@ struct CategoryRow: View {
     // This variable is used to force view update becuase toggling category.isEditing alone won't update view
     @State var toggleUIUpdate: Bool = false
     @State var showDeleteCategoryAlert: Bool = false
+    @FocusState private var focusField: Field?
+    
+    enum Field: Hashable {
+        case details
+    }
+    
     var delete: () -> Void
     var body: some View {
         HStack {
@@ -38,6 +45,7 @@ struct CategoryRow: View {
                         }
                     }
                 })
+                .focused($focusField, equals: .details)
                 .font(.system(size: 17, weight: .bold, design: .default))
                     .cornerRadius(5)
             } else {
@@ -51,6 +59,8 @@ struct CategoryRow: View {
                     category.isEditing.toggle()
                     toggleUIUpdate.toggle()
                 }
+                focusField = .details
+
                 
             } label: {
                 HStack {
@@ -121,6 +131,10 @@ struct CategoryRow: View {
         .cornerRadius(10)
         .onTapGesture {
             UIApplication.shared.endEditing()
+            if todoListContainer.selectedCategory != category {
+                todoListContainer.selectedCategory?.isEditing = false
+                categoryContainer.loadLocalCategories()
+            }
             todoListContainer.selectedCategory = category
             todoListContainer.selectedCategory?.saveLocalCategory()
             if curUserContainer.curUser != nil {

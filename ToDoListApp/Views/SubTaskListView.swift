@@ -13,6 +13,16 @@ struct SubTaskListView: View {
     @EnvironmentObject private var lastModifiedTimeContainer: LastModifiedTime
     @EnvironmentObject private var curUserContainer: AppUser
     @FocusState private var focusReference: UUID?
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var userSettings: UserSettings
+    
+    var backgroundColor: Color {
+        if userSettings.darkMode {
+            Color(red: 0.1, green: 0.1, blue: 0.1)
+        } else {
+            Color(red: 0.95, green: 0.95, blue: 0.95)
+        }
+    }
     
     enum Field: Hashable {
         case details
@@ -72,6 +82,7 @@ struct SubTaskListView: View {
                         .focused($focusReference, equals: todoContent.subTaskList[subTaskIndex].id)
                         .padding(.vertical, 3)
                 }
+                .listRowBackground(backgroundColor)
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(action: {
                         todoContent.subTaskList.remove(at: subTaskIndex)
@@ -81,7 +92,7 @@ struct SubTaskListView: View {
                     .tint(.red)
                 }
             }
-            .listStyle(PlainListStyle())
+            .listStyle(.plain)
         }
     }
     

@@ -66,6 +66,8 @@ struct EditTaskView: View {
                 }
             }
             SubTaskListView(todoContent: $todoContentCopy)
+                .background(colorScheme == .dark ? Color(red: 0.1, green: 0.1, blue: 0.1) : Color(red: 0.95, green: 0.95, blue: 0.95))
+
             Spacer()
             HStack {
                 Button {
