@@ -142,7 +142,6 @@ struct TodoListView: View {
                     }
                     
                     Button(action:{
-                        UIApplication.shared.endEditing()
                         withAnimation(.easeInOut) {
                             if todoListContainer.selectedCategory == nil {
                                 todoListContainer.selectedCategory = Category(name: "Untitled")
@@ -595,8 +594,3 @@ struct TodoListView: View {
     
 }
 
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}

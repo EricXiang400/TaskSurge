@@ -54,7 +54,6 @@ struct CustomProgressViewStyle: ProgressViewStyle {
                         .font(.system(size: 13))
                 }
                 .onTapGesture {
-                    UIApplication.shared.endEditing()
                     withAnimation(.easeInOut(duration: 0.25)) {
                         showProgressEditView = true
                     }

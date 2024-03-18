@@ -37,6 +37,7 @@ struct SubTaskListView: View {
             Button(action: {
                 var newTask = SubTaskTodoContent(content: "", completed: false)
                 todoContent.subTaskList.append(newTask)
+                updateProgress()
                 focusReference = newTask.id
             }, label: {
                 Image(systemName: "plus")
@@ -78,14 +79,25 @@ struct SubTaskListView: View {
                     .padding(5)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(todoContent.subTaskList[subTaskIndex].content == "")
-                    TextField("Sub-Task Details Here", text: $todoContent.subTaskList[subTaskIndex].content)
-                        .focused($focusReference, equals: todoContent.subTaskList[subTaskIndex].id)
-                        .padding(.vertical, 3)
+                    if todoContent.subTaskList[subTaskIndex].completed {
+                        TextField("Sub-Task Details Here", text: $todoContent.subTaskList[subTaskIndex].content)
+                            .focused($focusReference, equals: todoContent.subTaskList[subTaskIndex].id)
+                            .padding(.vertical, 3)
+                            .disabled(true)
+                            .strikethrough(true)
+                            .opacity(0.5)
+                    } else {
+                        TextField("Sub-Task Details Here", text: $todoContent.subTaskList[subTaskIndex].content)
+                            .focused($focusReference, equals: todoContent.subTaskList[subTaskIndex].id)
+                            .padding(.vertical, 3)
+                    }
+                    
                 }
                 .listRowBackground(backgroundColor)
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(action: {
                         todoContent.subTaskList.remove(at: subTaskIndex)
+                        updateProgress()
                     }) {
                         Label("Delete", systemImage: "trash")
                     }

@@ -50,7 +50,6 @@ struct MenuContentView: View {
                     .bold()
                 Spacer()
                 Button (action: {
-                    UIApplication.shared.endEditing()
                     categoryContainer.categories.append(Category(name: "Untitled"))
                     categoryContainer.saveLocalCategories()
                     if curUserContainer.curUser != nil {
@@ -105,7 +104,6 @@ struct MenuContentView: View {
                 HStack {
                     // Settings button
                     Button (action: {
-                        UIApplication.shared.endEditing()
                         withAnimation(.easeInOut(duration: 0.22)) {
                             isShowingSetting = true
                             settingViewOffset = 0

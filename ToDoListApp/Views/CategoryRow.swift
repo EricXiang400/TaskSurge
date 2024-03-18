@@ -80,7 +80,6 @@ struct CategoryRow: View {
                     if curUserContainer.curUser != nil {
                         FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                     }
-                    UIApplication.shared.endEditing()
                     toggleUIUpdate.toggle()
                     
                 } label: {
@@ -104,7 +103,6 @@ struct CategoryRow: View {
                           message: Text("Deleting this category will delete all todos created under this category"),
                           primaryButton: .default(Text("Confirm")) {
                         delete()
-                        UIApplication.shared.endEditing()
                         toggleUIUpdate.toggle()
                         showDeleteCategoryAlert.toggle()
                     },
@@ -130,7 +128,6 @@ struct CategoryRow: View {
         .background(colorScheme == .dark ? Color(red: 0.2, green: 0.2, blue: 0.2).opacity(0.5) : .white)
         .cornerRadius(10)
         .onTapGesture {
-            UIApplication.shared.endEditing()
             if todoListContainer.selectedCategory != category {
                 todoListContainer.selectedCategory?.isEditing = false
                 categoryContainer.loadLocalCategories()

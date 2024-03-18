@@ -27,7 +27,6 @@ struct TaskView: View {
                     .opacity(0.5)
                 Button {
                     showTaskDetails = true
-                    UIApplication.shared.endEditing()
                 } label: {
                     Color.clear
                 }
@@ -46,7 +45,6 @@ struct TaskView: View {
                     .disabled(true)
                 Button {
                     showTaskDetails = true
-                    UIApplication.shared.endEditing()
                 } label: {
                     Color.clear
                 }
