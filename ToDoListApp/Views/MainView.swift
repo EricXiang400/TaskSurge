@@ -8,6 +8,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct MainView: View {
+    @Binding var firstTimeLaunch: Bool
     @State var showLoginView = false
     @State var showSideMenu = false
     @EnvironmentObject private var curUserContainer: AppUser
@@ -22,19 +23,22 @@ struct MainView: View {
     @State var sideMenuOffset: CGFloat = -UIScreen.main.bounds.width * (3/4) - 55
     @State var settingViewOffset: CGFloat = -440
     @State var tabViewIndex: Int = 200
+
     
     var backgroundColor: Color {
         if userSettings.darkMode {
-            Color(red: 0.1, green: 0.1, blue: 0.1)
+            return Color(red: 0.1, green: 0.1, blue: 0.1)
         } else {
-            Color(red: 0.95, green: 0.95, blue: 0.95)
+            return Color(red: 0.95, green: 0.95, blue: 0.95)
         }
     }
+    
     
     var body: some View {
         ZStack {
             backgroundColor
                 .ignoresSafeArea(.all)
+                
             VStack {
                 if userSettings.weekView {
                     CalendarWeekView()
@@ -46,7 +50,7 @@ struct MainView: View {
                 
                 TodoListView(showCalendar: $showCalendar, showSideMenu: $showSideMenu, selectedTodoContent: $selectedTodoContent, showProgressEditView: $showProgressEditView, sideMenuOffset: $sideMenuOffset)
                     .background(backgroundColor)
-                }
+            }
                 if showSideMenu {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
@@ -146,7 +150,15 @@ struct MainView: View {
                         .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 2)
                         .zIndex(2)
             }
+            
+            if firstTimeLaunch {
+                TermsAndConditionsView(firstTimeLaunch: $firstTimeLaunch)
+                    .zIndex(3)
+                    
+            }
         }
+
     }
 }
+
 

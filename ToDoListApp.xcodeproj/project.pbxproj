@@ -57,6 +57,7 @@
 		76A8F9662A3381BD00A3AA38 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9652A3381BD00A3AA38 /* AppUser.swift */; };
 		76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A8F9672A33904900A3AA38 /* TodoList.swift */; };
 		76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */; };
+		76C40B012BFF17C1000DEDB2 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C40B002BFF17C1000DEDB2 /* TermsAndConditionsView.swift */; };
 		76C75D602B75F44200D8C02E /* LastModifiedBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C75D5F2B75F44200D8C02E /* LastModifiedBy.swift */; };
 		76C907212AABC88000643E80 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C907202AABC88000643E80 /* EditTaskView.swift */; };
 		76F9C47B2A72C70D00A60E0D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F9C47A2A72C70D00A60E0D /* UserSettings.swift */; };
@@ -114,6 +115,7 @@
 		76A8F9652A3381BD00A3AA38 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		76A8F9672A33904900A3AA38 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
 		76B532CA2A9B11B600DB3E0B /* ReAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthenticationView.swift; sourceTree = "<group>"; };
+		76C40B002BFF17C1000DEDB2 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
 		76C75D5F2B75F44200D8C02E /* LastModifiedBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastModifiedBy.swift; sourceTree = "<group>"; };
 		76C907202AABC88000643E80 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 		76F9C47A2A72C70D00A60E0D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				76FBAC772A265E7B00A86343 /* MainView.swift */,
+				76C40B002BFF17C1000DEDB2 /* TermsAndConditionsView.swift */,
 				76A8F9592A31227C00A3AA38 /* LogInView.swift */,
 				76A8F95B2A3128E300A3AA38 /* SignUpView.swift */,
 				76FBAC9F2A2663CE00A86343 /* TodoListView.swift */,
@@ -500,6 +503,7 @@
 				76FBACA42A26649000A86343 /* CalendarWeekView.swift in Sources */,
 				76FBACA02A2663CE00A86343 /* TodoListView.swift in Sources */,
 				76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */,
+				76C40B012BFF17C1000DEDB2 /* TermsAndConditionsView.swift in Sources */,
 				76F9C4812A7B006D00A60E0D /* Category.swift in Sources */,
 				76A8F95A2A31227C00A3AA38 /* LogInView.swift in Sources */,
 				765DB5EF2AACF70F00E17C67 /* TaskView.swift in Sources */,
@@ -674,11 +678,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToDoListApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Q6PBAV53X;
+				DEVELOPMENT_TEAM = CCK7Q8VGJT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoListApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TaskTrail;
+				INFOPLIST_KEY_CFBundleDisplayName = ProgressPulse;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -689,11 +693,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Exiang91.ToDoListApp;
+				PRODUCT_BUNDLE_IDENTIFIER = io.tsunacle.tasktrail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -706,11 +714,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ToDoListApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Q6PBAV53X;
+				DEVELOPMENT_TEAM = CCK7Q8VGJT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoListApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TaskTrail;
+				INFOPLIST_KEY_CFBundleDisplayName = ProgressPulse;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -721,11 +729,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Exiang91.ToDoListApp;
+				PRODUCT_BUNDLE_IDENTIFIER = io.tsunacle.tasktrail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

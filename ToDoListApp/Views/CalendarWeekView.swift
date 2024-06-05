@@ -67,6 +67,8 @@ struct CalendarWeekView: View {
                         Button(action: {
                             nextWeek()
                             weekTabIndex += 1
+                            print(weekArray)
+                            print(weekTabIndex)
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
                         }
@@ -113,9 +115,6 @@ struct CalendarWeekView: View {
             curDate = dateContainer.selectedDate
         })
         .onAppear {
-            if !hasLaunchedBefore() {
-                initAllData()
-            }
             dateContainer.selectedDate = Date()
             loadThreeYearsOfWeeks()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
@@ -128,7 +127,6 @@ struct CalendarWeekView: View {
     }
     
     func initAllData() {
-        UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
         lastModifiedByContainer.saveData()
         todoListContainer.initData()
         todoListContainer.saveLocalData()
@@ -163,7 +161,7 @@ struct CalendarWeekView: View {
     
     func addFourWeeks(date: Date) {
         for i in 1...4 {
-            weekArray.append(Calendar.current.date(byAdding: .day, value: i * 7, to: weekArray.last!)!)
+            weekArray.append(Calendar.current.date(byAdding: .day, value: 7, to: weekArray.last!)!)
         }
     }
     
