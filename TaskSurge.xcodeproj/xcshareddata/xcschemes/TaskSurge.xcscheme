@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "76FBAC712A265E7B00A86343"
-               BuildableName = "ToDoListApp.app"
-               BlueprintName = "ToDoListApp"
-               ReferencedContainer = "container:ToDoListApp.xcodeproj">
+               BuildableName = "TaskSurge.app"
+               BlueprintName = "TaskSurge"
+               ReferencedContainer = "container:TaskSurge.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,9 +35,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "76FBAC812A265E7B00A86343"
-               BuildableName = "ToDoListAppTests.xctest"
-               BlueprintName = "ToDoListAppTests"
-               ReferencedContainer = "container:ToDoListApp.xcodeproj">
+               BuildableName = "TaskSurgeTests.xctest"
+               BlueprintName = "TaskSurgeTests"
+               ReferencedContainer = "container:TaskSurge.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -46,9 +46,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "76FBAC8B2A265E7B00A86343"
-               BuildableName = "ToDoListAppUITests.xctest"
-               BlueprintName = "ToDoListAppUITests"
-               ReferencedContainer = "container:ToDoListApp.xcodeproj">
+               BuildableName = "TaskSurgeUITests.xctest"
+               BlueprintName = "TaskSurgeUITests"
+               ReferencedContainer = "container:TaskSurge.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -68,9 +68,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "76FBAC712A265E7B00A86343"
-            BuildableName = "ToDoListApp.app"
-            BlueprintName = "ToDoListApp"
-            ReferencedContainer = "container:ToDoListApp.xcodeproj">
+            BuildableName = "TaskSurge.app"
+            BlueprintName = "TaskSurge"
+            ReferencedContainer = "container:TaskSurge.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "76FBAC712A265E7B00A86343"
-            BuildableName = "ToDoListApp.app"
-            BlueprintName = "ToDoListApp"
-            ReferencedContainer = "container:ToDoListApp.xcodeproj">
+            BuildableName = "TaskSurge.app"
+            BlueprintName = "TaskSurge"
+            ReferencedContainer = "container:TaskSurge.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

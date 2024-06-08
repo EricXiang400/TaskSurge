@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		760EB1BE2ACE6E1A0080BAEE /* LastModifiedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */; };
 		761244FD2AD67EF100C1C4AB /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */; };
+		763F8F392C14F6A80091C4FA /* DateStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763F8F382C14F6A80091C4FA /* DateStructure.swift */; };
 		764516902AF9BE83008A6ADA /* SubTaskTodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645168F2AF9BE83008A6ADA /* SubTaskTodoContent.swift */; };
 		764516942AF9C37B008A6ADA /* SubTaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764516932AF9C37B008A6ADA /* SubTaskListView.swift */; };
 		76499E9C2A291A75000354F9 /* TodoContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76499E9B2A291A75000354F9 /* TodoContent.swift */; };
@@ -95,6 +96,7 @@
 /* Begin PBXFileReference section */
 		760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastModifiedTime.swift; sourceTree = "<group>"; };
 		761244FC2AD67EF100C1C4AB /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
+		763F8F382C14F6A80091C4FA /* DateStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateStructure.swift; sourceTree = "<group>"; };
 		7645168F2AF9BE83008A6ADA /* SubTaskTodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTaskTodoContent.swift; sourceTree = "<group>"; };
 		764516932AF9C37B008A6ADA /* SubTaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTaskListView.swift; sourceTree = "<group>"; };
 		76499E9B2A291A75000354F9 /* TodoContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoContent.swift; sourceTree = "<group>"; };
@@ -122,14 +124,14 @@
 		76F9C47C2A739A9700A60E0D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		76F9C4802A7B006D00A60E0D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		76F9C4842A7B769400A60E0D /* CategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRow.swift; sourceTree = "<group>"; };
-		76FBAC722A265E7B00A86343 /* ToDoListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FBAC722A265E7B00A86343 /* TaskSurge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskSurge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FBAC752A265E7B00A86343 /* ToDoListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListApp.swift; sourceTree = "<group>"; };
 		76FBAC772A265E7B00A86343 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		76FBAC792A265E7B00A86343 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76FBAC7C2A265E7B00A86343 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		76FBAC822A265E7B00A86343 /* ToDoListAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FBAC822A265E7B00A86343 /* TaskSurgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskSurgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FBAC862A265E7B00A86343 /* ToDoListAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppTests.swift; sourceTree = "<group>"; };
-		76FBAC8C2A265E7B00A86343 /* ToDoListAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FBAC8C2A265E7B00A86343 /* TaskSurgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskSurgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FBAC902A265E7B00A86343 /* ToDoListAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppUITests.swift; sourceTree = "<group>"; };
 		76FBAC922A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		76FBAC9F2A2663CE00A86343 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				76499E9D2A291AD1000354F9 /* SelectedDate.swift */,
 				760EB1BD2ACE6E1A0080BAEE /* LastModifiedTime.swift */,
 				76C75D5F2B75F44200D8C02E /* LastModifiedBy.swift */,
+				763F8F382C14F6A80091C4FA /* DateStructure.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -244,9 +247,9 @@
 			isa = PBXGroup;
 			children = (
 				766BA56D2ABFEB7C00C6B171 /* Launch Screen.storyboard */,
-				76FBAC742A265E7B00A86343 /* ToDoListApp */,
-				76FBAC852A265E7B00A86343 /* ToDoListAppTests */,
-				76FBAC8F2A265E7B00A86343 /* ToDoListAppUITests */,
+				76FBAC742A265E7B00A86343 /* TaskSurge */,
+				76FBAC852A265E7B00A86343 /* TaskSurgeTests */,
+				76FBAC8F2A265E7B00A86343 /* TaskSurgeUITests */,
 				76FBAC732A265E7B00A86343 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -254,14 +257,14 @@
 		76FBAC732A265E7B00A86343 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				76FBAC722A265E7B00A86343 /* ToDoListApp.app */,
-				76FBAC822A265E7B00A86343 /* ToDoListAppTests.xctest */,
-				76FBAC8C2A265E7B00A86343 /* ToDoListAppUITests.xctest */,
+				76FBAC722A265E7B00A86343 /* TaskSurge.app */,
+				76FBAC822A265E7B00A86343 /* TaskSurgeTests.xctest */,
+				76FBAC8C2A265E7B00A86343 /* TaskSurgeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		76FBAC742A265E7B00A86343 /* ToDoListApp */ = {
+		76FBAC742A265E7B00A86343 /* TaskSurge */ = {
 			isa = PBXGroup;
 			children = (
 				766BA56C2ABFE9ED00C6B171 /* Info.plist */,
@@ -273,7 +276,7 @@
 				76A8F9202A3121CA00A3AA38 /* GoogleService-Info.plist */,
 				76FBAC7B2A265E7B00A86343 /* Preview Content */,
 			);
-			path = ToDoListApp;
+			path = TaskSurge;
 			sourceTree = "<group>";
 		};
 		76FBAC7B2A265E7B00A86343 /* Preview Content */ = {
@@ -284,29 +287,29 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		76FBAC852A265E7B00A86343 /* ToDoListAppTests */ = {
+		76FBAC852A265E7B00A86343 /* TaskSurgeTests */ = {
 			isa = PBXGroup;
 			children = (
 				76FBAC862A265E7B00A86343 /* ToDoListAppTests.swift */,
 			);
-			path = ToDoListAppTests;
+			path = TaskSurgeTests;
 			sourceTree = "<group>";
 		};
-		76FBAC8F2A265E7B00A86343 /* ToDoListAppUITests */ = {
+		76FBAC8F2A265E7B00A86343 /* TaskSurgeUITests */ = {
 			isa = PBXGroup;
 			children = (
 				76FBAC902A265E7B00A86343 /* ToDoListAppUITests.swift */,
 				76FBAC922A265E7B00A86343 /* ToDoListAppUITestsLaunchTests.swift */,
 			);
-			path = ToDoListAppUITests;
+			path = TaskSurgeUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		76FBAC712A265E7B00A86343 /* ToDoListApp */ = {
+		76FBAC712A265E7B00A86343 /* TaskSurge */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 76FBAC962A265E7B00A86343 /* Build configuration list for PBXNativeTarget "ToDoListApp" */;
+			buildConfigurationList = 76FBAC962A265E7B00A86343 /* Build configuration list for PBXNativeTarget "TaskSurge" */;
 			buildPhases = (
 				76FBAC6E2A265E7B00A86343 /* Sources */,
 				76FBAC6F2A265E7B00A86343 /* Frameworks */,
@@ -317,7 +320,7 @@
 			);
 			dependencies = (
 			);
-			name = ToDoListApp;
+			name = TaskSurge;
 			packageProductDependencies = (
 				76A8F9232A31225200A3AA38 /* FirebaseAnalytics */,
 				76A8F9252A31225200A3AA38 /* FirebaseAnalyticsOnDeviceConversion */,
@@ -350,12 +353,12 @@
 				76A8F9602A32592D00A3AA38 /* GoogleSignInSwift */,
 			);
 			productName = ToDoListApp;
-			productReference = 76FBAC722A265E7B00A86343 /* ToDoListApp.app */;
+			productReference = 76FBAC722A265E7B00A86343 /* TaskSurge.app */;
 			productType = "com.apple.product-type.application";
 		};
-		76FBAC812A265E7B00A86343 /* ToDoListAppTests */ = {
+		76FBAC812A265E7B00A86343 /* TaskSurgeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 76FBAC992A265E7B00A86343 /* Build configuration list for PBXNativeTarget "ToDoListAppTests" */;
+			buildConfigurationList = 76FBAC992A265E7B00A86343 /* Build configuration list for PBXNativeTarget "TaskSurgeTests" */;
 			buildPhases = (
 				76FBAC7E2A265E7B00A86343 /* Sources */,
 				76FBAC7F2A265E7B00A86343 /* Frameworks */,
@@ -366,14 +369,14 @@
 			dependencies = (
 				76FBAC842A265E7B00A86343 /* PBXTargetDependency */,
 			);
-			name = ToDoListAppTests;
+			name = TaskSurgeTests;
 			productName = ToDoListAppTests;
-			productReference = 76FBAC822A265E7B00A86343 /* ToDoListAppTests.xctest */;
+			productReference = 76FBAC822A265E7B00A86343 /* TaskSurgeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		76FBAC8B2A265E7B00A86343 /* ToDoListAppUITests */ = {
+		76FBAC8B2A265E7B00A86343 /* TaskSurgeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 76FBAC9C2A265E7B00A86343 /* Build configuration list for PBXNativeTarget "ToDoListAppUITests" */;
+			buildConfigurationList = 76FBAC9C2A265E7B00A86343 /* Build configuration list for PBXNativeTarget "TaskSurgeUITests" */;
 			buildPhases = (
 				76FBAC882A265E7B00A86343 /* Sources */,
 				76FBAC892A265E7B00A86343 /* Frameworks */,
@@ -384,9 +387,9 @@
 			dependencies = (
 				76FBAC8E2A265E7B00A86343 /* PBXTargetDependency */,
 			);
-			name = ToDoListAppUITests;
+			name = TaskSurgeUITests;
 			productName = ToDoListAppUITests;
-			productReference = 76FBAC8C2A265E7B00A86343 /* ToDoListAppUITests.xctest */;
+			productReference = 76FBAC8C2A265E7B00A86343 /* TaskSurgeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -412,7 +415,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 76FBAC6D2A265E7B00A86343 /* Build configuration list for PBXProject "ToDoListApp" */;
+			buildConfigurationList = 76FBAC6D2A265E7B00A86343 /* Build configuration list for PBXProject "TaskSurge" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -429,9 +432,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				76FBAC712A265E7B00A86343 /* ToDoListApp */,
-				76FBAC812A265E7B00A86343 /* ToDoListAppTests */,
-				76FBAC8B2A265E7B00A86343 /* ToDoListAppUITests */,
+				76FBAC712A265E7B00A86343 /* TaskSurge */,
+				76FBAC812A265E7B00A86343 /* TaskSurgeTests */,
+				76FBAC8B2A265E7B00A86343 /* TaskSurgeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -498,6 +501,7 @@
 				76B532CB2A9B11B600DB3E0B /* ReAuthenticationView.swift in Sources */,
 				76A7D7CF2A64E4240075C7CA /* ForgotPasswordView.swift in Sources */,
 				76F9C4852A7B769400A60E0D /* CategoryRow.swift in Sources */,
+				763F8F392C14F6A80091C4FA /* DateStructure.swift in Sources */,
 				76898B9D2A8134A7002AD3CC /* CategoriesData.swift in Sources */,
 				76A8F9682A33904900A3AA38 /* TodoList.swift in Sources */,
 				76FBACA42A26649000A86343 /* CalendarWeekView.swift in Sources */,
@@ -544,12 +548,12 @@
 /* Begin PBXTargetDependency section */
 		76FBAC842A265E7B00A86343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 76FBAC712A265E7B00A86343 /* ToDoListApp */;
+			target = 76FBAC712A265E7B00A86343 /* TaskSurge */;
 			targetProxy = 76FBAC832A265E7B00A86343 /* PBXContainerItemProxy */;
 		};
 		76FBAC8E2A265E7B00A86343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 76FBAC712A265E7B00A86343 /* ToDoListApp */;
+			target = 76FBAC712A265E7B00A86343 /* TaskSurge */;
 			targetProxy = 76FBAC8D2A265E7B00A86343 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -677,12 +681,12 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ToDoListApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TaskSurge/Preview Content\"";
 				DEVELOPMENT_TEAM = CCK7Q8VGJT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ToDoListApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ProgressPulse;
+				INFOPLIST_FILE = TaskSurge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskSurge;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -693,7 +697,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.tsunacle.tasktrail;
+				PRODUCT_BUNDLE_IDENTIFIER = io.tsunacle.tasksurge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -713,12 +717,12 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ToDoListApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TaskSurge/Preview Content\"";
 				DEVELOPMENT_TEAM = CCK7Q8VGJT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ToDoListApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = ProgressPulse;
+				INFOPLIST_FILE = TaskSurge/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskSurge;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -729,7 +733,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.tsunacle.tasktrail;
+				PRODUCT_BUNDLE_IDENTIFIER = io.tsunacle.tasksurge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -757,7 +761,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ToDoListApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ToDoListApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TaskSurge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TaskSurge";
 			};
 			name = Debug;
 		};
@@ -777,7 +781,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ToDoListApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ToDoListApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TaskSurge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TaskSurge";
 			};
 			name = Release;
 		};
@@ -820,7 +824,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		76FBAC6D2A265E7B00A86343 /* Build configuration list for PBXProject "ToDoListApp" */ = {
+		76FBAC6D2A265E7B00A86343 /* Build configuration list for PBXProject "TaskSurge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76FBAC942A265E7B00A86343 /* Debug */,
@@ -829,7 +833,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		76FBAC962A265E7B00A86343 /* Build configuration list for PBXNativeTarget "ToDoListApp" */ = {
+		76FBAC962A265E7B00A86343 /* Build configuration list for PBXNativeTarget "TaskSurge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76FBAC972A265E7B00A86343 /* Debug */,
@@ -838,7 +842,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		76FBAC992A265E7B00A86343 /* Build configuration list for PBXNativeTarget "ToDoListAppTests" */ = {
+		76FBAC992A265E7B00A86343 /* Build configuration list for PBXNativeTarget "TaskSurgeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76FBAC9A2A265E7B00A86343 /* Debug */,
@@ -847,7 +851,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		76FBAC9C2A265E7B00A86343 /* Build configuration list for PBXNativeTarget "ToDoListAppUITests" */ = {
+		76FBAC9C2A265E7B00A86343 /* Build configuration list for PBXNativeTarget "TaskSurgeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				76FBAC9D2A265E7B00A86343 /* Debug */,

@@ -20,6 +20,7 @@ struct ToDoListApp: App {
     @StateObject private var lastModifiedTimeContainer: LastModifiedTime = LastModifiedTime()
     @StateObject private var lastModifiedByContainer: LastModifiedBy = LastModifiedBy(lastModifiedBy: "")
     @State private var dataJustSentContainer: Bool = false
+    
     init() {
         FirebaseApp.configure()
     }

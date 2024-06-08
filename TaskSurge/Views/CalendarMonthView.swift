@@ -30,9 +30,9 @@ struct CalendarMonthView: View {
     
     @State var curDate: Date = Date()
     
-    @State var prevMonthTabIndex: Int = 200
+    @State var prevMonthTabIndex: Int = 50
     
-    @State var monthTabIndex: Int = 200
+    @State var monthTabIndex: Int = 50
     
     @State var tabIndexChanged: Bool = false
     
@@ -42,9 +42,22 @@ struct CalendarMonthView: View {
     
     private var daysOfTheWeek: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     
-    @State var monthArray: [Date] = [Calendar.current.date(byAdding: .month, value: -1, to: Date())!, Date(), Calendar.current.date(byAdding: .month, value: 1, to: Date())!]
+    @State var monthArray: [Date]
     
-    @State var height: CGFloat = 215
+    @State var height: CGFloat = 190
+    
+    init() {
+//        Init the hard coded dates
+        var arr = [Calendar.current.date(byAdding: .month, value: -1, to: Date())!, Date(), Calendar.current.date(byAdding: .month, value: 1, to: Date())!]
+        for i in 1...50 {
+            arr.append(Calendar.current.date(byAdding: .month, value: 1, to: arr.last!)!)
+        }
+        let curDate = Date()
+        for i in 2...50 {
+            arr.insert(Calendar.current.date(byAdding: .month, value: -i, to: Date())!, at: 0)
+        }
+        self.monthArray = arr
+    }
     
     var body: some View {
         VStack(spacing: 10) {
@@ -100,9 +113,9 @@ struct CalendarMonthView: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: monthTabIndex) { newValue in
-                if newValue == monthArray.count - 1 || newValue == monthArray.count {
-                    addOneMonth(date: monthArray.last!)
-                }
+//                if newValue == monthArray.count - 1 || newValue == monthArray.count {
+//                    addOneMonth(date: monthArray.last!)
+//                }
                 if newValue > prevMonthTabIndex {
                     curDate = Calendar.current.date(byAdding: .month, value: 1, to: curDate)!
                 } else if newValue < prevMonthTabIndex{
@@ -111,14 +124,13 @@ struct CalendarMonthView: View {
                 prevMonthTabIndex = newValue
 
             }
-            .frame(height: userSettings.weekView ? 32 : height)
+            .frame(height: userSettings.weekView ? 27 : height)
         }
         .onAppear {
             dateContainer.selectedDate = Date()
-            loadThreeYearsOfMonths()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
         }
-        .padding()
+        .padding(.horizontal)
     }
     
     func recomputeDates(offset: Int) {
@@ -129,9 +141,9 @@ struct CalendarMonthView: View {
     func toggleView() {
         userSettings.weekView.toggle()
         userSettings.saveLocalSettings()
-        if curUserContainer.curUser != nil {
-            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-        }
+//        if curUserContainer.curUser != nil {
+//            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//        }
     }
     
     func addOneMonth(date: Date) {
@@ -157,8 +169,8 @@ struct CalendarMonthView: View {
     }
     
     func getMonthTabIndex(date: Date) -> Int {
-        for i in 195...monthArray.count - 1 {
-            if CalendarDayView.getAllDates(date: monthArray[i]).contains(where: {CalendarWeekView.isSameDate(date1: $0, date2: Date())}) {
+        for i in 0...monthArray.count - 1 {
+            if CalendarDayView.getAllDates(date: monthArray[i], isCurrentMonth: true).contains(where: {CalendarWeekView.isSameDate(date1: $0.date, date2: Date())}) {
                 return i
             }
         }

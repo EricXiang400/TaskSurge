@@ -49,7 +49,7 @@ final class UserSettings: NSObject, ObservableObject, Codable {
         self.darkMode = false
         self.weekView = true
         self.taskLayover = true
-        self.showKeyboardOnStart = false
+        self.showKeyboardOnStart = true
         self.showCalendarButton = true
         self.showProgressBar = true
         self.circularProgressBar = false
