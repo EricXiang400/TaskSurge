@@ -34,7 +34,7 @@ struct CalendarDayView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .foregroundColor(.white)
                             .font(.headline)
-                            .opacity(dayStruct.isCurrentMonth ? 1 : 0.5)
+                            .opacity(dayStruct.isCurrentMonth || userSettings.weekView ? 1 : 0.5)
                             .bold()
                     } else if CalendarWeekView.isSameDate(date1: Date(), date2: dayStruct.date) {
                         Text("\(calendar.component(.day, from: Date()))")
@@ -43,7 +43,7 @@ struct CalendarDayView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .foregroundColor(.white)
                             .font(.headline)
-                            .opacity(dayStruct.isCurrentMonth ? 1 : 0.5)
+                            .opacity(dayStruct.isCurrentMonth || userSettings.weekView ? 1 : 0.5)
                             .onTapGesture {
                                 selectedDate.selectedDate = dayStruct.date
                             }
@@ -51,7 +51,7 @@ struct CalendarDayView: View {
                         Text("\(calendar.component(.day, from: dayStruct.date))")
                             .frame(width: 25, height: 25)
                             .background(Color.clear)
-                            .opacity(dayStruct.isCurrentMonth ? 1 : 0.5)
+                            .opacity(dayStruct.isCurrentMonth || userSettings.weekView ? 1 : 0.5)
                             .onTapGesture {
                                 selectedDate.selectedDate = dayStruct.date
                             }
@@ -112,7 +112,7 @@ struct CalendarDayView: View {
             output.insert(reverseDatesLastMonth[i], at: 0)
         }
         for i in 1...42 - output.count {
-            output.append(datesInNextMonth[datesInNextMonth.count - i])
+            output.append(datesInNextMonth[i - 1])
         }
         return output
     }

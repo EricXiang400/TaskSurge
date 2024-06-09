@@ -44,7 +44,7 @@ struct CalendarMonthView: View {
     
     @State var monthArray: [Date]
     
-    @State var height: CGFloat = 190
+    @State var height: CGFloat = 175
     
     init() {
 //        Init the hard coded dates
@@ -60,7 +60,7 @@ struct CalendarMonthView: View {
     }
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 1) {
             HStack {
                 Text("\(monthArr[calendar.component(.month, from: curDate) - 1])-\(String(calendar.component(.year, from: curDate)))")
                     .bold()
