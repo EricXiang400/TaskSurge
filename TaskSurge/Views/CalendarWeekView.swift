@@ -28,9 +28,7 @@ struct CalendarWeekView: View {
         Calendar.current.date(byAdding: .day, value: 7, to: Date())!
     
     @State var curDate: Date = Date()
-    
-    @State var prevWeekTabIndex: Int = 200
-    
+        
     @State var weekTabIndex: Int = 200
     
     @State var tabIndexChanged: Bool = false
@@ -65,7 +63,6 @@ struct CalendarWeekView: View {
                 if userSettings.showCalendarButton {
                     HStack {
                         Button(action: {
-                            previousWeek()
                             weekTabIndex -= 1
                         }) {
                             Image(systemName: "arrow.left.circle.fill")
@@ -78,7 +75,6 @@ struct CalendarWeekView: View {
                             Image(systemName: userSettings.weekView ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                         }
                         Button(action: {
-                            nextWeek()
                             weekTabIndex += 1
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
@@ -103,7 +99,6 @@ struct CalendarWeekView: View {
             }
             .onChange(of: dateContainer.selectedDate) { newValue in
                 weekTabIndex = getWeekTabIndex(date: dateContainer.selectedDate)
-                prevWeekTabIndex = weekTabIndex
                 curDate = dateContainer.selectedDate
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -122,9 +117,6 @@ struct CalendarWeekView: View {
             }
             .frame(height: userSettings.weekView ? 32 : height)
         }
-        .onChange(of: dateContainer.selectedDate, perform: { value in
-            curDate = dateContainer.selectedDate
-        })
         .onAppear {
             dateContainer.selectedDate = Date()
             userSettings.loadLocalSettings(user: curUserContainer.curUser)
@@ -166,20 +158,7 @@ struct CalendarWeekView: View {
             weekArray.append(Calendar.current.date(byAdding: .day, value: 7, to: weekArray.last!)!)
         }
     }
-    
-    func nextWeek() {
-        if let newDate = calendar.date(byAdding: .day, value: +7, to: dateContainer.selectedDate) {
-            dateContainer.selectedDate = newDate
-        }
-    }
-    
-    func previousWeek() {
-        if let newDate = calendar.date(byAdding: .day, value: -7, to: dateContainer.selectedDate) {
-            dateContainer.selectedDate = newDate
-        }
-    }
-    
-    
+        
     func getWeekTabIndex(date: Date) -> Int {
         for i in 0...weekArray.count - 1 {
             if CalendarDayView.getWeek(date: weekArray[i]).contains(where: {CalendarWeekView.isSameDate(date1: $0.date, date2: dateContainer.selectedDate)}) {

@@ -154,7 +154,6 @@ struct MainView: View {
             if firstTimeLaunch {
                 TermsAndConditionsView(firstTimeLaunch: $firstTimeLaunch)
                     .zIndex(3)
-                    
             }
         }
 

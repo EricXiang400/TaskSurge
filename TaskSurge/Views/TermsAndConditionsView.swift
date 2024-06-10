@@ -74,6 +74,7 @@ struct TermsAndConditionsView: View {
             .background(.white)
             .frame(height: 170)
             .cornerRadius(10)
+            .padding(.all, 20)
             .offset(y: showView ? 0 : UIScreen.main.bounds.height)
             .animation(.easeInOut(duration: 0.3), value: showView)
         }

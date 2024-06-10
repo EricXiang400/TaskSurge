@@ -68,9 +68,7 @@ struct CalendarMonthView: View {
                 if userSettings.showCalendarButton {
                     HStack {
                         Button(action: {
-                            previousMonth()
                             monthTabIndex -= 1
-                            prevMonthTabIndex = monthTabIndex
                         }) {
                             Image(systemName: "arrow.left.circle.fill")
                         }
@@ -82,9 +80,7 @@ struct CalendarMonthView: View {
                             Image(systemName: userSettings.weekView ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                         }
                         Button(action: {
-                            nextMonth()
                             monthTabIndex += 1
-                            prevMonthTabIndex = monthTabIndex
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
                         }
@@ -143,18 +139,7 @@ struct CalendarMonthView: View {
     func addOneMonth(date: Date) {
         monthArray.append(Calendar.current.date(byAdding: .month, value: 1, to: monthArray.last!)!)
     }
-    
-    func previousMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: -1, to: curDate) {
-            curDate = newDate
-        }
-    }
-    
-    func nextMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: 1, to: curDate) {
-            curDate = newDate
-        }
-    }
+
     
     func loadThreeYearsOfMonths() {
         for i in 2...200 {
