@@ -97,15 +97,14 @@ struct CalendarWeekView: View {
             }
             TabView(selection: $weekTabIndex) {
                 ForEach(0..<weekArray.count, id: \.self) { index in
-                    CalendarDayView(height: $height, date: weekArray[index])
+                    CalendarDayView(height: $height, date: weekArray[index], tabViewIndex: $weekTabIndex)
                         .tag(index)
                 }
             }
             .onChange(of: dateContainer.selectedDate) { newValue in
-                if CalendarWeekView.isSameDate(date1: dateContainer.selectedDate, date2: Date()){
-                    prevWeekTabIndex = getWeekTabIndex(date: Date())
-                    weekTabIndex = getWeekTabIndex(date: Date())
-                }
+                weekTabIndex = getWeekTabIndex(date: dateContainer.selectedDate)
+                prevWeekTabIndex = weekTabIndex
+                curDate = dateContainer.selectedDate
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: weekTabIndex) { newValue in
@@ -113,12 +112,12 @@ struct CalendarWeekView: View {
 //                if newValue == weekArray.count - 1 || newValue == weekArray.count {
 //                    addFourWeeks(date: weekArray.last!)
 //                }
-                if newValue > prevWeekTabIndex {
-                    curDate = Calendar.current.date(byAdding: .day, value: 7, to: curDate)!
-                } else if newValue < prevWeekTabIndex {
-                    curDate = Calendar.current.date(byAdding: .day, value: -7, to: curDate)!
+//              if the week that user comeback is the same as the previously selected, then it means user expect to see the date not change on top left.
+                if CalendarDayView.getWeek(date: weekArray[weekTabIndex])[0].date != CalendarDayView.getWeek(date: dateContainer.selectedDate)[0].date {
+                    curDate = CalendarDayView.getWeek(date: weekArray[weekTabIndex])[0].date
+                } else {
+                    curDate = dateContainer.selectedDate
                 }
-                prevWeekTabIndex = newValue
 
             }
             .frame(height: userSettings.weekView ? 32 : height)
@@ -183,12 +182,10 @@ struct CalendarWeekView: View {
     
     func getWeekTabIndex(date: Date) -> Int {
         for i in 0...weekArray.count - 1 {
-            if CalendarDayView.getWeek(date: weekArray[i]).contains(where: {CalendarWeekView.isSameDate(date1: $0.date, date2: Date())}) {
+            if CalendarDayView.getWeek(date: weekArray[i]).contains(where: {CalendarWeekView.isSameDate(date1: $0.date, date2: dateContainer.selectedDate)}) {
                 return i
             }
         }
-        /// if the current date is not rendered which would happen if user did not manually click next date.
-        addFourWeeks(date: weekArray.last!)
         return weekArray.count - 1
     }
     

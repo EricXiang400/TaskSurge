@@ -70,6 +70,7 @@ struct CalendarMonthView: View {
                         Button(action: {
                             previousMonth()
                             monthTabIndex -= 1
+                            prevMonthTabIndex = monthTabIndex
                         }) {
                             Image(systemName: "arrow.left.circle.fill")
                         }
@@ -83,6 +84,7 @@ struct CalendarMonthView: View {
                         Button(action: {
                             nextMonth()
                             monthTabIndex += 1
+                            prevMonthTabIndex = monthTabIndex
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
                         }
@@ -100,22 +102,17 @@ struct CalendarMonthView: View {
             }
             TabView(selection: $monthTabIndex) {
                 ForEach(0..<monthArray.count, id: \.self) { index in
-                    CalendarDayView(height: $height, date: monthArray[index])
+                    CalendarDayView(height: $height, date: monthArray[index], tabViewIndex: $monthTabIndex)
                         .tag(index)
                 }
             }
             .onChange(of: dateContainer.selectedDate) { newValue in
-                if CalendarWeekView.isSameDate(date1: dateContainer.selectedDate, date2: Date()) {
-                    prevMonthTabIndex = getMonthTabIndex(date: Date())
-                    monthTabIndex = getMonthTabIndex(date: Date())
-                }
+                monthTabIndex = getMonthTabIndex(date: Date())
+                prevMonthTabIndex = monthTabIndex
                 curDate = dateContainer.selectedDate
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .onChange(of: monthTabIndex) { newValue in
-//                if newValue == monthArray.count - 1 || newValue == monthArray.count {
-//                    addOneMonth(date: monthArray.last!)
-//                }
                 if newValue > prevMonthTabIndex {
                     curDate = Calendar.current.date(byAdding: .month, value: 1, to: curDate)!
                 } else if newValue < prevMonthTabIndex{
@@ -141,9 +138,6 @@ struct CalendarMonthView: View {
     func toggleView() {
         userSettings.weekView.toggle()
         userSettings.saveLocalSettings()
-//        if curUserContainer.curUser != nil {
-//            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-//        }
     }
     
     func addOneMonth(date: Date) {
@@ -151,14 +145,14 @@ struct CalendarMonthView: View {
     }
     
     func previousMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: -1, to: dateContainer.selectedDate) {
-            dateContainer.selectedDate = newDate
+        if let newDate = calendar.date(byAdding: .month, value: -1, to: curDate) {
+            curDate = newDate
         }
     }
     
     func nextMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: 1, to: dateContainer.selectedDate) {
-            dateContainer.selectedDate = newDate
+        if let newDate = calendar.date(byAdding: .month, value: 1, to: curDate) {
+            curDate = newDate
         }
     }
     
@@ -170,12 +164,10 @@ struct CalendarMonthView: View {
     
     func getMonthTabIndex(date: Date) -> Int {
         for i in 0...monthArray.count - 1 {
-            if CalendarDayView.getAllDates(date: monthArray[i], isCurrentMonth: true).contains(where: {CalendarWeekView.isSameDate(date1: $0.date, date2: Date())}) {
+            if CalendarDayView.getAllDates(date: monthArray[i], isPrevMonth: false, isNextMonth: false).contains(where: {CalendarWeekView.isSameDate(date1: $0.date, date2: dateContainer.selectedDate)}) {
                 return i
             }
         }
-        /// if the current date is not rendered which would happen if user did not manually click next date.
-        addOneMonth(date: monthArray.last!)
         return monthArray.count - 1
     }
 }

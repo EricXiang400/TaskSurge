@@ -10,17 +10,19 @@ import Foundation
 struct DateStructure: Identifiable {
     let id = UUID()
     let date: Date
-    let isCurrentMonth: Bool
+    let isNextMonth: Bool
+    let isPrevMonth: Bool
     
-    init(date: Date, isCurrentMonth: Bool) {
+    init(date: Date, isNextMonth: Bool, isPrevMonth: Bool) {
         self.date = date
-        self.isCurrentMonth = isCurrentMonth
+        self.isNextMonth = isNextMonth
+        self.isPrevMonth = isPrevMonth
     }
 }
 
 extension DateStructure: Hashable {
     static func == (lhs: DateStructure, rhs: DateStructure) -> Bool {
-        return lhs.date == rhs.date && lhs.isCurrentMonth == rhs.isCurrentMonth
+        return lhs.date == rhs.date && lhs.isPrevMonth == rhs.isPrevMonth && lhs.isNextMonth == lhs.isNextMonth
     }
     
     func hash(into hasher: inout Hasher) {
