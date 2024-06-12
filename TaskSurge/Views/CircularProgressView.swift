@@ -65,7 +65,7 @@ struct CircularProgressView: View {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
             updateLastModifiedTimeAndBy()
-            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         }
     }
 }

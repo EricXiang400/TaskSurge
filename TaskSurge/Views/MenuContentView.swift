@@ -52,9 +52,9 @@ struct MenuContentView: View {
                 Button (action: {
                     categoryContainer.categories.append(Category(name: "Untitled"))
                     categoryContainer.saveLocalCategories()
-                    if curUserContainer.curUser != nil {
-                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                    }
+//                    if curUserContainer.curUser != nil {
+//                        FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//                    }
                 }) {
                     Image(systemName: "plus")
                         .resizable()

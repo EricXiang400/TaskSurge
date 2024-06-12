@@ -55,7 +55,7 @@ struct MainView: View {
                     Color.black.opacity(0.5)
                         .ignoresSafeArea(.all)
                         .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.22)) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
                                 showSideMenu = false
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                             }
@@ -68,7 +68,7 @@ struct MainView: View {
                         .gesture(DragGesture()
                             .onEnded({ value in
                                 if value.translation.width > 5 {
-                                    withAnimation(.easeInOut(duration: 0.22)) {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
                                         showSideMenu = true
                                         sideMenuOffset = -55
                                     }
@@ -89,19 +89,19 @@ struct MainView: View {
                 .gesture(DragGesture()
                     .onEnded({ value in
                         if value.translation.width < -5 {
-                            withAnimation(.easeInOut(duration: 0.2)) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
                                 sideMenuOffset = -UIScreen.main.bounds.width * (3/4) - 55
                                 showSideMenu = false
                             }
                         } else if value.translation.width > 5 && sideMenuOffset != -55 {
-                            withAnimation(.easeInOut(duration: 0.2)) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
                                 sideMenuOffset = -55
                                 showSideMenu = true
                             }
                         }
                     })
                 )
-                .zIndex(1)
+                .zIndex(2)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
                 .offset(x: sideMenuOffset)
 
@@ -126,7 +126,7 @@ struct MainView: View {
                         })
                     )
                     .transition(.move(edge: .leading))
-                    .zIndex(2)
+                    .zIndex(3)
             }
             
             if showProgressEditView {

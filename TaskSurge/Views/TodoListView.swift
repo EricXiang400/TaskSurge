@@ -89,7 +89,7 @@ struct TodoListView: View {
         todoListContainer.saveLocalData()
         if curUserContainer.curUser != nil {
             updateLastModifiedTimeAndBy()
-            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//            FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
         } else {
             curUserContainer.saveLocalUser(user: nil, userName: "")
         }
@@ -148,7 +148,7 @@ struct TodoListView: View {
                                 categoryContainer.categories.append(todoListContainer.selectedCategory!)
                                 categoryContainer.saveLocalCategories()
                                 if curUserContainer.curUser != nil {
-                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
                                 }
                             }
                             tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
@@ -282,9 +282,9 @@ struct TodoListView: View {
                                 todoListContainer.selectedCategory = Category(name: "Untitled")
                                 categoryContainer.categories.append(todoListContainer.selectedCategory!)
                                 categoryContainer.saveLocalCategories()
-                                if curUserContainer.curUser != nil {
-                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
-                                }
+//                                if curUserContainer.curUser != nil {
+//                                    FireStoreManager.localToFirestore(uid: curUserContainer.curUser!.uid)
+//                                }
                             }
                             tempTodoContent = TodoContent(content: "", completed: false, date: selectedDateContainer.selectedDate, category: todoListContainer.selectedCategory!, taskSortID: todoListContainer.taskSortID, subTaskList: [])
                             tempTodoContentCopy = tempTodoContent
@@ -301,44 +301,44 @@ struct TodoListView: View {
                 }
             }
         }
-        .onAppear() {
-            if curUserContainer.curUser != nil {
-                checkInternetConnection()
-            }
-        }
+//        .onAppear() {
+//            if curUserContainer.curUser != nil {
+//                checkInternetConnection()
+//            }
+//        }
         .onChange(of: scenePhase) { newValue in
-            if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
-                if listenerRegistration == nil {
-                    fetchDataWithAnimation()
-                    let db = Firestore.firestore()
-                    let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
-                    listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
-                        guard let snapshot = snapshot else {
-                            print("snapshot is null")
-                            return
-                        }
-                        loadLastModifiedByFromSnapshot(snapshot: snapshot)
-                        if UserDefaults.standard.string(forKey: "DeviceUUID") != lastModifiedByContainer.lastModifiedBy {
-                            withAnimation(.easeIn(duration: 0.25)) {
-                                fetchingData = true
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                loadDataFromSnapshot(snapshot: snapshot)
-                            }
-                        }
-                    }
-                } else {
-                    moveLayoverItems()
-                    updateToCurrentDate()
-                }
-            } else {
+//            if curUserContainer.curUser != nil && (newValue == .inactive || newValue == .active) {
+//                if listenerRegistration == nil {
+//                    fetchDataWithAnimation()
+//                    let db = Firestore.firestore()
+//                    let taskCollection = db.collection("uid").document("\(curUserContainer.curUser!.uid)")
+//                    listenerRegistration = taskCollection.addSnapshotListener { snapshot, error in
+//                        guard let snapshot = snapshot else {
+//                            print("snapshot is null")
+//                            return
+//                        }
+//                        loadLastModifiedByFromSnapshot(snapshot: snapshot)
+//                        if UserDefaults.standard.string(forKey: "DeviceUUID") != lastModifiedByContainer.lastModifiedBy {
+//                            withAnimation(.easeIn(duration: 0.25)) {
+//                                fetchingData = true
+//                            }
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+//                                loadDataFromSnapshot(snapshot: snapshot)
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    moveLayoverItems()
+//                    updateToCurrentDate()
+//                }
+//            } else {
                 todoListContainer.loadLocalData(user: curUserContainer.curUser)
                 userSettings.loadLocalSettings(user: curUserContainer.curUser)
                 curUserContainer.loadLocalUser()
                 categoryContainer.loadLocalCategories()
                 moveLayoverItems()
-                curUserContainer.saveLocalUser(user: nil, userName: "")
-            }
+//                curUserContainer.saveLocalUser(user: nil, userName: "")
+//            }
         }
         .background(backgroundColor)
     }

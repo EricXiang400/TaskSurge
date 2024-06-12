@@ -93,7 +93,7 @@ struct CalendarMonthView: View {
                 ForEach(daysOfTheWeek, id: \.self) { day in
                     Text(day)
                         .frame(maxWidth: .infinity)
-                        .fontWeight(.heavy)
+                        .bold()
                 }
             }
             TabView(selection: $monthTabIndex) {
